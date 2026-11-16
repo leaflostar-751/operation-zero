@@ -1,0 +1,564 @@
+{
+ "all": [
+  {
+   "type": "apex-gt",
+   "bike": false,
+   "inv": {
+    "meshes": 37,
+    "tris": 35196,
+    "mats": 16,
+    "wheels": 4,
+    "radius": 0.335,
+    "wheelbase": 2.6,
+    "width": 1.82,
+    "he": [
+     0.89,
+     0.65,
+     2.23
+    ],
+    "headlights": 1,
+    "brakeLights": 1,
+    "hasSeat": true,
+    "pedals": true,
+    "pegs": false,
+    "steeringWheel": true,
+    "doors": "none (no door meshes/animation)",
+    "tune": {
+     "vmax": 56,
+     "accel": 16,
+     "grip": 7,
+     "steerMax": 0.5,
+     "mass": 1,
+     "bodyRoll": 0.05,
+     "brake": 10.5
+    }
+   },
+   "enter": {
+    "mode": "driving",
+    "steps": 52,
+    "sec": 0.87,
+    "heroLocalSeat": true
+   },
+   "accel": {
+    "t0to100": 2.2333333333333334,
+    "topSpeedKmh": 162,
+    "vmaxTune": 201
+   },
+   "brake100": {
+    "dist": 29.6,
+    "sec": 2.23,
+    "decel": 12.4
+   },
+   "handbrake100": {
+    "dist": 54,
+    "sec": 4.22
+   },
+   "reverse": {
+    "speedKmh": -39.2
+   },
+   "turn20": {
+    "speed": 15,
+    "yawRate": -0.65,
+    "latAccel_g": 0.99,
+    "radius": 23.1,
+    "lean_deg": 0,
+    "expectedLean_deg": 44.8
+   },
+   "wallHit": {
+    "maxFrontZ": 0,
+    "wallFaceZ": -130.4,
+    "penetration": 130.4,
+    "healthLost": 43.8,
+    "speedAfter": -0.36
+   },
+   "repeatedWall": [
+    41.3,
+    41.3,
+    41.3,
+    41.3
+   ],
+   "thinPole_offset0_6": {
+    "passedThrough": true,
+    "finalZ": -138.9
+   },
+   "thinPole_centre": {
+    "passedThrough": false
+   },
+   "lowCurb_0_3m": {
+    "drivesThrough": true
+   },
+   "zombieHit": {
+    "zombieHpLost": 319,
+    "speedAfterKmh": 83
+   },
+   "fireWhileDriving": {
+    "ammoUsed": 0
+   },
+   "exitBlocked": {
+    "mode": "foot",
+    "heroX": 151.5,
+    "wallX": 151.56,
+    "heroInsideWall": true
+   },
+   "exitOpen": {
+    "mode": "foot",
+    "sec": 0.35,
+    "heroDistFromCar": 1.78,
+    "active": true,
+    "driverFlag": false,
+    "externalControl": false
+   },
+   "updateMsPerStep": 0.001
+  },
+  {
+   "type": "stallion",
+   "bike": false,
+   "inv": {
+    "meshes": 37,
+    "tris": 29700,
+    "mats": 16,
+    "wheels": 4,
+    "radius": 0.355,
+    "wheelbase": 2.75,
+    "width": 1.95,
+    "he": [
+     0.95,
+     0.71,
+     2.4
+    ],
+    "headlights": 1,
+    "brakeLights": 1,
+    "hasSeat": true,
+    "pedals": true,
+    "pegs": false,
+    "steeringWheel": true,
+    "doors": "none (no door meshes/animation)",
+    "tune": {
+     "vmax": 52,
+     "accel": 17,
+     "grip": 5.2,
+     "steerMax": 0.5,
+     "mass": 1.3,
+     "bodyRoll": 0.07,
+     "brake": 9.5
+    }
+   },
+   "enter": {
+    "mode": "driving",
+    "steps": 52,
+    "sec": 0.87,
+    "heroLocalSeat": true
+   },
+   "accel": {
+    "t0to100": 2.4833333333333334,
+    "topSpeedKmh": 151,
+    "vmaxTune": 187
+   },
+   "brake100": {
+    "dist": 32.1,
+    "sec": 2.43,
+    "decel": 11.4
+   },
+   "handbrake100": {
+    "dist": 57.7,
+    "sec": 4.53
+   },
+   "reverse": {
+    "speedKmh": -36.3
+   },
+   "turn20": {
+    "speed": 15,
+    "yawRate": -0.65,
+    "latAccel_g": 0.99,
+    "radius": 23.1,
+    "lean_deg": 0,
+    "expectedLean_deg": 44.8
+   },
+   "wallHit": {
+    "maxFrontZ": 0,
+    "wallFaceZ": -130.4,
+    "penetration": 130.4,
+    "healthLost": 41.8,
+    "speedAfter": -0.36
+   },
+   "repeatedWall": [
+    39.1,
+    39.1,
+    39.1,
+    39.1
+   ],
+   "thinPole_offset0_6": {
+    "passedThrough": true,
+    "finalZ": -138.9
+   },
+   "thinPole_centre": {
+    "passedThrough": false
+   },
+   "lowCurb_0_3m": {
+    "drivesThrough": true
+   },
+   "zombieHit": {
+    "zombieHpLost": 455,
+    "speedAfterKmh": 75
+   },
+   "fireWhileDriving": {
+    "ammoUsed": 0
+   },
+   "exitBlocked": {
+    "mode": "foot",
+    "heroX": 151.52,
+    "wallX": 151.63,
+    "heroInsideWall": true
+   },
+   "exitOpen": {
+    "mode": "foot",
+    "sec": 0.35,
+    "heroDistFromCar": 1.86,
+    "active": true,
+    "driverFlag": false,
+    "externalControl": false
+   },
+   "updateMsPerStep": 0.001
+  },
+  {
+   "type": "ranger",
+   "bike": false,
+   "inv": {
+    "meshes": 40,
+    "tris": 41800,
+    "mats": 16,
+    "wheels": 4,
+    "radius": 0.4,
+    "wheelbase": 2.55,
+    "width": 1.92,
+    "he": [
+     0.94,
+     1.03,
+     2.08
+    ],
+    "headlights": 1,
+    "brakeLights": 1,
+    "hasSeat": true,
+    "pedals": true,
+    "pegs": false,
+    "steeringWheel": true,
+    "doors": "none (no door meshes/animation)",
+    "tune": {
+     "vmax": 38,
+     "accel": 11,
+     "grip": 6,
+     "steerMax": 0.52,
+     "mass": 1.5,
+     "bodyRoll": 0.11,
+     "brake": 8.5
+    }
+   },
+   "enter": {
+    "mode": "driving",
+    "steps": 52,
+    "sec": 0.87,
+    "heroLocalSeat": true
+   },
+   "accel": {
+    "t0to100": 7.433333333333334,
+    "topSpeedKmh": 105,
+    "vmaxTune": 136
+   },
+   "brake100": {
+    "dist": 35.1,
+    "sec": 2.68,
+    "decel": 10.4
+   },
+   "handbrake100": {
+    "dist": 62,
+    "sec": 4.92
+   },
+   "reverse": {
+    "speedKmh": -24.7
+   },
+   "turn20": {
+    "speed": 15,
+    "yawRate": -0.652,
+    "latAccel_g": 1,
+    "radius": 23,
+    "lean_deg": 0,
+    "expectedLean_deg": 44.9
+   },
+   "wallHit": {
+    "maxFrontZ": 0,
+    "wallFaceZ": -130.4,
+    "penetration": 130.4,
+    "healthLost": 31.6,
+    "speedAfter": -0.03
+   },
+   "repeatedWall": [
+    28.5,
+    28.5,
+    28.5,
+    28.5
+   ],
+   "thinPole_offset0_6": {
+    "passedThrough": true,
+    "finalZ": -138.9
+   },
+   "thinPole_centre": {
+    "passedThrough": false
+   },
+   "lowCurb_0_3m": {
+    "drivesThrough": true
+   },
+   "zombieHit": {
+    "zombieHpLost": 388,
+    "speedAfterKmh": 59
+   },
+   "fireWhileDriving": {
+    "ammoUsed": 0
+   },
+   "exitBlocked": {
+    "mode": "foot",
+    "heroX": 151.69,
+    "wallX": 151.61,
+    "heroInsideWall": true
+   },
+   "exitOpen": {
+    "mode": "foot",
+    "sec": 0.35,
+    "heroDistFromCar": 1.82,
+    "active": true,
+    "driverFlag": false,
+    "externalControl": false
+   },
+   "updateMsPerStep": 0.001
+  },
+  {
+   "type": "vortex",
+   "bike": false,
+   "inv": {
+    "meshes": 36,
+    "tris": 39892,
+    "mats": 15,
+    "wheels": 4,
+    "radius": 0.345,
+    "wheelbase": 2.7,
+    "width": 2,
+    "he": [
+     0.98,
+     0.61,
+     2.29
+    ],
+    "headlights": 1,
+    "brakeLights": 1,
+    "hasSeat": true,
+    "pedals": true,
+    "pegs": false,
+    "steeringWheel": true,
+    "doors": "none (no door meshes/animation)",
+    "tune": {
+     "vmax": 72,
+     "accel": 22,
+     "grip": 9,
+     "steerMax": 0.46,
+     "mass": 0.9,
+     "bodyRoll": 0.035,
+     "brake": 12
+    }
+   },
+   "enter": {
+    "mode": "driving",
+    "steps": 52,
+    "sec": 0.87,
+    "heroLocalSeat": true
+   },
+   "accel": {
+    "t0to100": 1.3833333333333333,
+    "topSpeedKmh": 214,
+    "vmaxTune": 259
+   },
+   "brake100": {
+    "dist": 26.5,
+    "sec": 1.98,
+    "decel": 14
+   },
+   "handbrake100": {
+    "dist": 49.3,
+    "sec": 3.82
+   },
+   "reverse": {
+    "speedKmh": -52.2
+   },
+   "turn20": {
+    "speed": 15,
+    "yawRate": -0.647,
+    "latAccel_g": 0.99,
+    "radius": 23.2,
+    "lean_deg": 0,
+    "expectedLean_deg": 44.7
+   },
+   "wallHit": {
+    "maxFrontZ": 0,
+    "wallFaceZ": -130.4,
+    "penetration": 130.4,
+    "healthLost": 54,
+    "speedAfter": -0.35
+   },
+   "repeatedWall": [
+    51.9,
+    51.9,
+    51.9,
+    51.9
+   ],
+   "thinPole_offset0_6": {
+    "passedThrough": true,
+    "finalZ": -138.8
+   },
+   "thinPole_centre": {
+    "passedThrough": false
+   },
+   "lowCurb_0_3m": {
+    "drivesThrough": true
+   },
+   "zombieHit": {
+    "zombieHpLost": 365,
+    "speedAfterKmh": 104
+   },
+   "fireWhileDriving": {
+    "ammoUsed": 0
+   },
+   "exitBlocked": {
+    "mode": "foot",
+    "heroX": 151.64,
+    "wallX": 151.65,
+    "heroInsideWall": true
+   },
+   "exitOpen": {
+    "mode": "foot",
+    "sec": 0.35,
+    "heroDistFromCar": 1.85,
+    "active": true,
+    "driverFlag": false,
+    "externalControl": false
+   },
+   "updateMsPerStep": 0.001
+  },
+  {
+   "type": "sprint-r",
+   "bike": true,
+   "inv": {
+    "meshes": 66,
+    "tris": 19612,
+    "mats": 16,
+    "wheels": 2,
+    "radius": 0.31,
+    "wheelbase": 1.42,
+    "width": 0.8,
+    "he": [
+     0.28,
+     0.6,
+     1
+    ],
+    "headlights": 1,
+    "brakeLights": 1,
+    "hasSeat": true,
+    "pedals": false,
+    "pegs": true,
+    "steeringWheel": false,
+    "doors": "none (no door meshes/animation)",
+    "tune": {
+     "vmax": 64,
+     "accel": 20,
+     "grip": 8,
+     "steerMax": 0.62,
+     "mass": 0.5,
+     "bodyRoll": 0,
+     "brake": 10
+    }
+   },
+   "enter": {
+    "mode": "driving",
+    "steps": 52,
+    "sec": 0.87,
+    "heroLocalSeat": true
+   },
+   "accel": {
+    "t0to100": 1.1333333333333333,
+    "topSpeedKmh": 200,
+    "vmaxTune": 230
+   },
+   "brake100": {
+    "dist": 30.8,
+    "sec": 2.32,
+    "decel": 12
+   },
+   "handbrake100": {
+    "dist": 55.8,
+    "sec": 4.37
+   },
+   "reverse": {
+    "speedKmh": -49
+   },
+   "turn20": {
+    "speed": 20,
+    "yawRate": -0.521,
+    "latAccel_g": 1.06,
+    "radius": 38.4,
+    "lean_deg": 47,
+    "expectedLean_deg": 46.7
+   },
+   "wallHit": {
+    "maxFrontZ": 0,
+    "wallFaceZ": -130.4,
+    "penetration": 130.4,
+    "healthLost": 57.4,
+    "speedAfter": -0.36
+   },
+   "repeatedWall": [
+    55.6,
+    55.6,
+    55.6,
+    55.6
+   ],
+   "thinPole_offset0_6": {
+    "passedThrough": true,
+    "finalZ": -139
+   },
+   "thinPole_centre": {
+    "passedThrough": false
+   },
+   "lowCurb_0_3m": {
+    "drivesThrough": true
+   },
+   "zombieHit": {
+    "zombieHpLost": 199,
+    "speedAfterKmh": 118
+   },
+   "fireWhileDriving": {
+    "ammoUsed": 0
+   },
+   "exitBlocked": {
+    "mode": "foot",
+    "heroX": 150.66,
+    "wallX": 150.75,
+    "heroInsideWall": true
+   },
+   "exitOpen": {
+    "mode": "foot",
+    "sec": 0.35,
+    "heroDistFromCar": 0.96,
+    "active": true,
+    "driverFlag": false,
+    "externalControl": false
+   },
+   "updateMsPerStep": 0.001
+  }
+ ],
+ "M": {
+  "idle5MsPerStep": 0.002,
+  "coasting5MsPerStep": 0.125,
+  "leak": {
+   "geomDelta": 0,
+   "colliderDelta": 0,
+   "sceneChildDelta": 0
+  }
+ },
+ "errs": []
+}
