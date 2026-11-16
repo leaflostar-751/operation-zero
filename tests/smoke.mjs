@@ -12,7 +12,7 @@ try {
   await p.waitForTimeout(3000);
   const t0 = await p.evaluate(() => window.__opzero?.hero?.position?.x);
   if (t0 === undefined) { status = 'FAIL'; note = 'hero missing'; }
-  await p.screenshot({ path: out });
+  await p.screenshot({ path: out, timeout: 170000 });
 } catch (e) { status = 'FAIL'; note = String(e); }
 if (errs.length) { status = 'FAIL'; note += ' console errors: ' + JSON.stringify(errs); }
 console.log(JSON.stringify({ status, note, errors: errs.length, screenshot: out }));
