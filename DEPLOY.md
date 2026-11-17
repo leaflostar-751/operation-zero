@@ -1,15 +1,33 @@
-# Playable build + upload (run on your own PC)
-My sandbox cannot run `npm install` or `vite build` (network blocked), so the final build must be made on your PC. Status: BLOCKED here, NOT VERIFIED.
+# Game ko online karna (static hosting)
 
-1. Install Node.js 20 or newer (https://nodejs.org).
-2. Open a terminal in this folder:
-   `npm install`
-   `npm run dev`     -> play locally at http://localhost:3000
-   `npm run build`   -> makes the `dist/` folder (the playable game)
-3. Upload `dist/` (zip its contents, index.html at the top level):
-   - itch.io: New project -> Kind: HTML -> upload the zip -> tick "This file will be played in the browser".
-   - Netlify Drop (app.netlify.com/drop): drag the `dist` folder.
-   - GitHub Pages / any static host also works.
-4. Assets: put models in `public/assets/...` BEFORE `npm run build` so they are inside `dist/`.
-5. Rollback: `vite.config.js.bak` is the old config (only change: `base: './'`).
-Note: first load needs WebGL2. Quality tier is chosen automatically (Settings menu can change it).
+Status (honest): **NOT_IMPLEMENTED / NOT VERIFIED** — game abhi kisi real server par live nahi hai.
+Meri sandbox `npm install` / `vite build` nahi chala sakti (npm registry blocked = BLOCKED), isliye build
+GitHub ke servers par ya aapke PC par hota hai. Repo ke andar kuch secret/token kabhi nahi rakhna.
+
+## Raasta A — GitHub Pages (free, card nahi chahiye, auto build)
+File `.github/workflows/deploy-pages.yml` already ready hai.
+1. github.com par naya repo banayein (naam: operation-zero). **Note:** free plan par GitHub Pages sirf *public* repo ke liye
+   chalta hai (code sab ko dikhega). Private rakhna ho to Raasta B use karein.
+2. Is project folder ko us repo ke `main` branch par push karein.
+3. Repo -> Settings -> Pages -> Source: **GitHub Actions**.
+4. Actions tab mein `deploy-pages` green hone ka intezar karein. Link: `https://<username>.github.io/operation-zero/`
+5. Har naye push par game khud update hota hai.
+
+## Raasta B — Netlify / Cloudflare Pages (free, card nahi, private repo bhi chalta hai)
+- Netlify Drop (app.netlify.com/drop): PC par `npm install && npm run build`, phir `dist/` folder drag karein.
+- Ya repo connect karein: Build command `npm run build`, Publish directory `dist`.
+
+## Raasta C — sirf PC par test
+`npm install` -> `npm run dev` (http://localhost:3000) | `npm run build` -> `dist/` | `npm run preview`
+
+## Assets (200-300 MB)
+Models/textures `public/assets/...` mein rakhein *build se pehle*. GitHub ki normal file limit 100 MB/file hai; bade
+assets ke liye Git LFS ya alag asset host chahiye — pehle batayein assets kahan hain.
+
+## GOKU online (A3)
+- Game mein GOKU partner browser ke andar chalta hai (`window.__OZ_GOKU`).
+- Online GOKU sirf **read-only** token se repo padhega aur sirf `reports` branch par likhega. Token mujhe chat mein na bhejein.
+- Explorer report: `node tools/oz-explorer/explore.mjs` -> `reports/run-<time>/report.json` (abhi UNTESTED).
+
+## Rollback
+`vite.config.js.bak` purana config hai (sirf `base: './'` ka farq).
