@@ -511,8 +511,13 @@ export class VehicleSystem {
       hitAny = true;
     }
     void hitAny;
-    v.pos.x += move.x;
-    v.pos.z += move.z;
+    // sweep in short steps (never more than ~0.6 m at once), resolving against the static data after each one
+    const steps = Math.max(1, Math.ceil(Math.hypot(move.x, move.z) / 0.6));
+    for (let st = 0; st < steps; st++) {
+      v.pos.x += move.x / steps;
+      v.pos.z += move.z / steps;
+      this.resolveStatic(v);
+    }
     // world bounds
     // map edge (the real map bounds, not the old 77 m test-yard)
     if (v.pos.x < MAP_BOUNDS.minX || v.pos.x > MAP_BOUNDS.maxX) {
@@ -528,6 +533,33 @@ export class VehicleSystem {
     // keep speed consistent with the velocity along the heading
     v.speed = v.vel.dot(this._v.set(Math.sin(v.yaw), 0, Math.cos(v.yaw)));
     void vF;
+  }
+
+  /** Engine-independent car-vs-building resolution: 3 circles along the body against every nearby static box. */
+  resolveStatic(v) {
+    const city = this.getCity ? this.getCity() : this.city;
+    if (!city || !city.blockersNear || v.bike) return;
+    const he = v.he, s = Math.sin(v.yaw), c = Math.cos(v.yaw);
+    const rad = he.x + 0.04, off = Math.max(0, he.z - he.x);
+    for (const oz of [off, 0, -off]) {
+      let px = v.pos.x + oz * s, pz = v.pos.z + oz * c;
+      for (const [sx, sy, sz, hw, hh, hd, ry] of city.blockersNear(px, pz, rad)) {
+        const cs = Math.cos(ry || 0), sn = Math.sin(ry || 0);
+        const rx = px - sx, rz = pz - sz;
+        const lx = rx * cs - rz * sn, lz = rx * sn + rz * cs; // world -> box local
+        const qx = Math.max(-hw, Math.min(hw, lx)), qz = Math.max(-hd, Math.min(hd, lz));
+        let nx = lx - qx, nz = lz - qz, d = Math.hypot(nx, nz), pen;
+        if (d > 1e-6) { if (d >= rad) continue; pen = rad - d; nx /= d; nz /= d; }
+        else { // centre inside the box: leave through the nearest face
+          const ex = hw - Math.abs(lx), ez = hd - Math.abs(lz);
+          if (ex < ez) { nx = Math.sign(lx) || 1; nz = 0; pen = ex + rad; } else { nx = 0; nz = Math.sign(lz) || 1; pen = ez + rad; }
+        }
+        const wx = nx * cs + nz * sn, wz = -nx * sn + nz * cs; // normal local -> world
+        v.pos.x += wx * pen; v.pos.z += wz * pen; px += wx * pen; pz += wz * pen;
+        const vin = v.vel.x * wx + v.vel.z * wz;
+        if (vin < 0) { v.vel.x -= wx * vin * 1.25; v.vel.z -= wz * vin * 1.25; v.speed *= 0.6; if (-vin > 5 && v.collisionCooldown <= 0) { v.collisionCooldown = 0.3; v.lastImpact = Math.max(v.lastImpact || 0, -vin); v.health = Math.max(0, v.health - (-vin - 5) * 1.6); this.combat.audio.thud(); this.sys_shake = 0.25 + Math.min(0.6, -vin / 25); } }
+      }
+    }
   }
 
   // ------------------------------------------------------------------ enter / exit

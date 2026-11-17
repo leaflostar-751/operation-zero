@@ -196,9 +196,9 @@ export class AnimationController {
 
     // Speed-matched playback so feet never skate
     if (this.currentAction) {
-      const ref = AUTHORED_SPEEDS[this.currentState];
+      const ref = (AnimationController.synthesized && AnimationController.SYNTH_SPEEDS[this.currentState]) || AUTHORED_SPEEDS[this.currentState];
       if (ref) {
-        const matched = THREE.MathUtils.clamp(horizontalSpeed / ref, 0.55, 1.45);
+        const matched = THREE.MathUtils.clamp(horizontalSpeed / ref, 0.55, 1.75);
         // moving backwards relative to the body: play the walk/run clip in reverse so the legs
         // swing the right way (fixes the documented backward aim-strafe foot skating)
         const backwards = forwardSpeed < -0.35 * Math.max(horizontalSpeed, 0.01) && horizontalSpeed > 0.3
@@ -218,6 +218,7 @@ export class AnimationController {
    * fallback rig (identity rest pose), not for a real Mixamo T-pose hero.
    */
   static createSynthesizedMixamoClips(bones) {
+    AnimationController.synthesized = true;
     const clips = {};
     const fps = 30;
 
@@ -279,50 +280,54 @@ export class AnimationController {
       }
     }));
 
-    clips.walk = buildLoopClip('walk', 1.0, (p) => ({
-      hipsY: 0.96 + Math.abs(Math.cos(p)) * 0.025,
-      rotations: {
-        Spine: [0.06, Math.sin(p) * 0.06, 0],
-        LeftUpLeg: [Math.sin(p) * 0.45, 0, 0],
-        RightUpLeg: [-Math.sin(p) * 0.45, 0, 0],
-        LeftLeg: [Math.max(0, -Math.cos(p)) * 0.55 + 0.08, 0, 0],
-        RightLeg: [Math.max(0, Math.cos(p)) * 0.55 + 0.08, 0, 0],
-        LeftFoot: [-Math.sin(p) * 0.2, 0, 0],
-        RightFoot: [Math.sin(p) * 0.2, 0, 0],
-        LeftArm: [-Math.sin(p) * 0.32, 0, 0.12],
-        RightArm: [Math.sin(p) * 0.32, 0, -0.12]
-      }
-    }));
-
-    clips.run = buildLoopClip('run', 0.72, (p) => ({
-      hipsY: 0.93 + Math.abs(Math.cos(p)) * 0.045,
-      rotations: {
-        Spine: [0.16, Math.sin(p) * 0.1, 0],
-        LeftUpLeg: [Math.sin(p) * 0.75, 0, 0],
-        RightUpLeg: [-Math.sin(p) * 0.75, 0, 0],
-        LeftLeg: [Math.max(0, -Math.cos(p)) * 0.95 + 0.12, 0, 0],
-        RightLeg: [Math.max(0, Math.cos(p)) * 0.95 + 0.12, 0, 0],
-        LeftArm: [-Math.sin(p) * 0.65, 0, 0.1],
-        RightArm: [Math.sin(p) * 0.65, 0, -0.1],
-        LeftForeArm: [-0.65, 0, 0],
-        RightForeArm: [-0.65, 0, 0]
-      }
-    }));
-
-    clips.sprint = buildLoopClip('sprint', 0.56, (p) => ({
-      hipsY: 0.91 + Math.abs(Math.cos(p)) * 0.055,
-      rotations: {
-        Spine: [0.26, Math.sin(p) * 0.14, 0],
-        LeftUpLeg: [Math.sin(p) * 0.95, 0, 0],
-        RightUpLeg: [-Math.sin(p) * 0.95, 0, 0],
-        LeftLeg: [Math.max(0, -Math.cos(p)) * 1.15 + 0.15, 0, 0],
-        RightLeg: [Math.max(0, Math.cos(p)) * 1.15 + 0.15, 0, 0],
-        LeftArm: [-Math.sin(p) * 0.85, 0, 0.08],
-        RightArm: [Math.sin(p) * 0.85, 0, -0.08],
-        LeftForeArm: [-0.85, 0, 0],
-        RightForeArm: [-0.85, 0, 0]
-      }
-    }));
+    // ---- physically grounded gait --------------------------------------------------------------
+    // Foot targets are laid out in hip space (stance: foot slides back at ground speed, swing: lifted arc)
+    // and solved with a 2-bone IK, so a stance foot always touches the ground and the legs never split.
+    const L1 = 0.43, L2 = 0.42, ANKLE = 0.05, HIP_OFF = 0.06; // matches the built-in rig
+    const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+    const legIK = (xf, yd) => {
+      const D = clamp(Math.hypot(xf, yd), 0.2, (L1 + L2) * 0.999);
+      const phi = Math.atan2(xf, yd);
+      const beta = Math.acos(clamp((L1 * L1 + D * D - L2 * L2) / (2 * L1 * D), -1, 1));
+      const k = Math.PI - Math.acos(clamp((L1 * L1 + L2 * L2 - D * D) / (2 * L1 * L2), -1, 1));
+      return { t: phi + beta, k }; // t: thigh angle forward of vertical, k: knee flexion
+    };
+    const ease = (s) => s * s * (3 - 2 * s);
+    const gait = (c) => (p) => {
+      const u0 = p / (Math.PI * 2);
+      const uPeak = c.peak === 'flight' ? (c.duty + 0.5) / 2 : c.duty / 2;
+      const Hj = c.Hbase + c.bob * Math.cos(4 * Math.PI * (u0 - uPeak));
+      const leg = (u) => {
+        u = ((u % 1) + 1) % 1;
+        let x, lift = 0;
+        if (u < c.duty) x = c.xf + (c.xb - c.xf) * (u / c.duty);
+        else { const sw = (u - c.duty) / (1 - c.duty); x = c.xb + (c.xf - c.xb) * ease(sw); lift = c.lift * Math.sin(Math.PI * sw); }
+        const ik = legIK(x, Hj - ANKLE - lift);
+        return { x, ...ik };
+      };
+      const Lg = leg(u0), Rg = leg(u0 + 0.5);
+      const amp = (c.xf - c.xb) / 2;
+      const rot = {
+        Spine: [c.lean, Math.sin(p) * c.twist, 0],
+        LeftUpLeg: [-Lg.t, 0, 0], RightUpLeg: [-Rg.t, 0, 0],
+        LeftLeg: [Lg.k, 0, 0], RightLeg: [Rg.k, 0, 0],
+        LeftFoot: [(Lg.t - Lg.k) * 0.85, 0, 0], RightFoot: [(Rg.t - Rg.k) * 0.85, 0, 0],
+        // arms counter-swing: forward when the opposite leg is forward
+        LeftArm: [c.arm * (Lg.x - (c.xf + c.xb) / 2) / amp, 0, c.armZ], RightArm: [c.arm * (Rg.x - (c.xf + c.xb) / 2) / amp, 0, -c.armZ]
+      };
+      if (c.fore) { rot.LeftForeArm = [-c.fore, 0, 0]; rot.RightForeArm = [-c.fore, 0, 0]; }
+      return { hipsY: Hj + HIP_OFF, rotations: rot };
+    };
+    // reference ground speed of each clip = stance travel / stance time (used by the speed matcher)
+    const GAITS = {
+      walk:   { duration: 0.95, duty: 0.62, xf: 0.40, xb: -0.46, lift: 0.09, Hbase: 0.845, bob: 0.028, peak: 'stance', lean: 0.05, twist: 0.06, arm: 0.30, armZ: 0.12 },
+      run:    { duration: 0.72, duty: 0.38, xf: 0.32, xb: -0.50, lift: 0.26, Hbase: 0.800, bob: 0.035, peak: 'flight', lean: 0.16, twist: 0.10, arm: 0.65, armZ: 0.10, fore: 0.65 },
+      sprint: { duration: 0.56, duty: 0.33, xf: 0.38, xb: -0.60, lift: 0.32, Hbase: 0.770, bob: 0.040, peak: 'flight', lean: 0.26, twist: 0.14, arm: 0.85, armZ: 0.08, fore: 0.85 }
+    };
+    for (const [name, c] of Object.entries(GAITS)) {
+      clips[name] = buildLoopClip(name, c.duration, gait(c));
+      AnimationController.SYNTH_SPEEDS[name] = (c.xf - c.xb) / (c.duty * c.duration);
+    }
 
     clips.crouch = buildLoopClip('crouch', 1.8, (p) => ({
       hipsY: 0.66 + Math.sin(p) * 0.01,
@@ -405,3 +410,5 @@ export class AnimationController {
     return clips;
   }
 }
+AnimationController.SYNTH_SPEEDS = {};
+AnimationController.synthesized = false;

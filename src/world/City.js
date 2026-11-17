@@ -862,6 +862,23 @@ export class City {
     }
   }
 
+  /** Static blocking boxes (buildings, walls, poles, trees...) near a point, from the DATA (independent of the physics engine).
+   *  Used by vehicles as a second, engine-independent safety net so a car can never end up inside a building. */
+  blockersNear(x, z, r) {
+    if (!this._bk) {
+      this._bk = new Map();
+      for (const ch of this.chunks.values()) for (const sd of ch.solids) {
+        const [sx, sy, sz, hw, hh, hd] = sd;
+        if (sy + hh < 0.35 || sy - hh > 1.1) continue; // does not block a car body
+        const rad = Math.hypot(hw, hd) + 0.1;
+        for (let i = Math.floor((sx - rad) / 12); i <= Math.floor((sx + rad) / 12); i++) for (let j = Math.floor((sz - rad) / 12); j <= Math.floor((sz + rad) / 12); j++) {
+          const k = i + ',' + j; let l = this._bk.get(k); if (!l) this._bk.set(k, (l = [])); l.push(sd);
+        }
+      }
+    }
+    return this._bk.get(Math.floor(x / 12) + ',' + Math.floor(z / 12)) || [];
+  }
+
   /** force-load colliders around a point (used before spawning there) */
   prime(x, z) {
     this.update(0, { x, z });

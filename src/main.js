@@ -14,6 +14,7 @@ import { DebugOverlay } from './ui/DebugOverlay.js';
 import { SettingsMenu } from './ui/SettingsMenu.js';
 import { TestChecklist } from './ui/TestChecklist.js';
 import { Minimap } from './ui/Minimap.js';
+import { installOzDebug } from './debug/OzDebug.js';
 import { WeatherSystem } from './world/WeatherSystem.js';
 
 class OperationZeroApp {
@@ -111,6 +112,7 @@ class OperationZeroApp {
     // parking pad (east): 4 cars + a superbike, all drivable (walk to a door, press Y)
     await loadVehicleManifest(this.assetLoader.gltfLoader);
     this.vehicles = new VehicleSystem(this.scene, this.physics, this.camera, this.hero, this.cameraController, this.combat);
+    this.vehicles.getCity = () => this.world.city;
     const HALF_PI = Math.PI / 2;
     this.vehicles.spawn('apex-gt', 18, 4, HALF_PI);
     this.vehicles.spawn('stallion', 18, 10, HALF_PI);
@@ -292,6 +294,7 @@ class OperationZeroApp {
       this.hero.collider
     );
     if (this.map3d?.on) this.updateMap3D(dt);
+    if (this.debugCam) { const d = this.debugCam; this.camera.position.set(d.x, d.y, d.z); this.camera.rotation.set(d.pitch, d.yaw + Math.PI, 0, 'YXZ'); }
     this.vehicles.updateFrame(dt, alpha);
     this.weather?.update(dt, this.hero.renderPosition);
     this.world.updateSun(this.hero.renderPosition);
@@ -357,6 +360,7 @@ class OperationZeroApp {
   }
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-  window.__opzero = new OperationZeroApp(); // handy for debugging in the console
-});
+// start now if the page already finished parsing (modules with top-level await run after DOMContentLoaded)
+const startApp = () => { window.__opzero = new OperationZeroApp(); if (new URLSearchParams(location.search).has('oz_debug')) installOzDebug(window.__opzero); }; // handy for debugging in the console
+if (document.readyState === 'loading') window.addEventListener('DOMContentLoaded', startApp);
+else startApp();

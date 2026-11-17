@@ -170,7 +170,7 @@ export function makeTreeGeos() {
     t.push(new THREE.CylinderGeometry(0.1, 0.2, 1.2, 6), M4(0, 0.6, 0), bark);
     for (let i = 0; i < 5; i++) {
       const r = 1.25 - i * 0.2, h = 2.4;
-      t.push(new THREE.ConeGeometry(r, h, 9, 1), M4(0, 1.5 + i * 1.15, 0), (c, x, y, z, vi) => c.setHSL(0.33, 0.5, 0.12 + i * 0.02 + (vi % 4) * 0.008));
+      t.push(new THREE.ConeGeometry(r, h, 9, 1), M4(0, 1.2 + i * 1.15, 0), (c, x, y, z, vi) => c.setHSL(0.33, 0.5, 0.12 + i * 0.02 + (vi % 4) * 0.008));
     }
     out.cypress = t.build();
   }
