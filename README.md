@@ -118,3 +118,11 @@ Status: LIVE VERIFIED by screenshots (SwiftShader, MEDIUM) for clear dawn/noon/d
 - Night is blue moonlight, readable; dusk/dawn ambient floors raised.
 - Street lamps (highway medians): glowing lamp heads + additive light pools at night, no real point lights (cost: 2 instanced draw calls).
 - LIVE VERIFIED (SwiftShader, MEDIUM) by screenshots: noon, dawn, cloudy, night city, lamp glow. NOT TESTED: real GPU FPS, HIGH/ULTRA (SSAO) look, lit building windows (not done yet, facades have no window mask).
+
+## GOKU partner player (in-game)
+A second character called GOKU plays next to the hero. Keys: **O** on/off, **K** follow / explore / hold, **F1** shows its status chip.
+- follow: stays near the hero, fights nearby zombies (melee), rides along while the hero drives.
+- explore: walks the map by itself and records glitches (stuck, out of world, long airtime, lag spikes) with exact positions.
+- Notes: `window.__OZ_GOKU.notes()` (also saved in the browser). Commands for the real GOKU agent: `window.__OZ_GOKU.command({type:'goto', x, z})`, `{type:'follow'|'explore'|'hold'}`.
+- v1 limits: invulnerable, melee only, no own vehicle, no pathfinding (it can get stuck behind walls, and says so in its notes).
+- Tests: `node tests/goku_partner.mjs http://localhost:5173/`

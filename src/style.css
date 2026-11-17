@@ -457,3 +457,6 @@ body:not(.dev-hud) #player-hud .stat-row:nth-child(2) .stat-bar-bg { height: 4px
   background: rgba(10,15,26,0.7); padding: 8px 16px; border-radius: 20px; pointer-events: none; display: none; }
 body.map3d #map3d-hint { display: block; }
 body.map3d #ammo-hud, body.map3d #reticle { display: none; }
+
+#goku-chip { position: fixed; left: 12px; bottom: 12px; z-index: 90; color: #7cf0b4; font: 600 12px system-ui, sans-serif; background: rgba(8,16,24,0.6); padding: 4px 10px; border-radius: 12px; pointer-events: none; }
+#goku-chip:empty, body:not(.dev-hud) #goku-chip { display: none; }

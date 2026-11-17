@@ -15,6 +15,7 @@ import { SettingsMenu } from './ui/SettingsMenu.js';
 import { TestChecklist } from './ui/TestChecklist.js';
 import { Minimap } from './ui/Minimap.js';
 import { installOzDebug } from './debug/OzDebug.js';
+import { GokuPartner, installGokuApi } from './ai/GokuPartner.js';
 import { WeatherSystem } from './world/WeatherSystem.js';
 
 class OperationZeroApp {
@@ -113,6 +114,10 @@ class OperationZeroApp {
     await loadVehicleManifest(this.assetLoader.gltfLoader);
     this.vehicles = new VehicleSystem(this.scene, this.physics, this.camera, this.hero, this.cameraController, this.combat);
     this.vehicles.getCity = () => this.world.city;
+    // GOKU partner player (O = on/off, K = follow / explore / hold)
+    this.goku = new GokuPartner({ scene: this.scene, physics: this.physics, hero: this.hero, zombies: this.zombies, vehicles: this.vehicles, getCity: () => this.world.city, assetLoader: this.assetLoader });
+    await this.goku.init();
+    installGokuApi(this.goku);
     const HALF_PI = Math.PI / 2;
     this.vehicles.spawn('apex-gt', 18, 4, HALF_PI);
     this.vehicles.spawn('stallion', 18, 10, HALF_PI);
@@ -251,6 +256,8 @@ class OperationZeroApp {
 
     if (this.input.consumeJustPressed('F2')) this.testChecklist.toggle();
     if (this.input.consumeJustPressed('F3')) this.debugOverlay.toggle();
+    if (this.goku && this.input.consumeJustPressed('KeyO')) this.goku.setEnabled(!this.goku.enabled);
+    if (this.goku && this.input.consumeJustPressed('KeyK')) { const order = ['follow', 'explore', 'hold']; this.goku.command({ type: order[(order.indexOf(this.goku.mode) + 1) % order.length] }); }
     if (this.input.consumeJustPressed('F1')) document.body.classList.toggle('dev-hud');
     if (this.input.consumeJustPressed('KeyM')) this.toggleMap3D();
     if (this.map3d?.on) { // map open: the hero stands still, mouse drags the map
@@ -285,6 +292,7 @@ class OperationZeroApp {
     this.hero.applyInterpolation(alpha);
     this.combat.updateFrame(dt);
     this.zombies.updateFrame(dt);
+    this.goku?.update(dt);
     this.cameraController.update(
       dt,
       s,
