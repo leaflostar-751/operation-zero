@@ -65,6 +65,7 @@ class OperationZeroApp {
 
   showFatalError(err) {
     console.error('[OPERATION ZERO] Startup failed:', err);
+    this.loadingScreen.style.display = '';
     this.loadingScreen.classList.remove('fade-out');
     if (this.loadingStatus) {
       this.loadingStatus.classList.add('error');
@@ -161,6 +162,7 @@ class OperationZeroApp {
 
     this.updateLoadingUI(100, 'Ready');
     setTimeout(() => this.loadingScreen.classList.add('fade-out'), 250);
+    setTimeout(() => { this.loadingScreen.style.display = 'none'; }, 900); // remove the layer completely once faded (no leftover outline)
 
     this.gameLoop = new GameLoop(
       (fixedDt) => this.fixedUpdate(fixedDt),

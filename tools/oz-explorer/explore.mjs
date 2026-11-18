@@ -10,7 +10,7 @@ const B = { minX: -1040, maxX: 1300, minZ: -500, maxZ: 760 }; // approximate map
 const run = path.join(OUT, 'run-' + new Date().toISOString().replace(/[:.]/g, '-')); fs.mkdirSync(run, { recursive: true });
 const b = await chromium.launch({ args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--enable-webgl'] });
 const p = await b.newPage({ viewport: { width: 640, height: 400 } });
-await p.goto(url + (url.includes('?') ? '&' : '?') + 'oz_debug=1'); await p.waitForSelector('#loading-screen.fade-out', { timeout: 170000 }); await p.waitForTimeout(2500);
+await p.goto(url + (url.includes('?') ? '&' : '?') + 'oz_debug=1'); await p.waitForSelector('#loading-screen.fade-out', { state: 'attached', timeout: 170000 }); await p.waitForTimeout(2500);
 const cells = []; for (let x = B.minX + CELL / 2; x < B.maxX; x += CELL) for (let z = B.minZ + CELL / 2; z < B.maxZ; z += CELL) cells.push([x, z]);
 const step = Math.max(1, Math.ceil(cells.length / MAX)); const pick = cells.filter((_, i) => i % step === 0).slice(0, MAX);
 const cov = [];

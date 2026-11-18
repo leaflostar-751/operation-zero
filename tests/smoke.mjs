@@ -8,7 +8,7 @@ const errs = []; p.on('pageerror', (e) => errs.push(String(e)));
 p.on('console', (m) => { if (m.type() === 'error' && !/404|Failed to load resource/.test(m.text())) errs.push(m.text()); });
 let status = 'PASS', note = '';
 try {
-  await p.goto(url); await p.waitForSelector('#loading-screen.fade-out', { timeout: 170000 });
+  await p.goto(url); await p.waitForSelector('#loading-screen.fade-out', { state: 'attached', timeout: 170000 });
   await p.waitForTimeout(3000);
   const t0 = await p.evaluate(() => window.__opzero?.hero?.position?.x);
   if (t0 === undefined) { status = 'FAIL'; note = 'hero missing'; }

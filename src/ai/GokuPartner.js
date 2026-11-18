@@ -3,11 +3,13 @@
 //   explore : walks around the map by itself (acts as a tester)
 //   goto    : walks to a point given by a command
 // While it plays it NOTES glitches it can detect (stuck, out of world, long airtime, lag) with exact positions.
-// Honest limits (v1): invulnerable, melee only, no vehicles of its own. The real GOKU agent (Windows) is not in the browser;
+// Navigation: walks straight when the way is clear, otherwise follows an A* path around walls/buildings (NavGrid).
+// Honest limits (v1.1): invulnerable, melee only, no vehicles of its own. The real GOKU agent (Windows) is not in the browser;
 // it talks to this partner through window.__OZ_GOKU (status / notes / command).
 import * as THREE from 'three';
 import { buildHumanoid } from '../characters/CharacterBuilder.js';
 import { AnimationController } from '../characters/AnimationController.js';
+import { NavGrid } from './NavGrid.js';
 
 const STATES = [['idle', false], ['walk', false], ['run', false], ['sprint', false], ['jump', true], ['fall', false], ['land', true], ['crouch', false], ['crouch-walk', false], ['turn', false]];
 const MAP = { minX: -1000, maxX: 1250, minZ: -480, maxZ: 740 };
@@ -26,6 +28,9 @@ export class GokuPartner {
     this.stuckT = 0; this.stuckRef = new THREE.Vector3(); this.detour = 0; this.detourSign = 1;
     this.airT = 0; this.t = 0; this.groundY = 0; this._down = new THREE.Vector3(0, -1, 0); this._o = new THREE.Vector3();
     this.waypoint = null; this.wpWait = 0;
+    this.heroSpd = 0; this._hpx = NaN; this._hpz = NaN;
+    this.nav = null; this.pathBest = Infinity; this.path = []; this.pathGoal = null; this.planT = 0; this.planCd = 0; this.noPathT = 0;
+    this.stats.plans = 0; this.stats.planMs = 0; this.stats.giveUps = 0;
     try { this.notesList = JSON.parse(localStorage.getItem(NOTE_KEY) || '[]').slice(-300); this.notesList.forEach((n) => this.noteSeen.add(n.key)); } catch (_) { /* storage may be blocked */ }
   }
 
@@ -65,7 +70,7 @@ export class GokuPartner {
   // ------------------------------------------------------------------ helpers
   placeNearHero() {
     const h = this.hero.position, a = this.hero.yaw + 2.4;
-    this.pos.set(h.x + Math.sin(a) * 2.5, 0, h.z + Math.cos(a) * 2.5); this.speed = 0; this.groundSnap(true);
+    this.pos.set(h.x + Math.sin(a) * 2.5, 0, h.z + Math.cos(a) * 2.5); this.speed = 0; this.groundSnap(true); this.resetNav();
   }
   groundSnap(force = false) {
     this._o.set(this.pos.x, this.pos.y + 2.5, this.pos.z);
@@ -87,6 +92,41 @@ export class GokuPartner {
     }
     return pushed;
   }
+  resetNav() { this.path.length = 0; this.pathGoal = null; this.pathBest = Infinity; this.noPathT = 0; this.planT = 0; this.planCd = 0; this.stuckT = 0; this.detour = 0; }
+  /** random waypoint on a free spot (so explore never aims into a wall) */
+  pickWaypoint() {
+    const nav = this.nav || (this.nav = new NavGrid(this.getCity));
+    this.pathBest = Infinity;
+    for (let i = 0; i < 12; i++) {
+      let x, z;
+      if (Math.random() < 0.7) { const a = Math.random() * TAU, d = 50 + Math.random() * 130; x = this.pos.x + Math.sin(a) * d; z = this.pos.z + Math.cos(a) * d; } // local trip
+      else { x = THREE.MathUtils.lerp(MAP.minX, MAP.maxX, Math.random()); z = THREE.MathUtils.lerp(MAP.minZ, MAP.maxZ, Math.random()); }
+      x = THREE.MathUtils.clamp(x, MAP.minX + 5, MAP.maxX - 5); z = THREE.MathUtils.clamp(z, MAP.minZ + 5, MAP.maxZ - 5);
+      if (nav.freeAt(x, z, 0.8)) return { x, z };
+    }
+    return { x: this.pos.x + (Math.random() - 0.5) * 80, z: this.pos.z + (Math.random() - 0.5) * 80 };
+  }
+  /** Where to steer this frame: the target itself if the way is clear, else the next corner of an A* path. */
+  pathStep(tx, tz, dt) {
+    const nav = this.nav || (this.nav = new NavGrid(this.getCity));
+    this.planT -= dt; this.planCd -= dt;
+    const px = this.pos.x, pz = this.pos.z, d = Math.hypot(tx - px, tz - pz);
+    if (d < 2.5 || nav.lineClear(px, pz, tx, tz)) { this.path.length = 0; this.noPathT = 0; this.pathGoal = null; return { x: tx, z: tz }; }
+    const moved = !this.pathGoal || Math.hypot(this.pathGoal.x - tx, this.pathGoal.z - tz) > 4;
+    if ((moved && this.planCd <= 0) || !this.path.length && this.planCd <= 0 || this.planT <= 0) {
+      const t0 = performance.now(); const r = nav.findPath(px, pz, tx, tz);
+      this.stats.plans++; this.stats.planMs += performance.now() - t0; this.planT = 2.5; this.planCd = 0.8; this.pathGoal = { x: tx, z: tz };
+      if (r && r.pts.length) {
+        this.path = r.pts;
+        const end = r.pts[r.pts.length - 1], endD = Math.hypot(end.x - tx, end.z - tz);
+        if (!r.partial || endD < this.pathBest - 3) this.noPathT = 0; else this.noPathT += 0.8; // partial path that makes no progress = unreachable
+        this.pathBest = Math.min(this.pathBest, endD);
+      } else { this.path.length = 0; this.noPathT += 0.8; } // counts planning rounds, not frames
+    }
+    while (this.path.length && Math.hypot(this.path[0].x - px, this.path[0].z - pz) < 1.0) this.path.shift();
+    if (this.noPathT > 6) return { x: tx, z: tz, giveUp: true };
+    return this.path.length ? this.path[0] : { x: tx, z: tz };
+  }
   nearestZombie() {
     let best = null, bd = 18; const list = (this.zombies && this.zombies.zombies) || [];
     for (const z of list) { if (!z.pos || z.state === 'dead') continue; const d = Math.hypot(z.pos.x - this.pos.x, z.pos.z - this.pos.z); if (d < bd && Math.hypot(z.pos.x - this.hero.position.x, z.pos.z - this.hero.position.z) < 26) { bd = d; best = z; } }
@@ -95,14 +135,14 @@ export class GokuPartner {
 
   // ------------------------------------------------------------------ command API (used by the real GOKU)
   command(c = {}) {
-    if (c.type === 'follow' || c.type === 'explore' || c.type === 'hold') { this.mode = c.type; this.waypoint = null; }
-    else if (c.type === 'goto' && Number.isFinite(c.x) && Number.isFinite(c.z)) { this.mode = 'goto'; this.waypoint = { x: c.x, z: c.z }; }
+    if (c.type === 'follow' || c.type === 'explore' || c.type === 'hold') { this.mode = c.type; this.waypoint = null; this.resetNav(); }
+    else if (c.type === 'goto' && Number.isFinite(c.x) && Number.isFinite(c.z)) { this.mode = 'goto'; this.waypoint = { x: c.x, z: c.z }; this.resetNav(); }
     else if (c.type === 'enable') this.setEnabled(!!c.value);
     else return { ok: false, error: 'unknown command' };
     return { ok: true, mode: this.mode };
   }
   setEnabled(v) { this.enabled = !!v; if (this.group) this.group.visible = this.enabled; if (this.enabled) this.placeNearHero(); }
-  status() { return { enabled: this.enabled, mode: this.mode, x: +this.pos.x.toFixed(1), z: +this.pos.z.toFixed(1), anim: this.anim && this.anim.currentState, notes: this.notesList.length, stats: { ...this.stats } }; }
+  status() { return { enabled: this.enabled, mode: this.mode, x: +this.pos.x.toFixed(1), z: +this.pos.z.toFixed(1), anim: this.anim && this.anim.currentState, notes: this.notesList.length, stats: { ...this.stats }, nav: this.nav ? { ...this.nav.stats, cells: this.nav.cache.size } : null }; }
 
   // ------------------------------------------------------------------ per frame
   update(dt) {
@@ -110,6 +150,8 @@ export class GokuPartner {
     if (!this.enabled) { if (this.chip) this.chip.textContent = ''; return; }
     this.rawDt = dt; dt = Math.min(dt, 0.1); this.t += dt; this.stats.framesSeen++;
     const hero = this.hero, hp = hero.position;
+    if (Number.isFinite(this._hpx)) { const hs = Math.min(12, Math.hypot(hp.x - this._hpx, hp.z - this._hpz) / Math.max(dt, 1e-4)); this.heroSpd += (hs - this.heroSpd) * Math.min(1, dt * 4); }
+    this._hpx = hp.x; this._hpz = hp.z;
     if (![hp.x, hp.y, hp.z].every(Number.isFinite) || hp.y < -3) this.note('hero_out_of_world', 'hero position invalid or below the world', hp.x === hp.x ? hp : this.pos);
     if (hero.airTime > 2.5 && hp.y > 0.6) this.note('hero_long_airtime', 'hero airborne > 2.5 s (floating or falling)', hp);
     if (this.rawDt > 0.2) this.note('lag_spike', `frame took ${Math.round(this.rawDt * 1000)} ms`, hp);
@@ -129,19 +171,22 @@ export class GokuPartner {
         if (d < 1.7) { attack = true; want = 0; } else want = 4.3;
       } else {
         const a = hero.yaw + 2.4; tx = hp.x + Math.sin(a) * 3.2; tz = hp.z + Math.cos(a) * 3.2; const d = Math.hypot(tx - this.pos.x, tz - this.pos.z);
-        want = d < 1.0 ? 0 : d > 14 ? 6.0 : d > 5 ? 4.0 : 1.7;
+        // match the hero's pace and close the gap smoothly (hero run 4.2, sprint 6.8 m/s)
+        want = d < 0.8 ? 0 : Math.min(7.4, Math.max(1.7, this.heroSpd + (d - 2.5) * 1.1));
       }
       if (dHero > 45) { this.stats.teleports++; this.note('partner_teleport', 'partner was >45 m behind and was teleported back'); this.placeNearHero(); }
     } else if (this.mode === 'explore' || this.mode === 'goto') {
       if (!this.waypoint || Math.hypot(this.waypoint.x - this.pos.x, this.waypoint.z - this.pos.z) < 2.5) {
         if (this.mode === 'goto') { this.mode = 'hold'; this.waypoint = null; }
-        else this.waypoint = { x: THREE.MathUtils.lerp(MAP.minX, MAP.maxX, Math.random()), z: THREE.MathUtils.lerp(MAP.minZ, MAP.maxZ, Math.random()) };
+        else { this.waypoint = this.pickWaypoint(); this.resetNav(); }
       }
       if (this.waypoint) { tx = this.waypoint.x; tz = this.waypoint.z; want = 4.2; }
     } // 'hold': stand still
 
     // ---- steer (with a detour when stuck against something)
-    let dx = tx - this.pos.x, dz = tz - this.pos.z; const dist = Math.hypot(dx, dz);
+    let gx = tx, gz = tz;
+    if (!attack && this.mode !== 'hold') { const st = this.pathStep(tx, tz, dt); gx = st.x; gz = st.z; if (st.giveUp) { if (this.mode === 'follow') { this.stats.teleports++; this.note('partner_teleport', 'no walkable path to the hero for 6 s, teleported'); this.placeNearHero(); } else { this.stats.giveUps++; this.note('partner_gave_up', 'no walkable path to the target, picked a new one'); this.waypoint = null; } this.path.length = 0; this.noPathT = 0; } }
+    let dx = gx - this.pos.x, dz = gz - this.pos.z; const dist = Math.hypot(dx, dz);
     let desiredYaw = dist > 0.05 ? Math.atan2(dx, dz) : this.yaw;
     if (attack && zt) desiredYaw = Math.atan2(zt.pos.x - this.pos.x, zt.pos.z - this.pos.z);
     if (this.detour > 0) { this.detour -= dt; desiredYaw += this.detourSign * 1.2; want = Math.max(want, 1.7); }
@@ -162,7 +207,7 @@ export class GokuPartner {
       if (this.stuckT === 0) this.stuckRef.copy(this.pos);
       this.stuckT += dt;
       if (this.stuckT > 1.2 && this.pos.distanceTo(this.stuckRef) < 0.5) {
-        this.stats.stuckEvents++; this.note('partner_stuck', 'partner cannot make progress (blocked or trapped)'); this.detour = 1.6; this.detourSign = Math.random() < 0.5 ? -1 : 1; this.stuckT = 0;
+        this.stats.stuckEvents++; this.note('partner_stuck', 'partner cannot make progress (blocked or trapped)'); this.detour = 1.6; this.detourSign = Math.random() < 0.5 ? -1 : 1; this.stuckT = 0; this.planT = 0; this.planCd = 0; this.path.length = 0;
         if (this.stats.stuckEvents % 4 === 0) { this.stats.teleports++; if (this.mode === 'follow') { this.note('partner_teleport', 'stuck 4 times, teleported to hero'); this.placeNearHero(); } else { this.note('partner_gave_up', 'stuck 4 times at this spot, picked a new target'); this.waypoint = null; } }
       } else if (this.pos.distanceTo(this.stuckRef) >= 0.5) this.stuckT = 0;
     } else this.stuckT = 0;

@@ -4,7 +4,7 @@ import { chromium } from 'playwright';
 const url = process.argv[2] || 'http://localhost:5173/';
 const b = await chromium.launch({ args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--enable-webgl'] });
 const p = await b.newPage({ viewport: { width: 400, height: 260 } }); const errs = []; p.on('pageerror', (e) => errs.push(String(e)));
-await p.goto(url); await p.waitForSelector('#loading-screen.fade-out', { timeout: 170000 });
+await p.goto(url); await p.waitForSelector('#loading-screen.fade-out', { state: 'attached', timeout: 170000 });
 const res = []; const check = (n, ok, x) => { res.push(ok); console.log(ok ? 'PASS' : 'FAIL', n, x ?? ''); };
 const fight = await p.evaluate(() => { const a = window.__opzero, g = a.goku; a.hero.teleportTo(-14, 0.2, 17, 0); g.placeNearHero(); const k0 = a.zombies.kills; for (let i = 0; i < 900; i++) { a.zombies.update(1 / 30); g.update(1 / 30); } return { hits: g.stats.zombieHits, kills: a.zombies.kills - k0 }; });
 check('partner fights zombies', fight.hits > 0 && fight.kills > 0, JSON.stringify(fight));

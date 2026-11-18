@@ -200,6 +200,7 @@ export function generateDistricts(city, ctx) {
     const b = new GeoBuilder();
     const PW = 30, PD = 34, LW = 8, pitch = PD * 2 + LW;
     const Ls = [];
+    const gates = []; // [x, z] of every plot gate, so boulevard trees never block a driveway
     for (let L = gz0 + PD + LW / 2 + 2; L + LW / 2 + PD <= gz1 + 4; L += pitch) Ls.push(L);
     const Xs = [];
     for (let X = gx0 + PW * 4 + LW / 2; X < gx1 - 20; X += PW * 4 + LW) Xs.push(X);
@@ -286,6 +287,7 @@ export function generateDistricts(city, ctx) {
             // boundary: front wall with gate + pillars; east side; back wall (south row)
             const wz = front;
             const gx = cx + lx(gOff), gap = 5.4;
+            gates.push([gx, front]);
             wallPieces(px0, wz, gx - gap / 2, wz);
             wallPieces(gx + gap / 2, wz, px0 + PW, wz);
             b.place(0, 0, 0);
@@ -311,7 +313,10 @@ export function generateDistricts(city, ctx) {
     city.group.add(g);
     // boulevard palms along the lanes
     for (const L of Ls) for (let x = gx0 + 6; x < gx1 - 6; x += 14) if (free(x, L + LW / 2 - 0.2, 3) && free(x, L - LW / 2 + 0.2, 3)) {
-      trees.push({ t: 'palm', x, z: L + LW / 2 + 0.1, s: 1.0, ry: r() * 6 });
+      const pz = L + LW / 2 + 1.7; // inside the front yard, clear of the 0.3 m boundary wall that sits on the lane edge
+      if (Xs.some((X) => Math.abs(x - X) < LW / 2 + 1.5)) continue; // not inside a cross lane
+      if (gates.some((g) => Math.abs(g[0] - x) < 3.6 && Math.abs(g[1] - pz) < 4)) continue; // not in front of a gate / driveway
+      trees.push({ t: 'palm', x, z: pz, s: 1.0, ry: r() * 6 });
     }
   };
 

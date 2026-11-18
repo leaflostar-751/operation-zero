@@ -7,7 +7,7 @@ const b = await chromium.launch({ args: ['--use-angle=swiftshader', '--enable-un
 const results = []; const check = (name, ok, extra) => { results.push({ name, ok: !!ok, extra }); console.log(ok ? 'PASS' : 'FAIL', name, extra ?? ''); };
 async function load(url) {
   const p = await b.newPage({ viewport: { width: 640, height: 400 } });
-  await p.goto(url); await p.waitForSelector('#loading-screen.fade-out', { timeout: 170000 }); await p.waitForTimeout(2500); return p;
+  await p.goto(url); await p.waitForSelector('#loading-screen.fade-out', { state: 'attached', timeout: 170000 }); await p.waitForTimeout(2500); return p;
 }
 // 1) without the flag the door must not exist
 let p = await load(base);

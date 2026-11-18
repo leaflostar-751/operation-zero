@@ -167,6 +167,7 @@ export class City {
     let ch = this.chunks.get(key);
     if (!ch) { ch = { solids: [], entries: null, cx: (Math.floor(x / CHUNK) + 0.5) * CHUNK, cz: (Math.floor(z / CHUNK) + 0.5) * CHUNK }; this.chunks.set(key, ch); }
     ch.solids.push([x, y, z, hw, hh, hd, rotY]);
+    this._bk = null; // spatial hash is rebuilt lazily
     this.stats.solids++;
   }
 
@@ -822,11 +823,42 @@ export class City {
         }
       }
     }
+    this.sanitizeTrees();
     const treePos = this.treeList;
     this.treeGeos = makeTreeGeos();
     buildTreeInstances(treePos, this.treeGeos, makeTreeMaterial(), this.group, { solid: (x, z, h) => this.addSolid(x, 1.5, z, h, 1.5, h, 0) });
     this.stats.trees = treePos.length;
     this.stats.poles = poles.length;
+  }
+
+  /** Push every tree out of walls / buildings (circle vs box), or drop it if it cannot be moved cleanly. */
+  sanitizeTrees() {
+    const keep = []; let moved = 0, dropped = 0;
+    for (const t of this.treeList) {
+      const rad = t.t === 'shrub' ? 0.75 : 0.65;
+      let x = t.x, z = t.z, ok = true;
+      for (let it = 0; it < 5; it++) {
+        let worst = null;
+        for (const [sx, , sz, hw, , hd, ry] of this.blockersNear(x, z, rad)) {
+          const cs = Math.cos(ry || 0), sn = Math.sin(ry || 0), rx = x - sx, rz = z - sz;
+          const lx = rx * cs - rz * sn, lz = rx * sn + rz * cs;
+          const qx = Math.max(-hw, Math.min(hw, lx)), qz = Math.max(-hd, Math.min(hd, lz));
+          let nx = lx - qx, nz = lz - qz, d = Math.hypot(nx, nz), pen;
+          if (d > 1e-6) { if (d >= rad) continue; pen = rad - d; nx /= d; nz /= d; }
+          else { const ex = hw - Math.abs(lx), ez = hd - Math.abs(lz); if (ex < ez) { nx = Math.sign(lx) || 1; nz = 0; pen = ex + rad; } else { nx = 0; nz = Math.sign(lz) || 1; pen = ez + rad; } }
+          if (!worst || pen > worst.pen) worst = { pen, wx: nx * cs + nz * sn, wz: -nx * sn + nz * cs };
+        }
+        if (!worst) break;
+        x += worst.wx * (worst.pen + 0.05); z += worst.wz * (worst.pen + 0.05);
+        if (it === 4) ok = false;
+      }
+      if (ok && Math.hypot(x - t.x, z - t.z) > 3.0) ok = false; // moved too far = not a clean fix
+      if (ok && (x !== t.x || z !== t.z) && this.roadClearance && this.roadClearance(x, z).c < 0.8) ok = false; // would land on a road
+      if (!ok) { dropped++; continue; }
+      if (x !== t.x || z !== t.z) { t.x = x; t.z = z; moved++; }
+      keep.push(t);
+    }
+    this.treeList = keep; this.stats.treesMoved = moved; this.stats.treesDropped = dropped;
   }
 
   hitsBuilding(x, z) {
@@ -870,7 +902,7 @@ export class City {
       for (const ch of this.chunks.values()) for (const sd of ch.solids) {
         const [sx, sy, sz, hw, hh, hd] = sd;
         if (sy + hh < 0.35 || sy - hh > 1.1) continue; // does not block a car body
-        const rad = Math.hypot(hw, hd) + 0.1;
+        const rad = Math.hypot(hw, hd) + 2.6; // margin >= largest query radius so corner queries never miss
         for (let i = Math.floor((sx - rad) / 12); i <= Math.floor((sx + rad) / 12); i++) for (let j = Math.floor((sz - rad) / 12); j <= Math.floor((sz + rad) / 12); j++) {
           const k = i + ',' + j; let l = this._bk.get(k); if (!l) this._bk.set(k, (l = [])); l.push(sd);
         }
