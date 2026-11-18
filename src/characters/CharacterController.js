@@ -3,6 +3,7 @@ import { AnimationController } from './AnimationController.js';
 import { FootIKSolver } from './FootIKSolver.js';
 import { buildHumanoid, OUTFIT_IDS, OUTFITS } from './CharacterBuilder.js';
 import { rotateBoneAboutAxis } from './TwoBoneIK.js';
+import { assetUrl } from '../utils/assetUrl.js';
 
 const HERO_HEIGHT = 1.8;
 
@@ -136,7 +137,7 @@ export class CharacterController {
   }
 
   async loadHeroAndAnimations() {
-    let modelRoot = await this.assetLoader.loadCharacterModel('/assets/characters/hero');
+    let modelRoot = await this.assetLoader.loadCharacterModel(assetUrl('/assets/characters/hero'));
 
     if (modelRoot) {
       this.extractMixamoBones(modelRoot);
@@ -172,7 +173,7 @@ export class CharacterController {
 
     const missing = [];
     for (const spec of ANIM_SPECS) {
-      const candidatePaths = spec.files.map((f) => `/assets/characters/animations/${f}`);
+      const candidatePaths = spec.files.map((f) => assetUrl(`/assets/characters/animations/${f}`));
       const loadedClip = await this.assetLoader.loadAnimationClip(candidatePaths, spec.state);
       if (!loadedClip) missing.push(spec.state);
       this.animController.registerClip(spec.state, loadedClip || synthesizedClips[spec.state], spec.once);

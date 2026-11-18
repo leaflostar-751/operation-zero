@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { VEHICLE_INFO } from './VehicleModels.js';
+import { assetUrl } from '../utils/assetUrl.js';
 
 /**
  * Drop-in real vehicle models (Sketchfab / any .glb).
@@ -19,7 +20,7 @@ export function hasImportedVehicle(type) {
   return TEMPLATES.has(type);
 }
 
-export async function loadVehicleManifest(gltfLoader, base = '/assets/vehicles/') {
+export async function loadVehicleManifest(gltfLoader, base = assetUrl('/assets/vehicles/')) {
   let manifest;
   try {
     const r = await fetch(base + 'manifest.json', { cache: 'no-cache' });

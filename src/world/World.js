@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { Scenery } from './Scenery.js';
 import { City } from './City.js';
+import { assetUrl } from '../utils/assetUrl.js';
 
 const SUN_OFFSET = new THREE.Vector3(22, 32, 24); // sun position relative to the shadow focus point
 const SHADOW_HALF_SIZE = 22;
@@ -30,7 +31,7 @@ export class World {
     this.scene.fog = new THREE.FogExp2(0xaebbc9, 0.0013);
 
     // 1. HDRI sky / IBL (fallback sky has its sun in the same direction as the light)
-    const hdriResult = await this.assetLoader.loadHDRI('/assets/hdri/sky.hdr', this._dir);
+    const hdriResult = await this.assetLoader.loadHDRI(assetUrl('/assets/hdri/sky.hdr'), this._dir);
     this.usingFallbackHDRI = hdriResult.isFallback;
 
     const pmremGenerator = new THREE.PMREMGenerator(this.renderer.instance);
@@ -69,9 +70,9 @@ export class World {
     // 3. PBR ground
     const maxAniso = this.renderer.getMaxAnisotropy();
     const [albedoMap, normalMap, roughnessMap] = await Promise.all([
-      this.assetLoader.loadPBRTexture('/assets/textures/ground_albedo.jpg', 'albedo', 32, maxAniso, true),
-      this.assetLoader.loadPBRTexture('/assets/textures/ground_normal.jpg', 'normal', 32, maxAniso, false),
-      this.assetLoader.loadPBRTexture('/assets/textures/ground_roughness.jpg', 'roughness', 32, maxAniso, false)
+      this.assetLoader.loadPBRTexture(assetUrl('/assets/textures/ground_albedo.jpg'), 'albedo', 32, maxAniso, true),
+      this.assetLoader.loadPBRTexture(assetUrl('/assets/textures/ground_normal.jpg'), 'normal', 32, maxAniso, false),
+      this.assetLoader.loadPBRTexture(assetUrl('/assets/textures/ground_roughness.jpg'), 'roughness', 32, maxAniso, false)
     ]);
 
     this.groundMaterial = new THREE.MeshStandardMaterial({

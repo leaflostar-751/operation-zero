@@ -5,6 +5,7 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader.js';
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader.js';
+import { assetUrl } from '../utils/assetUrl.js';
 
 export class AssetLoader {
   constructor(rendererInstance, onProgressCallback) {
@@ -22,10 +23,10 @@ export class AssetLoader {
 
     // Draco & KTX2 use local decoder bundles (copied by scripts/copy-decoders.mjs)
     this.dracoLoader = new DRACOLoader(this.manager);
-    this.dracoLoader.setDecoderPath('/assets/decoders/draco/');
+    this.dracoLoader.setDecoderPath(assetUrl('/assets/decoders/draco/'));
 
     this.ktx2Loader = new KTX2Loader(this.manager);
-    this.ktx2Loader.setTranscoderPath('/assets/decoders/basis/');
+    this.ktx2Loader.setTranscoderPath(assetUrl('/assets/decoders/basis/'));
     this.ktx2Loader.detectSupport(this.renderer);
 
     this.gltfLoader = new GLTFLoader(this.manager);
