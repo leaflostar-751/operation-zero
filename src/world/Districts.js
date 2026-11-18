@@ -174,7 +174,7 @@ export function generateDistricts(city, ctx) {
   /* ============================================================ villas */
   const villaMats = () => {
     const fm = (hex) => {
-      const m = new THREE.MeshStandardMaterial({ map: T.solidFacadeTexture(hex, 2).clone(), roughness: 0.85 });
+      const m = new THREE.MeshStandardMaterial({ map: T.solidFacadeTexture(hex, 2).clone(), roughness: 0.85, vertexColors: true }); // every facade box passes a tint colour
       m.map.needsUpdate = true;
       m.map.repeat.set(1 / 6, 1 / 3);
       return m;
@@ -183,6 +183,7 @@ export function generateDistricts(city, ctx) {
     return {
       fac0: fm('#efe8d8'), fac1: fm('#dfe6ee'), fac2: fm('#ece0c8'),
       slab: new THREE.MeshStandardMaterial({ color: 0xf4f1ea, roughness: 0.75 }),
+      tile: new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.82, vertexColors: true }), // pitched roofs (always tinted)
       stone: new THREE.MeshStandardMaterial({ map: T.concreteTexture('#b7b0a0'), roughness: 0.95 }),
       wallv: new THREE.MeshStandardMaterial({ color: 0xe4dccb, roughness: 0.92 }),
       dark: new THREE.MeshStandardMaterial({ color: 0x23282e, roughness: 0.5, metalness: 0.3 }),
@@ -235,15 +236,19 @@ export function generateDistricts(city, ctx) {
             // local frame: +z = front (towards the lane); origin = villa centre
             const setback = 10;
             const vz = side < 0 ? front - setback - 6.5 : front + setback + 6.5;
-            const type = (k * 3 + Math.floor((cx - gx0) / PW)) % 3;
+            const roll = r(), type = roll < 0.2 ? 0 : roll < 0.32 ? 1 : roll < 0.5 ? 2 : roll < 0.78 ? 3 : 4; // 5 designs, random per plot
             const col = Math.floor(r() * 3);
+            const TINTS = [0xffffff, 0xf6e7c9, 0xecd0aa, 0xdcbd9d, 0xd2dbe0, 0xe0e8d3, 0xf2dcbd, 0xe8d6d2, 0xcfd9c2, 0xf1f1ec];
+            const ROOFS = [0x8a4a2f, 0x6b3a2a, 0x59514b, 0x9c5a3c, 0x7a3b2e];
+            const tint = TINTS[Math.floor(r() * TINTS.length)], roofC = ROOFS[Math.floor(r() * ROOFS.length)];
             b.place(cx, vz, yaw);
             const fac = 'fac' + col;
+            const fbox = (w, h, d, x, y, z) => b.box(fac, w, h, d, x, y, z, 0, tint);
             const solidW = type === 1 ? 16 : 18, solidD = type === 1 ? 13 : 12;
             if (type === 0) { // classic: 2 floors, balcony porch, side garage
-              b.box(fac, 18, 6, 12, -3, 0, 0);
+              fbox(18, 6, 12, -3, 0, 0);
               b.box('slab', 19.2, 0.35, 13.2, -3, 6, 0);
-              b.box(fac, 6, 3.2, 8, 9, 0, 2); b.box('slab', 6.8, 0.3, 8.8, 9, 3.2, 2);
+              fbox(6, 3.2, 8, 9, 0, 2); b.box('slab', 6.8, 0.3, 8.8, 9, 3.2, 2);
               b.box('dark', 4.6, 2.5, 0.12, 9, 0, 6.05);
               for (const x of [-5.5, -0.5]) b.cyl('slab', 0.3, 0.3, 3, x, 0, 8.4, 12);
               b.box('slab', 7.6, 0.3, 3.2, -3, 3.0, 7.6);
@@ -253,18 +258,42 @@ export function generateDistricts(city, ctx) {
               city.addSolid(...worldSolid(cx, vz, yaw, -3, 3, 0, 9, 3, 6));
               city.addSolid(...worldSolid(cx, vz, yaw, 9, 1.6, 2, 3, 1.6, 4));
             } else if (type === 1) { // tiered: 3 floors stepped back
-              b.box(fac, 16, 3, 13, 0, 0, 0); b.box('slab', 17.2, 0.3, 14.2, 0, 3, 0);
-              b.box(fac, 12, 3, 10, 0, 3.3, -1.5); b.box('slab', 13.2, 0.3, 11.2, 0, 6.3, -1.5);
-              b.box(fac, 8, 3, 7, 0, 6.6, -3); b.box('slab', 9.2, 0.35, 8.2, 0, 9.6, -3);
+              fbox(16, 3, 13, 0, 0, 0); b.box('slab', 17.2, 0.3, 14.2, 0, 3, 0);
+              fbox(12, 3, 10, 0, 3.3, -1.5); b.box('slab', 13.2, 0.3, 11.2, 0, 6.3, -1.5);
+              fbox(8, 3, 7, 0, 6.6, -3); b.box('slab', 9.2, 0.35, 8.2, 0, 9.6, -3);
               for (const x of [-5, -1.7, 1.7, 5]) b.cyl('slab', 0.32, 0.32, 6.3, x, 0, 8.6, 14);
               b.box('slab', 13, 0.4, 4, 0, 6.3, 8.4);
               b.box('glass', 12.6, 0.95, 0.08, 0, 3.3, 5.1 + 0);
               b.box('wood', 2.4, 2.6, 0.12, 0, 0, 6.55); b.box('slab', 2.9, 2.9, 0.1, 0, 0, 6.51);
               b.box('dark', 1, 3.2, 1, -9.5, 0, 6.5); b.box('dark', 1, 3.2, 1, 9.5, 0, 6.5);
               city.addSolid(...worldSolid(cx, vz, yaw, 0, 4.8, 0, 8, 4.8, 6.5));
+            } else if (type === 3) { // gabled family house: pitched tile roof, porch with gable, chimney, side garage
+              fbox(14, 3.1, 11, 0, 0, 0); fbox(13.4, 3.0, 10.4, 0, 3.15, 0);
+              b.box('slab', 14.6, 0.22, 11.6, 0, 3.0, 0);
+              b.gable('tile', 13.4, 2.8, 10.4, 0, 6.15, 0, 0, 0.7, roofC);
+              b.box('slab', 5.6, 0.28, 3.4, -3.4, 3.1, 7.2); b.gable('tile', 5.6, 1.3, 3.4, -3.4, 3.38, 7.2, 0, 0.3, roofC);
+              for (const x of [-5.9, -0.9]) b.cyl('slab', 0.2, 0.22, 3.1, x, 0, 8.7, 12);
+              b.box('wood', 1.7, 2.5, 0.12, -3.4, 0, 5.55); b.box('slab', 2.2, 2.8, 0.1, -3.4, 0, 5.52);
+              b.box('glass', 3.2, 1.1, 0.08, 3.6, 0.9, 5.55); b.box('glass', 3.2, 1.1, 0.08, 3.6, 3.7, 5.2); b.box('glass', 2.2, 1.1, 0.08, -3.4, 3.7, 5.2);
+              b.box('stone', 0.9, 2.8, 0.9, 4.5, 6.15, -2.0);
+              fbox(5, 3.0, 8, 9.2, 0, 0.5); b.box('slab', 5.6, 0.25, 8.6, 9.2, 3.0, 0.5); b.box('dark', 4.2, 2.3, 0.12, 9.2, 0, 4.55);
+              city.addSolid(...worldSolid(cx, vz, yaw, 0, 3.1, 0, 7, 3.1, 5.5));
+              city.addSolid(...worldSolid(cx, vz, yaw, 9.2, 1.5, 0.5, 2.5, 1.5, 4));
+            } else if (type === 4) { // colonnade villa: long low-pitch roof, columned porch + balcony
+              fbox(17, 3.2, 11.5, 0, 0, 0); fbox(17, 3.0, 11.5, 0, 3.3, 0);
+              b.box('slab', 17.6, 0.25, 12.1, 0, 3.2, 0);
+              b.gable('tile', 11.5, 2.0, 17, 0, 6.3, 0, HALF_PI, 0.7, roofC);
+              b.box('slab', 12, 0.3, 3.6, 0, 3.2, 7.3);
+              for (let i = 0; i < 5; i++) b.cyl('slab', 0.22, 0.24, 3.2, -5 + i * 2.5, 0, 8.9, 12);
+              b.box('glass', 11.6, 0.95, 0.08, 0, 3.55, 9.0);
+              b.box('wood', 2.0, 2.6, 0.12, 0, 0, 5.8); b.box('slab', 2.5, 2.9, 0.1, 0, 0, 5.76);
+              b.box('glass', 3, 1.2, 0.08, -5.5, 0.8, 5.8); b.box('glass', 3, 1.2, 0.08, 5.5, 0.8, 5.8);
+              b.box('glass', 3, 1.2, 0.08, -5.5, 3.9, 5.8); b.box('glass', 3, 1.2, 0.08, 5.5, 3.9, 5.8);
+              city.addSolid(...worldSolid(cx, vz, yaw, 0, 3.2, 0, 8.5, 3.2, 5.75));
+              city.addSolid(...worldSolid(cx, vz, yaw, 0, 1.6, 7.3, 6, 1.6, 1.8));
             } else { // modern: glass strips + cantilever
-              b.box(fac, 14, 3, 12, 0, 0, 0);
-              b.box(fac, 16, 3, 10, 0, 3.1, 2.5); b.box('slab', 16.4, 0.4, 10.4, 0, 6.1, 2.5);
+              fbox(14, 3, 12, 0, 0, 0);
+              fbox(16, 3, 10, 0, 3.1, 2.5); b.box('slab', 16.4, 0.4, 10.4, 0, 6.1, 2.5);
               b.box('glass', 10, 1.9, 0.1, 0, 4.0, 7.55); b.box('glass', 10, 2.2, 0.1, 0, 0.3, 6.05);
               b.box('slab', 0.45, 3.1, 0.45, -7.5, 0, 7.4); b.box('slab', 0.45, 3.1, 0.45, 7.5, 0, 7.4);
               b.box('wood', 2.0, 2.6, 0.12, 4.5, 0, 6.06);
@@ -272,18 +301,21 @@ export function generateDistricts(city, ctx) {
               city.addSolid(...worldSolid(cx, vz, yaw, 0, 3.05, 1.2, 8.2, 3.05, 7));
             }
             // roof furniture
-            const topY = type === 1 ? 9.95 : 6.35;
-            b.cyl('dark', 0.55, 0.55, 1.3, -6 + r() * 3, topY, -3, 14);
-            b.add('dark', new THREE.BoxGeometry(2.2, 0.08, 1.2), 3, topY + 0.55, -3, 0, -0.45, 0);
-            b.add('dark', new THREE.BoxGeometry(2.2, 0.08, 1.2), 5.6, topY + 0.55, -3, 0, -0.45, 0);
+            if (type <= 2) { // flat roofs: water tank, solar panels, sometimes a satellite dish
+              const topY = type === 1 ? 9.95 : 6.35;
+              b.cyl('dark', 0.55, 0.55, 1.3, -6 + r() * 3, topY, -3, 14);
+              b.add('dark', new THREE.BoxGeometry(2.2, 0.08, 1.2), 3, topY + 0.55, -3, 0, -0.45, 0);
+              b.add('dark', new THREE.BoxGeometry(2.2, 0.08, 1.2), 5.6, topY + 0.55, -3, 0, -0.45, 0);
+              if (r() < 0.45) { b.cyl('dark', 0.04, 0.04, 1.0, -2, topY, 2.5, 6); b.add('slab', new THREE.SphereGeometry(0.5, 12, 6, 0, Math.PI * 2, 0, 1.2), -2, topY + 1.15, 2.5, 0, 0.9, 0.3); }
+            }
             // garden, drive, path
             b.place(cx, (pz0 + pz1) / 2, 0);
             b.plane('grass', PW - 0.6, PD - 0.6, 0, 0.03, 0, 0, null, 4);
             const sgn = side < 0 ? 1 : -1; // towards the lane
             const lx = (l) => (side < 0 ? l : -l); // villa-local x -> offset from plot centre
-            const gOff = type === 0 ? 9 : 5;
+            const gOff = type === 0 || type === 3 ? 9 : 5;
             b.plane('drive', 4.4, 10, lx(gOff), 0.045, sgn * (PD / 2 - 5), 0, null, 3);
-            b.plane('stone', 2.2, 10, lx(type === 0 ? -3 : type === 1 ? 0 : 4.5), 0.048, sgn * (PD / 2 - 5), 0, null, 2);
+            b.plane('stone', 2.2, 10, lx(type === 0 ? -3 : type === 3 ? -3.4 : type === 1 || type === 4 ? 0 : 4.5), 0.048, sgn * (PD / 2 - 5), 0, null, 2);
             // boundary: front wall with gate + pillars; east side; back wall (south row)
             const wz = front;
             const gx = cx + lx(gOff), gap = 5.4;

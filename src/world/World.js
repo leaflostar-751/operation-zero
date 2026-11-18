@@ -86,6 +86,9 @@ export class World {
     const groundMesh = new THREE.Mesh(new THREE.PlaneGeometry(160, 160), this.groundMaterial);
     groundMesh.rotation.x = -Math.PI / 2;
     groundMesh.receiveShadow = true;
+    // The 160 m PBR slab used to sit on top of the city ground as a dark square with z-fighting stripes at its edges.
+    // The city's macro-variation ground now covers the spawn too; flip this on only when real PBR ground assets exist.
+    groundMesh.visible = !!window.__OZ_SPAWN_PBR_PATCH;
     this.scene.add(groundMesh);
 
     this.physics.createFixedGroundBox(1900, 0.5, 760);

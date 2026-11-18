@@ -176,6 +176,7 @@ export class City {
     const t0 = performance.now();
     this.buildGround();
     this.buildRoads();
+    this.buildRoadDetails();
     this.buildCanal();
     this.placeLandmarks();
     this.buildBuildings();
@@ -271,6 +272,78 @@ export class City {
         }
       }
     }
+  }
+
+  /**
+   * Road details (all decals, no collision): zebra crossings on the arms of every at-grade junction of main/street roads,
+   * and manhole covers scattered along the lanes. One InstancedMesh each -> 2 extra draw calls.
+   */
+  buildRoadDetails() {
+    const R = this.roads, J = [];
+    const segInter = (a, b, c, d) => {
+      const rx = b[0] - a[0], rz = b[1] - a[1], sx = d[0] - c[0], sz = d[1] - c[1];
+      const den = rx * sz - rz * sx; if (Math.abs(den) < 1e-9) return null;
+      const t = ((c[0] - a[0]) * sz - (c[1] - a[1]) * sx) / den, u = ((c[0] - a[0]) * rz - (c[1] - a[1]) * rx) / den;
+      return t >= 0 && t <= 1 && u >= 0 && u <= 1 ? { x: a[0] + rx * t, z: a[1] + rz * t, ax: rx, az: rz, bx: sx, bz: sz } : null;
+    };
+    for (let i = 0; i < R.length; i++) for (let j = i + 1; j < R.length; j++) {
+      const A = R[i], B = R[j];
+      for (let a = 0; a < A.sp.length - 1; a++) for (let b = 0; b < B.sp.length - 1; b++) {
+        const h = segInter(A.sp[a], A.sp[a + 1], B.sp[b], B.sp[b + 1]);
+        if (h && !J.some((q) => q.A === A && q.B === B && Math.hypot(q.x - h.x, q.z - h.z) < 20)) J.push({ ...h, A, B });
+      }
+    }
+    const onAny = (x, z, skip, margin) => { for (const o of R) { if (o === skip) continue; if (nearestOnLine(o.sp, x, z).d < o.w / 2 + margin) return true; } return false; };
+    const stripes = [];
+    for (const j of J) for (const [road, other, dx, dz] of [[j.A, j.B, j.ax, j.az], [j.B, j.A, j.bx, j.bz]]) {
+      if (road.type === 'highway') continue;
+      const l = Math.hypot(dx, dz) || 1, ux = dx / l, uz = dz / l, nx = -uz, nz = ux;
+      for (const side of [-1, 1]) {
+        const dist = other.w / 2 + 3.4, cx = j.x + ux * side * dist, cz = j.z + uz * side * dist;
+        if (nearestOnLine(road.sp, cx, cz).d > 1.2) continue;      // road curves away here
+        if (onAny(cx, cz, road, 1.0)) continue;                    // a third road is too close
+        if (this.canalClearance && this.canalClearance(cx, cz) < 6) continue; // not on a canal bridge
+        const n = Math.floor((road.w - 1.6) / 0.95), yaw = Math.atan2(ux, uz);
+        for (let k = 0; k < n; k++) { const lat = (k - (n - 1) / 2) * 0.95; stripes.push([cx + nx * lat, cz + nz * lat, yaw]); }
+      }
+    }
+    const rr = (() => { let sd = 9137; return () => { sd = (sd * 1664525 + 1013904223) % 4294967296; return sd / 4294967296; }; })();
+    if (stripes.length) {
+      const geo = new THREE.BoxGeometry(0.5, 0.02, 3.2);
+      const mat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.75, polygonOffset: true, polygonOffsetFactor: -6, polygonOffsetUnits: -6 });
+      const im = new THREE.InstancedMesh(geo, mat, stripes.length), m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), up = new THREE.Vector3(0, 1, 0), c = new THREE.Color();
+      stripes.forEach(([x, z, yaw], i) => {
+        m4.compose(new THREE.Vector3(x, 0.035, z), q.setFromAxisAngle(up, yaw), new THREE.Vector3(1, 1, 0.9 + rr() * 0.12));
+        im.setMatrixAt(i, m4); const g = 0.78 + rr() * 0.2; im.setColorAt(i, c.setRGB(g, g * 0.99, g * 0.94)); // worn paint
+      });
+      im.receiveShadow = true; im.renderOrder = 6; im.instanceMatrix.needsUpdate = true; im.instanceColor.needsUpdate = true; im.computeBoundingSphere();
+      this.group.add(im);
+    }
+    // manholes: every 55-95 m along every road, inside a lane
+    const holes = [];
+    for (const road of R) {
+      let acc = 30 + rr() * 40;
+      for (let i = 0; i < road.sp.length - 1; i++) {
+        const a = road.sp[i], b = road.sp[i + 1], sl = Math.hypot(b[0] - a[0], b[1] - a[1]); if (sl < 1e-6) continue;
+        acc -= sl;
+        if (acc <= 0) {
+          acc = 55 + rr() * 40; const ux = (b[0] - a[0]) / sl, uz = (b[1] - a[1]) / sl;
+          const lane = (rr() < 0.5 ? -1 : 1) * (road.type === 'highway' ? road.w * 0.25 : road.w * 0.22) + (rr() - 0.5) * 0.8;
+          const x = a[0] - uz * lane, z = a[1] + ux * lane;
+          if (onAny(x, z, road, 1.5)) continue;
+          holes.push([x, z]);
+        }
+      }
+    }
+    if (holes.length) {
+      const lid = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.42, 0.03, 20), new THREE.MeshStandardMaterial({ color: 0x2a2c2e, roughness: 0.55, metalness: 0.6, polygonOffset: true, polygonOffsetFactor: -7, polygonOffsetUnits: -7 }));
+      const li = new THREE.InstancedMesh(lid.geometry, lid.material, holes.length), ring = new THREE.Mesh(new THREE.TorusGeometry(0.45, 0.035, 6, 20).rotateX(Math.PI / 2), new THREE.MeshStandardMaterial({ color: 0x5b5e60, roughness: 0.7, metalness: 0.4, polygonOffset: true, polygonOffsetFactor: -7, polygonOffsetUnits: -7 }));
+      const ri = new THREE.InstancedMesh(ring.geometry, ring.material, holes.length), m4 = new THREE.Matrix4();
+      holes.forEach(([x, z], i) => { m4.makeTranslation(x, 0.04, z); li.setMatrixAt(i, m4); ri.setMatrixAt(i, m4); });
+      for (const m of [li, ri]) { m.receiveShadow = true; m.renderOrder = 7; m.instanceMatrix.needsUpdate = true; m.computeBoundingSphere(); this.group.add(m); }
+    }
+    this.junctions = J.map((j) => ({ x: +j.x.toFixed(1), z: +j.z.toFixed(1), a: j.A.name, b: j.B.name }));
+    this.stats.crosswalks = stripes.length; this.stats.manholes = holes.length; this.stats.junctions = J.length;
   }
 
   buildCanal() {
@@ -826,7 +899,8 @@ export class City {
     this.sanitizeTrees();
     const treePos = this.treeList;
     this.treeGeos = makeTreeGeos();
-    buildTreeInstances(treePos, this.treeGeos, makeTreeMaterial(), this.group, { solid: (x, z, h) => this.addSolid(x, 1.5, z, h, 1.5, h, 0) });
+    this.treeGeosLo = makeTreeGeos(1);
+    this.treeLod = buildTreeInstances(treePos, this.treeGeos, makeTreeMaterial(), this.group, { solid: (x, z, h) => this.addSolid(x, 1.5, z, h, 1.5, h, 0), geosLo: this.treeGeosLo });
     this.stats.trees = treePos.length;
     this.stats.poles = poles.length;
   }
@@ -882,6 +956,7 @@ export class City {
   /* ------------------------------------------------------------ streaming */
   update(dt, focus) {
     if (this.waterTex) { this.waterTex.offset.y += dt * 0.012; this.waterTex.offset.x += dt * 0.004; }
+    if (this.treeLod && focus && ((this._tlT = (this._tlT || 0) - dt) <= 0)) { this._tlT = 0.25; this.treeLod.update(focus.x, focus.z); }
     if (!this.physics.ready || !focus) return;
     for (const [key, ch] of this.chunks) {
       const d = Math.hypot(ch.cx - focus.x, ch.cz - focus.z);

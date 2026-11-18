@@ -83,15 +83,19 @@ function clump(geoR, detail, r, seed) {
 /** tapered branch from (0,0,0) towards `to`; returns [geometry, matrix] */
 function limb(to, r0, r1, seg = 5) {
   const len = Math.hypot(to[0], to[1], to[2]);
-  const g = new THREE.CylinderGeometry(r1, r0, len, 7, 1).translate(0, len / 2, 0);
+  const g = new THREE.CylinderGeometry(r1, r0, len, _limbRad, 1).translate(0, len / 2, 0);
   const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), new THREE.Vector3(to[0], to[1], to[2]).normalize());
   return g.applyMatrix4(new THREE.Matrix4().makeRotationFromQuaternion(q));
 }
 
 const bark = (c, x, y) => c.setHSL(0.07, 0.35, 0.2 + Math.min(0.1, y * 0.01));
 
-export function makeTreeGeos() {
+/** lod 0 = full detail (near), lod 1 = ~4x fewer triangles (used beyond ~110 m). Same silhouette, coarser lumps/segments. */
+let _limbRad = 7;
+export function makeTreeGeos(lod = 0) {
   const out = {};
+  const LO = lod > 0;
+  _limbRad = LO ? 5 : 7;
 
   // ---- broadleaf: buttress roots, tapering trunk, 5 limbs, each limb ends inside a foliage cluster
   {
@@ -101,7 +105,7 @@ export function makeTreeGeos() {
     const rad = [0.52, 0.42, 0.34, 0.28, 0.24];
     for (let i = 0; i < 4; i++) {
       const h = 1.1;
-      t.push(new THREE.CylinderGeometry(rad[i + 1], rad[i], h + 0.06, 9, 1), M4(0.05 * i, 0.55 + i * 1.05, 0.03 * i * (i % 2 ? 1 : -1)), barkC, true);
+      t.push(new THREE.CylinderGeometry(rad[i + 1], rad[i], h + 0.06, LO ? 6 : 9, 1), M4(0.05 * i, 0.55 + i * 1.05, 0.03 * i * (i % 2 ? 1 : -1)), barkC, true);
     }
     // root flare: 4 wedges that sink into the ground
     for (let k = 0; k < 4; k++) {
@@ -122,7 +126,7 @@ export function makeTreeGeos() {
     // foliage: big clusters made of 3 overlapping lumps each + a few outlying lumps
     let n = 0;
     const lump = (x, y, z, r) => {
-      const g = clump(1, 1, r, n * 17 + 3);
+      const g = clump(1, LO ? 0 : 1, r, n * 17 + 3);
       const ph = n++;
       t.push(g, M4(x, y, z, r, r * 0.8, r), (c, px, py, pz, vi) => {
         const rel = Math.min(1, Math.max(0, (py - (y - r * 0.8)) / (r * 1.6)));
@@ -141,17 +145,18 @@ export function makeTreeGeos() {
   // ---- palm
   {
     const t = collect();
-    const segs = 18;
+    const segs = LO ? 8 : 18;
     for (let i = 0; i < segs; i++) {
-      const y0 = (i / segs) * 7.6, bend = 0.06 * (i / 2) * (i / 2) * 0.12;
+      const ii = i * 18 / segs, y0 = (i / segs) * 7.6, bend = 0.06 * (ii / 2) * (ii / 2) * 0.12;
       const rr = 0.2 - (i / segs) * 0.07 + (i === 0 ? 0.08 : 0) + (i % 2 ? 0.022 : 0); // ringed trunk with root flare
-      const seg = new THREE.CylinderGeometry(rr * 0.93, rr + 0.012, 7.6 / segs + 0.04, 10);
-      t.push(seg, M4(bend, y0 + 0.21, 0, 1, 1, 1, 0, 0, -0.03 * (i / 2)), (c, x, y, z, vi) => c.setHSL(0.075, 0.42, (i % 2 ? 0.27 : 0.22) + ((vi * 7) % 5) * 0.008), true);
+      const seg = new THREE.CylinderGeometry(rr * 0.93, rr + 0.012, 7.6 / segs + 0.04, LO ? 6 : 10);
+      t.push(seg, M4(bend, y0 + 0.21, 0, 1, 1, 1, 0, 0, -0.03 * (ii / 2)), (c, x, y, z, vi) => c.setHSL(0.075, 0.42, (i % 2 ? 0.27 : 0.22) + ((vi * 7) % 5) * 0.008), true);
     }
     const top = [0.46, 7.95, 0];
-    for (let f = 0; f < 13; f++) {
-      const a = (f / 13) * Math.PI * 2;
-      const frond = new THREE.BoxGeometry(0.5, 0.05, 3.4, 1, 1, 6);
+    const nf = LO ? 9 : 13;
+    for (let f = 0; f < nf; f++) {
+      const a = (f / nf) * Math.PI * 2;
+      const frond = new THREE.BoxGeometry(0.5, 0.05, 3.4, 1, 1, LO ? 3 : 6);
       const p = frond.attributes.position;
       for (let i = 0; i < p.count; i++) { // taper + droop along the length
         const z = p.getZ(i) / 3.4 + 0.5;
@@ -161,7 +166,7 @@ export function makeTreeGeos() {
       }
       t.push(frond, M4(top[0], top[1], top[2], 1, 1, 1, -0.28 - (f % 3) * 0.12, a, 0), (c, x, y, z, vi) => c.setHSL(0.27, 0.5, 0.2 + (f % 2) * 0.05 + (vi % 3) * 0.015));
     }
-    for (let k = 0; k < 4; k++) t.push(new THREE.IcosahedronGeometry(0.17, 1), M4(top[0] + Math.cos(k * 1.57) * 0.22, 7.8, Math.sin(k * 1.57) * 0.22), (c) => c.setHSL(0.09, 0.5, 0.2), true);
+    for (let k = 0; k < 4; k++) t.push(new THREE.IcosahedronGeometry(0.17, LO ? 0 : 1), M4(top[0] + Math.cos(k * 1.57) * 0.22, 7.8, Math.sin(k * 1.57) * 0.22), (c) => c.setHSL(0.09, 0.5, 0.2), true);
     out.palm = t.build();
   }
   // ---- cypress / ornamental conifer
@@ -170,7 +175,7 @@ export function makeTreeGeos() {
     t.push(new THREE.CylinderGeometry(0.1, 0.2, 1.2, 6), M4(0, 0.6, 0), bark);
     for (let i = 0; i < 5; i++) {
       const r = 1.25 - i * 0.2, h = 2.4;
-      t.push(new THREE.ConeGeometry(r, h, 9, 1), M4(0, 1.2 + i * 1.15, 0), (c, x, y, z, vi) => c.setHSL(0.33, 0.5, 0.12 + i * 0.02 + (vi % 4) * 0.008));
+      t.push(new THREE.ConeGeometry(r, h, LO ? 6 : 9, 1), M4(0, 1.2 + i * 1.15, 0), (c, x, y, z, vi) => c.setHSL(0.33, 0.5, 0.12 + i * 0.02 + (vi % 4) * 0.008));
     }
     out.cypress = t.build();
   }
@@ -179,7 +184,7 @@ export function makeTreeGeos() {
     const t = collect();
     for (let i = 0; i < 3; i++) {
       const a = (i / 3) * 6.28;
-      t.push(clump(1, 1, 1, i * 5 + 1), M4(Math.cos(a) * 0.5, 0.55, Math.sin(a) * 0.5, 0.75, 0.6, 0.75), (c, x, y, z, vi) => c.setHSL(0.27 + (vi % 5) * 0.006, 0.5, 0.17 + y * 0.12));
+      t.push(clump(1, LO ? 0 : 1, 1, i * 5 + 1), M4(Math.cos(a) * 0.5, 0.55, Math.sin(a) * 0.5, 0.75, 0.6, 0.75), (c, x, y, z, vi) => c.setHSL(0.27 + (vi % 5) * 0.006, 0.5, 0.17 + y * 0.12));
     }
     out.shrub = t.build();
   }
@@ -190,25 +195,51 @@ export function makeTreeMaterial() {
   return new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.92, metalness: 0, side: THREE.DoubleSide });
 }
 
-/** place instanced trees: list of {t:'broadleaf'|'palm'|'cypress'|'shrub', x, z, s, ry} */
+/** place instanced trees: list of {t:'broadleaf'|'palm'|'cypress'|'shrub', x, z, s, ry}
+ *  Trees are bucketed into ~96 m cells per type so three.js can frustum-cull each cell (one big InstancedMesh is
+ *  always drawn in full). Each cell has a full-detail mesh (near) and a ~4x lighter mesh (far, no shadow casting);
+ *  `ctl.update(x, z)` switches them by distance. Returns that controller. */
 export function buildTreeInstances(list, geos, mat, group, hooks = {}) {
+  const CELL = 96, geosLo = hooks.geosLo || null, HI = hooks.hiDist || 115;
   const by = {};
-  for (const t of list) (by[t.t] ||= []).push(t);
+  for (const t of list) (by[t.t + '|' + Math.floor(t.x / CELL) + ',' + Math.floor(t.z / CELL)] ||= []).push(t);
   const m = new THREE.Matrix4(), q = new THREE.Quaternion(), e = new THREE.Euler(), p = new THREE.Vector3(), s = new THREE.Vector3(), c = new THREE.Color();
-  for (const k of Object.keys(by)) {
-    const arr = by[k];
-    const inst = new THREE.InstancedMesh(geos[k], mat, arr.length);
-    arr.forEach((t, i) => {
-      e.set(0, t.ry || 0, 0); q.setFromEuler(e);
-      const sc = t.s || 1;
-      m.compose(p.set(t.x, 0, t.z), q, s.set(sc, sc * (0.92 + ((i * 7) % 5) * 0.035), sc));
-      inst.setMatrixAt(i, m);
-      inst.setColorAt(i, c.setHSL(0, 0, 0.82 + ((i * 13) % 10) * 0.02));
-      if (hooks.solid && k !== 'shrub') hooks.solid(t.x, t.z, k === 'palm' ? 0.3 : 0.4);
-    });
-    inst.castShadow = k !== 'shrub';
-    inst.receiveShadow = false;
-    inst.computeBoundingSphere();
-    group.add(inst);
+  const buckets = [];
+  for (const key of Object.keys(by)) {
+    const arr = by[key], k = arr[0].t;
+    const make = (geo, shadow, withSolid) => {
+      const inst = new THREE.InstancedMesh(geo, mat, arr.length);
+      arr.forEach((t, i) => {
+        e.set(0, t.ry || 0, 0); q.setFromEuler(e);
+        const sc = t.s || 1;
+        m.compose(p.set(t.x, 0, t.z), q, s.set(sc, sc * (0.92 + ((i * 7) % 5) * 0.035), sc));
+        inst.setMatrixAt(i, m);
+        inst.setColorAt(i, c.setHSL(0, 0, 0.82 + ((i * 13) % 10) * 0.02));
+        if (withSolid && hooks.solid && k !== 'shrub') hooks.solid(t.x, t.z, k === 'palm' ? 0.3 : 0.4);
+      });
+      inst.castShadow = shadow;
+      inst.receiveShadow = false;
+      inst.computeBoundingSphere();
+      group.add(inst);
+      return inst;
+    };
+    const hi = make(geos[k], k !== 'shrub', true);
+    const lo = geosLo ? make(geosLo[k], false, false) : null;
+    if (lo) lo.visible = false;
+    let cx = 0, cz = 0; for (const t of arr) { cx += t.x; cz += t.z; } cx /= arr.length; cz /= arr.length;
+    let r = 0; for (const t of arr) r = Math.max(r, Math.hypot(t.x - cx, t.z - cz)); r += 12;
+    buckets.push({ hi, lo, cx, cz, r, near: true });
   }
+  return {
+    buckets,
+    stats() { let h = 0, l = 0; for (const b of buckets) { if (b.hi.visible) h += b.hi.count; if (b.lo && b.lo.visible) l += b.lo.count; } return { cells: buckets.length, hi: h, lo: l }; },
+    update(fx, fz) {
+      for (const b of buckets) {
+        if (!b.lo) continue;
+        const d = Math.hypot(b.cx - fx, b.cz - fz) - b.r;
+        const near = b.near ? d < HI + 12 : d < HI; // hysteresis so a cell never flickers on the border
+        if (near !== b.near) { b.near = near; b.hi.visible = near; b.lo.visible = !near; }
+      }
+    }
+  };
 }

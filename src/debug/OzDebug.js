@@ -37,7 +37,7 @@ export function installOzDebug(app) {
     app.scene.traverse((o) => {
       if (o.isMesh && o.visible && o.geometry && o.material && !Array.isArray(o.material) && o.material.side !== THREE.BackSide
         && !(o.material.transparent && o.material.opacity < 0.6) && !o.isSkinnedMesh) {
-        const isTree = city() && city().treeGeos && Object.values(city().treeGeos).includes(o.geometry);
+        const isTree = city() && city().treeGeos && (Object.values(city().treeGeos).includes(o.geometry) || (city().treeGeosLo && Object.values(city().treeGeosLo).includes(o.geometry)));
         if (!isTree) out.push(o);
       }
     });
