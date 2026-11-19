@@ -39,6 +39,9 @@ assets ke liye Git LFS ya alag asset host chahiye — pehle batayein assets kaha
   3. Cloud streaming (server par render, video phone par) = paid + latency; mein ne nahi kiya, bina approval kabhi nahi karunga.
 - Status: build config / headers / asset URLs **UNVERIFIED** — sandbox mein `vite build` BLOCKED hai; pehla GitHub Actions run (ya aap ka `npm run build`) hi sabit karega.
 
+## GOKU QA online
+Dekhein `GOKU_INTEGRATION.md` (status table + `.github/workflows/goku-qa.yml`). Reports sirf `reports` branch par jate hain.
+
 ## GOKU online (A3)
 - Game mein GOKU partner browser ke andar chalta hai (`window.__OZ_GOKU`).
 - Online GOKU sirf **read-only** token se repo padhega aur sirf `reports` branch par likhega. Token mujhe chat mein na bhejein.
