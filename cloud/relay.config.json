@@ -1,0 +1,14 @@
+{
+  "tzOffsetHours": 5,
+  "note": "Hours are FREE-TIER budgets and they change. Edit this file whenever a service changes its limit. 'verified' says where the number comes from.",
+  "services": [
+    { "id": "modal", "name": "Modal Starter ($30/month free)", "period": "month", "hours": 50, "dailyCap": 1.6, "canStream": "unknown",
+      "verified": "T4 = $0.000164/s (~$0.59/h) on modal.com/pricing, so $30 ~ 50 GPU hours; CPU/RAM are billed extra so the real number is lower; card requirement unknown" },
+    { "id": "kaggle", "name": "Kaggle Notebook GPU", "period": "week", "hours": 30, "dailyCap": 4.3, "canStream": "unknown",
+      "verified": "~30 h/week is what users report, Kaggle does not publish it; inbound connections / WebGL on its GPU not verified" },
+    { "id": "lightning", "name": "Lightning AI free credits", "period": "month", "hours": null, "dailyCap": 1, "canStream": "unknown",
+      "verified": "free credits exist, amount not published; Studio shuts down when credits end" },
+    { "id": "colab", "name": "Google Colab free", "period": "day", "hours": null, "dailyCap": 0, "canStream": "no",
+      "verified": "Colab FAQ forbids remote desktop / SSH / web serving on free runtimes (can be used for private tests only)" }
+  ]
+}

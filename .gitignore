@@ -1,3 +1,5 @@
 node_modules/
 dist/
 *.bak
+cloud/relay.state.json
+reports/

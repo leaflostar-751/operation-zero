@@ -33,3 +33,25 @@ GPU flags kaam na karein to `chrome://gpu` jaisa check karein; `GPU=0` software 
 
 ## Test (sandbox mein chala)
 `DEBUG_STATE=1 TOKEN=abc GAME_URL=http://localhost:4173/ node cloud/stream-server.mjs` aur doosre terminal mein `TOKEN=abc node cloud/test-client.mjs 8090`
+
+## Roz ka RELAY (free GPU services ka sequence) — `cloud/relay.mjs`
+Yeh sirf **hisaab-kitaab** ka tool hai: batata hai ke abhi kaun si free service use karni hai, kitne ghante baqi hain, aur limit khatam hone par agli kaun si. Yeh kuch start nahi karta, koi password/key nahi rakhta (`cloud/relay.state.json` sirf aap ke paas, git mein nahi jata).
+
+```
+node cloud/relay.mjs plan            # roz ka sequence + ghante
+node cloud/relay.mjs status          # aaj kitna use hua, kitna baqi
+node cloud/relay.mjs next            # abhi kaun si service
+node cloud/relay.mjs start modal     # session shuru likhein
+node cloud/relay.mjs stop            # session khatam likhein
+node cloud/relay.mjs exhausted modal # "aaj ki limit reach ho gayi" (aap ne bataya)
+node cloud/relay.mjs add <id> "<naam>" <day|week|month|total> <ghante|?> <roz ka cap>
+node cloud/relay-test.mjs            # fake clock se logic test (11/11 PASS sandbox mein)
+```
+Din Pakistan time (UTC+5) se badalta hai (`tzOffsetHours`). Ghante `relay.config.json` mein hain — jab koi service apni limit badle to wahan edit karein.
+
+**Sach (zaroor padhein):**
+- Ghante **free-tier ka andaza** hain: Modal = $30/mahina ÷ T4 rate (STATIC calculation), Kaggle = ~30 h/hafta (user-reported, Kaggle publish nahi karta), Lightning = amount unknown.
+- Colab free ko list se bahar rakha hai: uski shartein free runtime par remote desktop/SSH/web serving mana karti hain.
+- Yeh **sirf owner ke apne test / chhote demo** ke liye hai, public players ke liye nahi.
+- Har service ka link/address alag hota hai, aur ek service se doosri par jaate waqt save/progress saath nahi jata.
+- Kisi bhi free GPU par WebGL graphics + bahar se connection chalta hai ya nahi: UNVERIFIED (pehle ek real test chahiye).
