@@ -1,0 +1,25 @@
+<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OPERATION ZERO — Cloud Play</title>
+<style>html,body{margin:0;height:100%;background:#0b0f14;color:#cfe;font:13px system-ui}canvas{width:100%;height:100%;object-fit:contain;display:block;cursor:crosshair}
+#hud{position:fixed;left:8px;top:8px;background:#0008;padding:4px 8px;border-radius:6px;pointer-events:none}</style>
+<canvas id="c" width="1280" height="720"></canvas><div id="hud">connecting…</div>
+<script>
+const q = new URLSearchParams(location.search), token = q.get('token') || '';
+const ws = new WebSocket((location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host + '/ws?token=' + encodeURIComponent(token));
+ws.binaryType = 'arraybuffer';
+const c = document.getElementById('c'), g = c.getContext('2d'), hud = document.getElementById('hud');
+let fps = 0, kbps = 0, rtt = 0, busy = false;
+const draw = async (buf) => { if (busy) return; busy = true; try { const bm = await createImageBitmap(new Blob([buf], { type: 'image/jpeg' })); c.width = bm.width; c.height = bm.height; g.drawImage(bm, 0, 0); bm.close(); } catch (_) {} busy = false; };
+ws.onmessage = (e) => { if (typeof e.data !== 'string') return draw(e.data); const m = JSON.parse(e.data); if (m.t === 'stats') { fps = m.fps; kbps = m.kbps; } else if (m.t === 'p') rtt = Math.round(performance.now() - m.ts); hud.textContent = `cloud: ${fps} fps · ${kbps} kbps · ping ${rtt} ms`; };
+ws.onopen = () => { hud.textContent = 'connected'; setInterval(() => ws.readyState === 1 && ws.send(JSON.stringify({ t: 'p', ts: performance.now() })), 1000); };
+ws.onclose = () => { hud.textContent = 'disconnected (wrong token, server busy, or server stopped)'; };
+const send = (o) => ws.readyState === 1 && ws.send(JSON.stringify(o));
+const pos = (e) => { const r = c.getBoundingClientRect(), s = Math.min(r.width / c.width, r.height / c.height), w = c.width * s, h = c.height * s; return { x: (e.clientX - (r.left + (r.width - w) / 2)) / w, y: (e.clientY - (r.top + (r.height - h) / 2)) / h }; };
+addEventListener('keydown', (e) => { if (e.repeat) return; send({ t: 'k', d: 1, c: e.code }); if (!e.metaKey && !e.ctrlKey) e.preventDefault(); });
+addEventListener('keyup', (e) => { send({ t: 'k', d: 0, c: e.code }); e.preventDefault(); });
+c.addEventListener('mousedown', (e) => send({ t: 'm', type: 'down', b: e.button, ...pos(e) }));
+addEventListener('mouseup', (e) => send({ t: 'm', type: 'up', b: e.button, ...pos(e) }));
+c.addEventListener('mousemove', (e) => send({ t: 'm', type: 'move', ...pos(e) }));
+c.addEventListener('contextmenu', (e) => e.preventDefault());
+addEventListener('blur', () => ['KeyW', 'KeyA', 'KeyS', 'KeyD', 'ShiftLeft', 'Space'].forEach((k) => send({ t: 'k', d: 0, c: k })));
+</script>
