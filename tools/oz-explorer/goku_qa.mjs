@@ -1,18 +1,27 @@
 // GOKU QA run (in-game GOKU partner + exact audits + mobile budget) -> ONE report folder + a persistent bug ledger.
 // It never edits game code. It only writes under --out (default "reports").
-// Usage: node tools/oz-explorer/goku_qa.mjs <url> [--sim 200] [--cells 3] [--selftest] [--out reports] [--render "SIMULATED (software GL)"]
+// Usage: node tools/oz-explorer/goku_qa.mjs <url> [--sim 200] [--cells 3] [--selftest] [--noshots] [--trigger manual|schedule|local] [--out reports] [--render "SIMULATED (software GL)"]
 //   --sim      seconds of SIMULATED time the partner explores (stepped directly, no rendering needed)
 //   --cells    how many map cells get a performance sample (draw calls / triangles)
-//   --selftest injects 2 known faults in page memory (floating tree, hole in the ground) and checks that GOKU/audits notice them
+//   --selftest injects 3 known faults in page memory (floating tree, hole in the ground, empty world) and checks that GOKU/audits/the visual check notice them
+//   --noshots  skip the screenshots + pixel checks ("eyes")
+// Output layout (everything under --out): latest/game/ (REPORT.md, report.json, shots/*.jpg), latest/goku/ (GOKU_REPORT.md, goku.json, trend.json),
+//   ledger.json + LEDGER.md (bug list, updated in place), meta.json (last run day + calendar). `latest/` is REPLACED on every run; older versions live only in git history.
 import { chromium } from 'playwright';
 import fs from 'node:fs'; import path from 'node:path';
+import { LIM, flagsOf, analyze } from './eyes.mjs';
 
 const args = process.argv.slice(2); const url = args[0] && !args[0].startsWith('--') ? args[0] : 'http://localhost:5173/';
 const opt = (k, d) => { const i = args.indexOf('--' + k); return i < 0 ? d : (args[i + 1] && !args[i + 1].startsWith('--') ? args[i + 1] : true); };
-const SIM = +opt('sim', 200), CELLS = +opt('cells', 3), SELF = !!opt('selftest', false), OUT = String(opt('out', 'reports')), RENDER = String(opt('render', 'SIMULATED (software GL)'));
+const SIM = +opt('sim', 200), CELLS = +opt('cells', 3), SELF = !!opt('selftest', false), OUT = String(opt('out', 'reports')), RENDER = String(opt('render', 'SIMULATED (software GL)')), SHOTS = !opt('noshots', false), TRIGGER = String(opt('trigger', process.env.GITHUB_EVENT_NAME || 'local'));
 const BUDGET = { drawCalls: 150, triangles: 300000 }; // project target for Android (a budget, not a measurement)
-const now = new Date(); const stamp = now.toISOString().replace(/[:.]/g, '-');
-const run = path.join(OUT, 'goku-qa-' + stamp); fs.mkdirSync(run, { recursive: true });
+const now = new Date(); const dayPKT = new Date(now.getTime() + 5 * 3600000).toISOString().slice(0, 10); // the "day" of this project is Pakistan time (UTC+5)
+const LATEST = path.join(OUT, 'latest'), GAMEDIR = path.join(LATEST, 'game'), GOKUDIR = path.join(LATEST, 'goku'), PREV = path.join(OUT, 'prev-shots');
+const readJson = (f, d) => { try { return JSON.parse(fs.readFileSync(f, 'utf8')); } catch (_) { return d; } };
+const prevTrend = readJson(path.join(GOKUDIR, 'trend.json'), []), prevMeta = readJson(path.join(OUT, 'meta.json'), {});
+if (fs.existsSync(path.join(GAMEDIR, 'shots'))) { fs.rmSync(PREV, { recursive: true, force: true }); fs.cpSync(path.join(GAMEDIR, 'shots'), PREV, { recursive: true }); } // last run's pictures = baseline for "what changed"
+fs.rmSync(LATEST, { recursive: true, force: true }); // "latest" is REPLACED every run (nothing piles up)
+fs.mkdirSync(path.join(GAMEDIR, 'shots'), { recursive: true }); fs.mkdirSync(GOKUDIR, { recursive: true });
 
 const SEVERITY = { hero_out_of_world: 'Major', partner_out_of_world: 'Major', no_ground: 'Major', partner_inside_solid: 'Major', hero_long_airtime: 'Major', partner_stuck: 'Minor', partner_gave_up: 'Minor', partner_teleport: 'Minor', lag_spike: 'Minor' };
 const FIX = {
@@ -33,6 +42,15 @@ const p = await b.newPage({ viewport: { width: 640, height: 400 } });
 const pageErrs = []; p.on('pageerror', (e) => pageErrs.push(String(e)));
 await p.goto(url + (url.includes('?') ? '&' : '?') + 'oz_debug=1');
 await p.waitForSelector('#loading-screen.fade-out', { state: 'attached', timeout: 170000 }); await p.waitForTimeout(2500);
+
+// ---------- "eyes": GOKU looks at real screenshots (pixels), not only at scene data (see eyes.mjs)
+const ap = SHOTS ? await b.newPage() : null; const visual = [];
+const shot = async (name, position) => {
+  const buf = await p.screenshot({ type: 'jpeg', quality: 72 }); let prev = null; try { prev = fs.readFileSync(path.join(PREV, name + '.jpg')); } catch (_) { /* first run: no baseline */ }
+  if (!name.startsWith('selftest')) fs.writeFileSync(path.join(GAMEDIR, 'shots', name + '.jpg'), buf);
+  const m = await ap.evaluate(analyze, { a: buf.toString('base64'), b: prev ? prev.toString('base64') : null });
+  const rec = { name, position, ...m, flags: flagsOf(m), kb: Math.round(buf.length / 1024) }; visual.push(rec); return { rec, buf };
+};
 
 // ---------- 1. exact audits (floating trees, trees in solids, bad positions, console errors)
 const audit = await p.evaluate(() => window.__OZ_DEBUG.audit.all());
@@ -72,9 +90,16 @@ const perf = [];
 for (const [x, z] of cells) {
   await p.evaluate(([x, z]) => window.__OZ_DEBUG.flyCamera(x, 45, z, 0, -35), [x, z]); await p.waitForTimeout(1500);
   const pf = await p.evaluate(() => window.__OZ_DEBUG.perf()); perf.push({ x, z, ...pf });
+  if (SHOTS) await shot('cell_' + x + '_' + z, [x, 45, z]);
   if (pf.drawCalls > BUDGET.drawCalls || pf.triangles > BUDGET.triangles) add({ id: 'PERF-' + x + '_' + z, source: 'perf', type: 'over mobile budget', position: [x, 45, z], evidence: pf.drawCalls + ' draw calls (budget ' + BUDGET.drawCalls + '), ' + pf.triangles + ' triangles (budget ' + BUDGET.triangles + ')', confidence: 'EXACT', severity: 'Major', suggested_fix: 'merge/instance statics, LOD for buildings and characters, limit the shadow pass' });
 }
 await p.evaluate(() => window.__OZ_DEBUG.releaseCamera());
+let spawnShot = null;
+if (SHOTS) { // ground-level view next to the hero, partner beside him (the view a player actually sees)
+  await p.evaluate(() => { const a = window.__opzero; a.hero.teleportTo(-14, 0.2, 17, 0); a.goku && a.goku.placeNearHero(); }); await p.waitForTimeout(3500);
+  spawnShot = await shot('spawn', [-14, 0.2, 17]);
+}
+for (const v of visual) for (const fl of v.flags) add({ id: 'VIS-' + v.name + '-' + fl, source: 'visual', type: 'visual:' + fl, position: v.position, evidence: `${v.name}: entropy ${v.entropy}, dominant colour ${(v.dominantPct * 100).toFixed(0)}%, edges ${v.edgeDensity}, contrast ${v.contrast}, brightness ${v.lumaMean}`, confidence: 'HEURISTIC', severity: 'Minor', suggested_fix: 'open this screenshot (latest/game/shots/' + v.name + '.jpg) and look: a flag only means "check this picture", not "this is a bug"' });
 
 // ---------- 4. self-test: does GOKU / the audit notice faults that we plant on purpose? (memory only, never saved)
 let selfTest = null;
@@ -103,6 +128,15 @@ if (SELF) {
   });
 }
 
+if (SELF && SHOTS && spawnShot) { // (c) empty world: every object hidden, only the sky is left -> the eyes must notice
+  await p.evaluate(() => { const a = window.__opzero; a.scene.children.forEach((o) => { o.userData.__v = o.visible; o.visible = false; }); }); await p.waitForTimeout(3500);
+  const bad = (await shot('selftest_empty_world', null)).rec;
+  await p.evaluate(() => { const a = window.__opzero; a.scene.children.forEach((o) => { o.visible = o.userData.__v !== false; }); });
+  selfTest = selfTest || [];
+  selfTest.push({ name: 'planted empty world (all objects hidden) is flagged by the visual check', ok: bad.flags.length > 0, evidence: 'flags [' + bad.flags.join(',') + '] entropy ' + bad.entropy + ', edges ' + bad.edgeDensity + ', contrast ' + bad.contrast + ' (healthy spawn view had ' + spawnShot.rec.flags.length + ' flags, edges ' + spawnShot.rec.edgeDensity + ')' });
+  visual.splice(visual.findIndex((v) => v.name === 'selftest_empty_world'), 1);
+}
+
 // ---------- 5. persistent bug ledger (open -> not_seen_latest; it NEVER claims "fixed" by itself)
 const ledgerFile = path.join(OUT, 'ledger.json'); let ledger = []; try { ledger = JSON.parse(fs.readFileSync(ledgerFile, 'utf8')); } catch (_) { /* first run */ }
 const keyOf = (f) => f.type + '@' + (f.position ? f.position.map((v, i) => (i === 1 ? '' : Math.round(v / 6))).join(',') : 'none') + (f.source === 'console' ? ':' + String(f.evidence).slice(0, 40) : '');
@@ -114,30 +148,52 @@ for (const f of findings) {
 }
 // Only checks that are repeatable can say "not seen": the audits and the performance cells that were really sampled this run.
 // GOKU's own walk is random, so NOT meeting a spot again proves nothing and those entries stay open.
-const sampled = new Set(perf.map((q) => q.x + ',' + q.z));
-const repeatable = (e) => e.source === 'audit' || e.source === 'console' || (e.source === 'perf' && e.position && sampled.has(e.position[0] + ',' + e.position[2]));
+const sampled = new Set([...perf.map((q) => q.x + ',' + q.z), ...visual.filter((v) => v.position).map((v) => v.position[0] + ',' + v.position[2])]);
+const repeatable = (e) => e.source === 'audit' || e.source === 'console' || ((e.source === 'perf' || e.source === 'visual') && e.position && sampled.has(e.position[0] + ',' + e.position[2]));
 for (const e of ledger) if (!seen.has(e.key) && e.status === 'open' && repeatable(e)) e.status = 'not_seen_latest';
 fs.writeFileSync(ledgerFile, JSON.stringify(ledger, null, 1));
 
-// ---------- 6. write the report
+// ---------- 6. write the reports: latest/game (what is wrong in the game), latest/goku (how GOKU itself did), meta.json (daily calendar)
 const bySev = (s) => findings.filter((f) => f.severity === s).length;
-const report = { tool: 'goku_qa', time: now.toISOString(), url, rendering: RENDER, budget: BUDGET, play: { fight: play.fight, explore: play.explore, stats: play.stats, nav: play.nav }, perf, selfTest, summary: { findings: findings.length, major: bySev('Major'), minor: bySev('Minor'), ledgerOpen: ledger.filter((x) => x.status === 'open').length }, findings,
-  not_verified: ['real GPU frame rate (software GL here)', 'real Rapier physics if this run used the preview stub', 'partner only walks/fights: no driving, invulnerable', 'the Windows GOKU agent is NOT part of this run'] };
-fs.writeFileSync(path.join(run, 'report.json'), JSON.stringify(report, null, 1));
+const gaveUp = play.notes.filter((n) => n.type === 'partner_gave_up').length, stCount = selfTest ? selfTest.filter((t) => t.ok).length : null;
+const toolStatus = selfTest ? (selfTest.every((t) => t.ok) ? 'PASS' : 'FAIL') : 'UNVERIFIED (no self-test this run)';
+const report = { tool: 'goku_qa', time: now.toISOString(), dayPKT, trigger: TRIGGER, url, rendering: RENDER, budget: BUDGET, play: { fight: play.fight, explore: play.explore, stats: play.stats, nav: play.nav }, perf, visual, visualLimits: LIM, selfTest, summary: { findings: findings.length, major: bySev('Major'), minor: bySev('Minor'), ledgerOpen: ledger.filter((x) => x.status === 'open').length }, findings,
+  not_verified: ['real GPU frame rate (software GL here): draw calls/triangles are real counts, fps is not', 'real Rapier physics if this run used the preview stub', 'partner only walks/fights: no driving, invulnerable', 'screenshots are judged by pixel statistics only (heuristics); a person or Claude must look at the pictures for real art quality', 'the Windows GOKU agent is NOT part of this run'] };
+fs.writeFileSync(path.join(GAMEDIR, 'report.json'), JSON.stringify(report, null, 1));
 const md = [];
-md.push(`# GOKU QA report — ${now.toISOString()}`, '', `Rendering: **${RENDER}**. Counts (draw calls, triangles) are STATIC counts from three.js; walking/fighting is SIMULATED time.`, '');
-md.push(`## What GOKU did`, `- Fought zombies: ${play.fight.hits} hits, ${play.fight.kills} kills in ${play.fight.simSeconds} simulated s.`, `- Explored by itself: ${play.explore.metersWalked} m in ${play.explore.simSeconds} simulated s; inside-solid samples ${play.explore.insideSolidSamples}; bad positions ${play.explore.badPositionFrames}; stuck events ${play.stats.stuckEvents}; path plans ${play.nav ? play.nav.plans : 'n/a'}.`, `- Ran exact audits on ${audit.floatingTrees.checked} trees; console errors ${audit.errors.length + pageErrs.length}.`, '');
-if (selfTest) { md.push(`## Self-test (faults planted on purpose, memory only)`); for (const t of selfTest) md.push(`- ${t.ok ? 'PASS' : 'FAIL'} — ${t.name} (${t.evidence})`); md.push(''); }
-md.push(`## Bug summary`, `Major ${bySev('Major')} · Minor ${bySev('Minor')} · open in ledger ${report.summary.ledgerOpen}`, '', `| ID | Severity | Type | Position (x,y,z) | Evidence | Confidence |`, `|---|---|---|---|---|---|`);
+md.push(`# Game report — ${now.toISOString()} (day ${dayPKT}, trigger: ${TRIGGER})`, '', `Rendering: **${RENDER}**. Draw calls / triangles = real three.js counts (LIVE); walking/fighting = SIMULATED time; fps is NOT measured here.`, '');
+md.push(`## Bug summary`, `Major ${bySev('Major')} · Minor ${bySev('Minor')} · open in ledger ${report.summary.ledgerOpen}  (full list: LEDGER.md)`, '', `| ID | Severity | Type | Position (x,y,z) | Evidence | Confidence |`, `|---|---|---|---|---|---|`);
 for (const f of findings.slice(0, 60)) md.push(`| ${f.id} | ${f.severity} | ${f.type} | ${f.position ? f.position.map(r1).join(', ') : '-'} | ${String(f.evidence).replace(/\|/g, '/').slice(0, 140)} | ${f.confidence} |`);
 if (findings.length > 60) md.push(`| … | | | | ${findings.length - 60} more in report.json | |`);
+if (visual.length) {
+  md.push('', `## What GOKU saw (screenshots, replaced every run)`, `Pictures are in \`shots/\`. Flags are pixel-statistics HEURISTICS (limits: entropy ≥ ${LIM.minEntropy} bits, one colour ≤ ${LIM.maxDominant * 100}%, edge density ≥ ${LIM.minEdge}, contrast ≥ ${LIM.minContrast}); "changed" = share of pixels that differ from the previous run's picture of the same spot (a big change after a code update is normal).`, '', `| Spot | Picture | Entropy | Edges | Contrast | Brightness | Flags | Changed vs last run |`, `|---|---|---|---|---|---|---|---|`);
+  for (const v of visual) md.push(`| ${v.name} | ![](shots/${v.name}.jpg) | ${v.entropy} | ${v.edgeDensity} | ${v.contrast} | ${v.lumaMean} | ${v.flags.join(', ') || '-'} | ${v.diff ? (v.diff.changedPct * 100).toFixed(1) + '%' : 'first run'} |`);
+}
 md.push('', `## Performance samples (budget ${BUDGET.drawCalls} draw calls / ${BUDGET.triangles} triangles)`, `| Cell (x,z) | Draw calls | Triangles | Geometries | Textures |`, `|---|---|---|---|---|`);
 for (const q of perf) md.push(`| ${q.x}, ${q.z} | ${q.drawCalls} | ${q.triangles} | ${q.geometries} | ${q.textures} |`);
 md.push('', `## NOT verified`, ...report.not_verified.map((x) => `- ${x}`), '');
-fs.writeFileSync(path.join(run, 'REPORT.md'), md.join('\n'));
+fs.writeFileSync(path.join(GAMEDIR, 'REPORT.md'), md.join('\n'));
+
+// GOKU's own report + trend (the only honest measure of "GOKU is improving": its numbers across runs; it does NOT rewrite its own code)
+const entry = { time: now.toISOString(), day: dayPKT, trigger: TRIGGER, kills: play.fight.kills, hits: play.fight.hits, meters: play.explore.metersWalked, stuck: play.stats.stuckEvents, gaveUp, selfTest: selfTest ? stCount + '/' + selfTest.length : 'not run', screenshots: visual.length, visualFlags: visual.reduce((n, v) => n + v.flags.length, 0), findings: findings.length, major: bySev('Major') };
+const trend = [...prevTrend.filter((t) => t.time !== entry.time), entry].slice(-30);
+fs.writeFileSync(path.join(GOKUDIR, 'trend.json'), JSON.stringify(trend, null, 1));
+fs.writeFileSync(path.join(GOKUDIR, 'goku.json'), JSON.stringify({ time: now.toISOString(), toolStatus, play: report.play, selfTest, visualChecked: visual.map((v) => v.name) }, null, 1));
+const gm = [`# GOKU report — ${now.toISOString()} (day ${dayPKT}, trigger: ${TRIGGER})`, '', `GOKU tool status: **${toolStatus}**. This is the in-game GOKU partner (JavaScript). The Windows GOKU agent is not part of server runs.`, '',
+  `## This run`, `- Fought zombies: ${play.fight.hits} hits, ${play.fight.kills} kills in ${play.fight.simSeconds} simulated s.`, `- Explored alone: ${play.explore.metersWalked} m in ${play.explore.simSeconds} simulated s; inside-solid samples ${play.explore.insideSolidSamples}; bad positions ${play.explore.badPositionFrames}; stuck events ${play.stats.stuckEvents}; gave-up paths ${gaveUp}; path plans ${play.nav ? play.nav.plans : 'n/a'}.`, `- Exact audits on ${audit.floatingTrees.checked} trees; console errors ${audit.errors.length + pageErrs.length}; screenshots looked at: ${visual.length}.`, ''];
+if (selfTest) { gm.push(`## Self-test (faults planted on purpose in memory, never saved)`); for (const t of selfTest) gm.push(`- ${t.ok ? 'PASS' : 'FAIL'} — ${t.name} (${t.evidence})`); gm.push(''); }
+gm.push(`## Trend (last ${Math.min(10, trend.length)} runs, newest first) — this is how you see GOKU getting better or worse`, `| Day | Trigger | Kills | Metres | Stuck | Gave up | Self-test | Pics flagged | Bugs (major) |`, `|---|---|---|---|---|---|---|---|---|`);
+for (const t of trend.slice(-10).reverse()) gm.push(`| ${t.day} | ${t.trigger} | ${t.kills} | ${t.meters} | ${t.stuck} | ${t.gaveUp} | ${t.selfTest} | ${t.visualFlags}/${t.screenshots} | ${t.findings} (${t.major}) |`);
+const days = Object.keys({ ...prevMeta.days, [dayPKT]: 1 }).sort().slice(-14);
+gm.push('', `## Daily runs (last ${days.length} days with a run)`, days.map((d) => d.slice(5)).join(' · '), '', `GOKU does not change its own code (NOT_IMPLEMENTED). Any change to the game or to GOKU is made by a person after reading these reports.`, '');
+fs.writeFileSync(path.join(GOKUDIR, 'GOKU_REPORT.md'), gm.join('\n'));
 const lm = ['# Bug ledger (all runs)', '', 'status: open = seen in the latest run · not_seen_latest = not seen last time (maybe fixed, needs a human to confirm) · fixed = set by a person only', '', '| Status | Severity | Type | Position | First seen | Last seen | Runs |', '|---|---|---|---|---|---|---|'];
 for (const e of ledger.slice().sort((a, c) => (a.status === 'open' ? 0 : 1) - (c.status === 'open' ? 0 : 1))) lm.push(`| ${e.status} | ${e.severity} | ${e.type} | ${e.position ? e.position.map(r1).join(', ') : '-'} | ${e.first_seen.slice(0, 10)} | ${e.last_seen.slice(0, 10)} | ${e.runs_seen} |`);
 fs.writeFileSync(path.join(OUT, 'LEDGER.md'), lm.join('\n') + '\n');
-console.log(JSON.stringify({ run, findings: findings.length, major: bySev('Major'), minor: bySev('Minor'), selfTest: selfTest ? selfTest.map((t) => (t.ok ? 'PASS ' : 'FAIL ') + t.name) : null, fight: play.fight, walked: play.explore.metersWalked, stuck: play.stats.stuckEvents }));
+// meta.json is written LAST: the daily guard treats "meta says today" as "a complete run exists today"
+const days60 = { ...prevMeta.days, [dayPKT]: { time: now.toISOString(), trigger: TRIGGER, major: bySev('Major'), minor: bySev('Minor'), toolStatus } };
+const keep = Object.keys(days60).sort().slice(-60); const daysOut = {}; for (const k of keep) daysOut[k] = days60[k];
+fs.writeFileSync(path.join(OUT, 'meta.json'), JSON.stringify({ lastRun: now.toISOString(), lastRunDayPKT: dayPKT, trigger: TRIGGER, runNumber: (prevMeta.runNumber || 0) + 1, toolStatus, days: daysOut }, null, 1));
+console.log(JSON.stringify({ out: OUT, findings: findings.length, major: bySev('Major'), minor: bySev('Minor'), selfTest: selfTest ? selfTest.map((t) => (t.ok ? 'PASS ' : 'FAIL ') + t.name) : null, fight: play.fight, walked: play.explore.metersWalked, stuck: play.stats.stuckEvents, visual: visual.map((v) => ({ n: v.name, kb: v.kb, flags: v.flags, ent: v.entropy, edge: v.edgeDensity, con: v.contrast, lum: v.lumaMean, chg: v.diff ? v.diff.changedPct : null })) }));
 await b.close();
 process.exit(selfTest && selfTest.some((t) => !t.ok) ? 1 : 0);

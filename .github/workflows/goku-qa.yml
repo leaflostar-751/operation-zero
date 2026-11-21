@@ -1,6 +1,11 @@
 # GOKU QA on GitHub's servers (your laptop/PC can stay OFF).
-# Builds the game, serves it, lets the in-game GOKU partner play + audit it, then pushes the reports to the `reports` branch ONLY.
-# Manual by default (Actions tab -> goku-qa -> Run workflow). Un-comment `schedule` for a weekly run.
+# Builds the game, serves it, lets the in-game GOKU partner play + audit + take screenshots, then pushes the reports to the `reports` branch ONLY.
+# WHEN IT RUNS:
+#   - manual: Actions tab -> goku-qa -> Run workflow (works from the GitHub phone app too)  -> always runs
+#   - daily : two evening slots (19:17 and 21:47 Pakistan time). The `guard` job runs the QA only if NO complete run exists for today (PKT),
+#             so a day on which you did not run it yourself still gets its run in the last hours. Two slots so one dropped/late slot is caught by the other.
+#   GitHub may delay or drop scheduled runs under heavy load, and (reported by users, UNVERIFIED) pauses schedules after a long time without repo activity;
+#   the schedule only works from the default branch.
 # No secrets needed: it uses the built-in GITHUB_TOKEN. contents:write is required only to push the `reports` branch;
 # scripts/publish_reports.sh refuses main/master. For a hard guarantee also protect `main` in Settings -> Branches.
 name: goku-qa
@@ -10,15 +15,36 @@ on:
       sim:
         description: 'Seconds of simulated time GOKU explores'
         default: '200'
-  # schedule:
-  #   - cron: '0 2 * * 1'
+  schedule:
+    - cron: '17 14 * * *'   # 19:17 PKT (not on the hour: GitHub is busiest at :00)
+    - cron: '47 16 * * *'   # 21:47 PKT (retry slot)
 permissions:
   contents: write
 concurrency:
   group: goku-qa
   cancel-in-progress: false
 jobs:
+  guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      run: ${{ steps.g.outputs.run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Does today (Pakistan time) already have a complete run?
+        id: g
+        run: |
+          mkdir -p reports
+          if git ls-remote --exit-code --heads origin reports >/dev/null 2>&1; then
+            git fetch --quiet --depth=1 origin reports:refs/remotes/origin/reports
+            git show origin/reports:meta.json > reports/meta.json 2>/dev/null || true
+          fi
+          node scripts/daily_guard.mjs --meta reports/meta.json --event "$GITHUB_EVENT_NAME" | tee -a "$GITHUB_STEP_SUMMARY"
   qa:
+    needs: guard
+    if: needs.guard.outputs.run == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
@@ -37,25 +63,31 @@ jobs:
           nohup npx vite preview --port 4173 --strictPort > preview.log 2>&1 &
           for i in $(seq 1 40); do curl -sf http://localhost:4173/ >/dev/null && break; sleep 1; done
           curl -sf http://localhost:4173/ >/dev/null
-      - name: Restore the bug ledger from the reports branch
+      - name: Restore the previous reports (bug ledger, trend, last pictures) from the reports branch
         run: |
           mkdir -p reports
           if git ls-remote --exit-code --heads origin reports >/dev/null 2>&1; then
             git fetch --quiet origin reports:refs/remotes/origin/reports
-            git show origin/reports:ledger.json > reports/ledger.json 2>/dev/null || echo "no ledger yet"
+            git archive origin/reports | tar -x -C reports || echo "could not restore (first run?)"
           fi
-      - name: GOKU QA (play + audits + self-test + performance budget)
-        run: node tools/oz-explorer/goku_qa.mjs http://localhost:4173/ --sim "${{ inputs.sim || '200' }}" --cells 3 --selftest --out reports --render "SIMULATED (software GL on a GitHub runner)"
+      - name: GOKU QA (play + audits + screenshots + self-test + performance budget)
+        run: node tools/oz-explorer/goku_qa.mjs http://localhost:4173/ --sim "${{ inputs.sim || '200' }}" --cells 3 --selftest --out reports --trigger "$GITHUB_EVENT_NAME" --render "SIMULATED (software GL on a GitHub runner)"
       - name: Game tests (results are saved in the report, they do not stop the upload)
         run: |
           set +e
-          { echo "== smoke";  node tests/smoke.mjs http://localhost:4173/ reports/smoke.png
+          { echo "== smoke";  node tests/smoke.mjs http://localhost:4173/ reports/latest/game/smoke.png
             echo "== a0";     node tests/a0_debug.mjs http://localhost:4173/
-            echo "== goku";   node tests/goku_partner.mjs http://localhost:4173/; } 2>&1 | tee reports/tests.txt
+            echo "== goku";   node tests/goku_partner.mjs http://localhost:4173/; } 2>&1 | tee reports/latest/game/tests.txt
           exit 0
+      - name: Show the reports on the run page
+        if: always()
+        run: |
+          for f in reports/latest/game/REPORT.md reports/latest/goku/GOKU_REPORT.md; do [ -f "$f" ] && { cat "$f"; echo; } >> "$GITHUB_STEP_SUMMARY"; done; exit 0
       - name: Publish reports (branch "reports" only)
         run: bash scripts/publish_reports.sh reports
       - uses: actions/upload-artifact@v4
         with:
           name: goku-qa-reports
-          path: reports
+          path: |
+            reports
+            !reports/prev-shots

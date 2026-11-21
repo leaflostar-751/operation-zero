@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-# Copies the contents of a reports folder to the `reports` branch (creates it if missing) and pushes ONLY that branch.
+# Makes the `reports` branch an exact copy of the reports folder (creates the branch if missing) and pushes ONLY that branch.
+# "latest/game" and "latest/goku" are therefore REPLACED each run (files that no longer exist are removed); older versions stay in git history only.
+# The helper folder prev-shots/ (last run's pictures, input only) is never published.
 # It refuses to touch main/master. Needs: a git repo with an `origin` remote and push rights (in GitHub Actions: permissions: contents: write).
 # Usage: bash scripts/publish_reports.sh [reports_dir]
 set -euo pipefail
@@ -16,7 +18,9 @@ else
   git worktree add --quiet --detach "$TMP"
   ( cd "$TMP" && git checkout --quiet --orphan "$BRANCH" && git rm -rf --quiet . >/dev/null 2>&1 || true )
 fi
+find "$TMP" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
 cp -R "$SRC"/. "$TMP"/
+rm -rf "$TMP/prev-shots"
 cd "$TMP"
 git add -A
 if git diff --cached --quiet; then echo "nothing new to publish"; exit 0; fi

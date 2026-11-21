@@ -55,3 +55,6 @@ Din Pakistan time (UTC+5) se badalta hai (`tzOffsetHours`). Ghante `relay.config
 - Yeh **sirf owner ke apne test / chhote demo** ke liye hai, public players ke liye nahi.
 - Har service ka link/address alag hota hai, aur ek service se doosri par jaate waqt save/progress saath nahi jata.
 - Kisi bhi free GPU par WebGL graphics + bahar se connection chalta hai ya nahi: UNVERIFIED (pehle ek real test chahiye).
+
+## Roz ka plan (laptop ON/OFF)
+Dekhein `DAILY_SERVER_PLAN.md`: roz shaam ka guard, `latest/game` + `latest/goku` folders (har run par replace), GOKU ki screenshot-wali aankhein, aur GitHub-login ke bare mein sach.
