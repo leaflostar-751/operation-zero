@@ -55,3 +55,10 @@ Naam "improve game 1 -> 2" ki tarah: file ka naam wahi rehta hai, andar ka naya 
 - Is se pehle `verify_cumulative.mjs` check karta hai ke kuch gum na ho: improvement 1..N, bug ledger, GOKU trend, calendar. Kuch kam mila to **REFUSED (exit 3), kuch push nahi hota** (test: `bash scripts/publish_reports.test.sh`, 13/13 PASS).
 - Sach: GitHub purane commit ko unke exact SHA se kuch der tak dikha sakta hai (secure delete nahi); yahan koi secret nahi rakha jata. Purani history chahiye ho to workflow mein `REPORTS_HISTORY: keep` kar dein.
 - Improvement files main repo mein rehti hain (aap zip se upload karte hain); workflow unhein `reports` branch par bhi mirror karta hai. Agar aap purani zip upload kar dein (number peeche chala jaye) to publish refuse ho jata hai.
+
+
+## GOKU "ghoomna" (turntable) — har cheez ke gird 360° (naya)
+- Tool: `tools/oz-explorer/turntable.mjs` — gaadiyon, hero, GOKU, zombie aur landmarks ke gird camera ghuma kar har taraf ki tasveer + ek contact sheet banata hai (`NN_<subject>.jpg`, `manifest.json`, `TURNTABLE.md`).
+- Online: `goku-qa.yml` mein QA ke baad ek extra step (`continue-on-error`, 15 min cap, `--maxSeconds 600`) -> `reports/latest/turntable/` (har run mein replace). **UNVERIFIED** — GitHub par abhi tak ek bhi run nahi hua; time budget ka local test PASS (NOT_DONE likhta hai, chhupata nahi).
+- GOKU sirf *dekhta aur flag* karta hai; code khud theek nahi karta (NOT_IMPLEMENTED). Fix insaan/Claude karta hai (ya future mein Pull Request).
+- Pehla haath se kiya hua round: `GOKU_INSPECTION_ROUND_1.md` + `inspection-round-1/*.jpg`.

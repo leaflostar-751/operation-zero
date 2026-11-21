@@ -23,4 +23,8 @@ rows = compare({ buildings: { count: 492, storeyMin: 3, storeyMax: 3 }, landmark
 t('storey 3.0 m is fine; a 9 m storey is flagged', rows.filter((r) => r.verdict === 'OUT_OF_RANGE').length === 1 && rows.find((r) => r.verdict === 'OUT_OF_RANGE').subject.startsWith('tall'), 'one flagged');
 rows = compare({ vehicles: [car] }, { ...refs, models: [{ type: 'apex-gt', realName: 'Example Coupe 2020', length: 4.40, width: 1.82, height: 1.30, wheelbase: 2.6, wheelRadius: 0.335, source: 'test data' }] });
 t('an exact real-model spec (+-3%) is used when you provide one: 4.55 m vs 4.40 m is flagged', rows.filter((r) => r.domain === 'vehicle-vs-real-model' && r.verdict === 'OUT_OF_RANGE').map((r) => r.what).join() === 'length (m)' && rows.filter((r) => r.domain === 'vehicle-vs-real-model').length === 5, rows.filter((r) => r.domain === 'vehicle-vs-real-model' && r.verdict === 'OUT_OF_RANGE').map((r) => r.what).join());
+rows = compare({ feet: [{ who: 'hero', lowestFootClearance: 0.05 }, { who: 'zombie0', lowestFootClearance: 0.09 }, { who: 'goku', lowestFootClearance: 0.14 }] }, refs);
+t('feet 0.05-0.14 m above the ground (ankle height) are fine', rows.length === 3 && rows.every((r) => r.verdict === 'IN_RANGE'), 'ok');
+rows = compare({ feet: [{ who: 'zombie1', lowestFootClearance: 0.8 }, { who: 'hero', lowestFootClearance: -0.4 }] }, refs);
+t('a zombie floating 0.8 m up and a hero sunk 0.4 m into the ground are both flagged Major', rows.length === 2 && rows.every((r) => r.verdict === 'OUT_OF_RANGE' && r.severity === 'Major'), rows.map((r) => r.subject + ':' + r.verdict).join());
 console.log(JSON.stringify({ passed: res.filter(Boolean).length, total: res.length })); process.exit(res.every(Boolean) ? 0 : 1);

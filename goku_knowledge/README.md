@@ -8,6 +8,7 @@
 | Character artist | qad, tangon/bazuon/kandhon ka tanasub (hero + GOKU) | MEASURED |
 | Car engineer | lambai/chorai/unchai, wheelbase, wheel radius, ratios — class ki typical range se | MEASURED (5 gaadiyan) |
 | Architect / constructor | manzil ki unchai (492 imaraton mein exact; landmarks mein andaza) | MEASURED / APPROX |
+| Zameen se rabta (feet) | har character ka sabse neecha paon zameen se kitna upar/andar (hawa mein ya zameen mein dhansa) | MEASURED (hero, GOKU, zombies; LIVE sandbox: 0.04–0.14 m = theek) |
 | Chehra (aankhon ka faasla, naak, munh) | — | NOT_IMPLEMENTED: chehre ke hisse tag nahi (Step 1: characters ke saath) |
 | Seerhi, darwaza, khidki, railing | — | NOT_IMPLEMENTED: game mein interiors/data nahi |
 | Gaadi asli jaisi *dikhti* hai ya nahi | — | asli photo/blueprint + dekhne wala (insaan/Claude/vision AI) chahiye |

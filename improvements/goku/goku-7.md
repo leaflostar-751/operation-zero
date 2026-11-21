@@ -1,6 +1,14 @@
-# Goku 6 — improvements 1 to 6 (cumulative)
+# Goku 7 — improvements 1 to 7 (cumulative)
 
-This file replaces "Goku 5". Everything done so far is listed here, newest first. Older entries are copied unchanged.
+This file replaces "Goku 6". Everything done so far is listed here, newest first. Older entries are copied unchanged.
+
+## Improvement 7 — GOKU ghoomna (turntable 360° inspection) + ground-contact check; inspection round 1
+- Date: 2026-11-21
+- Status: PARTIAL
+- Changed: tools/oz-explorer/turntable.mjs (new), reference.mjs + references.json (feet-on-ground check), goku-qa.yml (turntable step), GOKU_INSPECTION_ROUND_1.md, inspection-round-1/*.jpg
+- Evidence: reference test 16/16 PASS; LIVE measure: ground-contact 5/5 in range; 8 contact sheets looked at; --maxSeconds budget tested (NOT_DONE written, not hidden)
+- Commit/tag: tag turntable-v1
+- Not verified: never run on real GitHub; GPU speed; faces/stairs/doors/car-vs-photo not measurable; GOKU cannot fix code itself
 
 ## Improvement 6 — Real-world reference check (knowledge pack v1): vehicle sizes, character proportions, joint bending, building storey height
 - Date: 2026-11-21

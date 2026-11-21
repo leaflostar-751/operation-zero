@@ -4,7 +4,7 @@
 export const measure = async (opt = {}) => {
   const a = window.__opzero, VC = a.camera.position.constructor, V = (x = 0, y = 0, z = 0) => new VC(x, y, z);
   const r3 = (n) => Math.round(n * 1000) / 1000, deg = (r) => (r * 180) / Math.PI;
-  const out = { vehicles: [], humans: [], joints: [], buildings: null, landmarks: [], forwardOk: false };
+  const out = { vehicles: [], humans: [], joints: [], buildings: null, landmarks: [], feet: [], forwardOk: false };
   const veh = (v) => { const d = v.model.dims; return { type: v.type, name: v.info && v.info.name, kind: v.info && v.info.kind, length: r3(d.length), width: r3(d.width), height: r3(d.height), wheelRadius: r3(d.wheelRadius), wheelbase: r3(d.wheelbase) }; };
   for (const v of a.vehicles.vehicles) out.vehicles.push(veh(v));
   const wp = (o) => { o.updateWorldMatrix(true, false); return V().setFromMatrixPosition(o.matrixWorld); };
@@ -49,6 +49,11 @@ export const measure = async (opt = {}) => {
     }
   }
   if (!gokuDone && g && g.human && g.bones) out.humans.push(human('goku', g.human.group, g.bones));
+  // feet vs ground: the lowest foot/toe bone must sit within a few cm of the ground the character stands on (floating / sunk check). Moving, jumping, falling and dead characters are skipped
+  const feetOf = (who, B, groundY) => { let lo = Infinity; for (const [n, bn] of Object.entries(B || {})) if (/Foot|Toe/i.test(n) && bn && bn.updateWorldMatrix) lo = Math.min(lo, wp(bn).y); if (Number.isFinite(lo)) out.feet.push({ who, lowestFootClearance: r3(lo - groundY) }); };
+  if (a.hero && a.hero.bones && a.hero.isGrounded !== false && a.hero.position) feetOf('hero', a.hero.bones, a.hero.position.y);
+  if (g && g.bones && g.pos) feetOf('goku', g.bones, g.pos.y);
+  ((a.zombies && a.zombies.zombies) || []).slice(0, 6).forEach((z, i) => { if (z.bones && z.root && ['idle', 'wander', 'chase', 'attack'].includes(z.state)) feetOf('zombie' + i, z.bones, z.root.position.y); });
   const bl = (a.world.city.buildingList || []).filter((b) => b.floors > 0);
   if (bl.length) { const st = bl.map((b) => b.h / b.floors); out.buildings = { count: bl.length, storeyMin: r3(Math.min(...st)), storeyMax: r3(Math.max(...st)), floorsMax: Math.max(...bl.map((b) => b.floors)) }; }
   for (const lm of a.world.city.landmarks || []) { const def = lm.def || {}; if (!(def.floors >= 2) || !lm.group) continue; const bb = bbox(lm.group), H = bb.mx.y - bb.mn.y; if (Number.isFinite(H)) out.landmarks.push({ id: def.id, kind: def.kind, floors: def.floors, height: r3(H), storey: r3(H / def.floors) }); }
@@ -77,6 +82,7 @@ export function compare(m, refs) {
     add('joints', 'GOKU clip ' + j.state, 'knee bent the WRONG way (deg)', j.kneeWrongWay, [0, refs.joints.wrongWayDegreesTolerance], refs.basis.joints, 'Major');
     add('joints', 'GOKU clip ' + j.state, 'elbow bent the WRONG way (deg)', j.elbowWrongWay, [0, refs.joints.wrongWayDegreesTolerance], refs.basis.joints, 'Major');
   }
+  for (const f of m.feet || []) add('ground-contact', f.who, 'lowest foot above ground (m)', f.lowestFootClearance, refs.groundContact.lowestFootClearance, refs.basis.ground, 'Major');
   if (m.buildings) { add('building', `${m.buildings.count} houses/blocks`, 'storey height min (m)', m.buildings.storeyMin, refs.building.storeyHeight, refs.basis.building); add('building', `${m.buildings.count} houses/blocks`, 'storey height max (m)', m.buildings.storeyMax, refs.building.storeyHeight, refs.basis.building); }
   for (const l of m.landmarks || []) { add('building', `${l.id} (${l.kind}, ${l.floors} floors)`, 'storey height APPROX (m)', l.storey, refs.building.landmarkStoreyApprox, refs.basis.building); rows[rows.length - 1].approx = true; }
   return rows;

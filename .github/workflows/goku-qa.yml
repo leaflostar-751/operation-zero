@@ -72,6 +72,10 @@ jobs:
           fi
       - name: GOKU QA (play + audits + screenshots + self-test + performance budget)
         run: node tools/oz-explorer/goku_qa.mjs http://localhost:4173/ --sim "${{ inputs.sim || '200' }}" --cells 3 --selftest --out reports --trigger "$GITHUB_EVENT_NAME" --render "SIMULATED (software GL on a GitHub runner)"
+      - name: GOKU walks ROUND every car, person and landmark (360-degree contact sheets; extra, never blocks the upload)
+        continue-on-error: true
+        timeout-minutes: 15
+        run: node tools/oz-explorer/turntable.mjs http://localhost:4173/ --out reports/latest/turntable --angles 4 --only vehicles,characters,landmarks --landmarks meridien,vu --maxSeconds 600
       - name: Game tests (results are saved in the report, they do not stop the upload)
         run: |
           set +e

@@ -5,7 +5,8 @@
     "vehicle": "typical automotive spec ranges per body class (general manufacturer data)",
     "human": "typical adult anthropometry (standing height, limb/segment proportions)",
     "joints": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
-    "building": "typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m)"
+    "building": "typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m)",
+    "ground": "a standing or walking person always has one foot on the ground"
   },
   "vehicleClassOf": {
     "apex-gt": "sports_coupe",
@@ -199,5 +200,12 @@
     "stairs, doors, windows, railings: the game has no interiors or stair/door data yet (a stair 'tower' is a plain box)",
     "does a car LOOK like its real counterpart (grille, lights, body lines): needs real photos/blueprints + a person or vision AI to look",
     "clothing clipping, skin/texture realism, brand-specific model dimensions (give me the model and I add its real specs to `models`)"
-  ]
+  ],
+  "groundContact": {
+    "lowestFootClearance": [
+      -0.1,
+      0.2
+    ],
+    "note": "height of the LOWEST foot/toe bone above the ground the character stands on (m). While standing/walking/chasing at least one foot is on the ground, so the lowest foot should sit within a few cm of it (ankle bone ~0.04-0.14 m). Above 0.2 m = floating, below -0.1 m = sunk into the ground. Jumping/falling/dead characters are skipped."
+  }
 }
