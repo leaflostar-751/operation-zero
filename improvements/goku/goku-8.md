@@ -1,6 +1,14 @@
-# Goku 7 — improvements 1 to 7 (cumulative)
+# Goku 8 — improvements 1 to 8 (cumulative)
 
-This file replaces "Goku 6". Everything done so far is listed here, newest first. Older entries are copied unchanged.
+This file replaces "Goku 7". Everything done so far is listed here, newest first. Older entries are copied unchanged.
+
+## Improvement 8 — Audit blueprint (phases 1-8), corrected audit master prompt, draw-call owner tool
+- Date: 2026-11-21
+- Status: PARTIAL
+- Changed: GOKU_AUDIT_BLUEPRINT.md, goku_knowledge/AUDIT_MASTER_PROMPT.md, tools/oz-explorer/drawcalls.mjs, DAILY_SERVER_PLAN.md
+- Evidence: drawcalls.mjs run twice LIVE (969/965 calls, 1.18M tris, 571/587 material objects); repo has 0 GLB/texture files (STATIC); 3 of 5 vehicles + 2 landmarks looked at
+- Commit/tag: tag audit-v1
+- Not verified: vortex + sprint-r + 492 houses not looked at; AAA comparison NOT_DONE (no reference pictures); real GPU fps; shareable-material count; never run on real GitHub
 
 ## Improvement 7 — GOKU ghoomna (turntable 360° inspection) + ground-contact check; inspection round 1
 - Date: 2026-11-21

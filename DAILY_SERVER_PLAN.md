@@ -62,3 +62,8 @@ Naam "improve game 1 -> 2" ki tarah: file ka naam wahi rehta hai, andar ka naya 
 - Online: `goku-qa.yml` mein QA ke baad ek extra step (`continue-on-error`, 15 min cap, `--maxSeconds 600`) -> `reports/latest/turntable/` (har run mein replace). **UNVERIFIED** — GitHub par abhi tak ek bhi run nahi hua; time budget ka local test PASS (NOT_DONE likhta hai, chhupata nahi).
 - GOKU sirf *dekhta aur flag* karta hai; code khud theek nahi karta (NOT_IMPLEMENTED). Fix insaan/Claude karta hai (ya future mein Pull Request).
 - Pehla haath se kiya hua round: `GOKU_INSPECTION_ROUND_1.md` + `inspection-round-1/*.jpg`.
+
+## Audit blueprint + draw-call tool (2026-11-21)
+- `GOKU_AUDIT_BLUEPRINT.md` — phases 1-8 asli numbers ke saath (AUDIT ONLY), issue register OZ-001..010.
+- `goku_knowledge/AUDIT_MASTER_PROMPT.md` — aapka pasted prompt, project ke rules ke mutabiq theek kiya hua (audit mode vs implement mode alag).
+- `tools/oz-explorer/drawcalls.mjs` — draw calls/triangles/materials ka scene-tree breakdown (LIVE), performance fix ke before/after ke liye.
