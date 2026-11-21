@@ -42,3 +42,16 @@ Naam "improve game 1 -> 2" ki tarah: file ka naam wahi rehta hai, andar ka naya 
 
 ## Laptop par crash/lag aaye to
 "Server par khelo" popup (game ka device-check: bar bar crash ya kam fps par pehle hi popup) = NOT_IMPLEMENTED. Server mode ke liye GPU server chahiye (free relay ke ghante: `cloud/relay.mjs plan`).
+
+## Improvement files: "improvement 10" mein 1 se 10 sab (aur purani file replace)
+- Do alag list: `improvements/game/improve-game-<N>.md` aur `improvements/goku/goku-<N>.md`. Folder mein hamesha **sirf ek** file hoti hai.
+- `improve-game-10.md` mein improvement 1..10 sab likhe hote hain (naya sab se upar). Nayi improvement aati hai to `improve-game-11.md` banti hai (1..11) aur 10 wali file **hat jati hai**. Purani entries ek-ek byte same copy hoti hain, kabhi dobara nahi likhi jatin.
+- Tool: `node scripts/improvement.mjs add game "<title>" --status PASS --changed "files" --evidence "..." --commit abc` / `list game` / `check`. Test: `node scripts/improvement.test.mjs` (11/11 PASS).
+- Abhi tak ka kaam git history se back-fill hua: game 1..9, GOKU 1..6. (Git se pehle ka kaam, jaise Gemini ke Stage 0-3, in mein nahi hai.)
+- GOKU apni improvement khud nahi likhta/badalta (NOT_IMPLEMENTED): har improvement ek insaan/Claude reports padh kar karta hai aur yahan darj karta hai.
+
+## GitHub par purani files na rahein (replace mode)
+- Workflow ab `reports` branch ko **sirf ek commit** bana deta hai (`REPORTS_HISTORY=replace`): pichli files branch se hat jati hain.
+- Is se pehle `verify_cumulative.mjs` check karta hai ke kuch gum na ho: improvement 1..N, bug ledger, GOKU trend, calendar. Kuch kam mila to **REFUSED (exit 3), kuch push nahi hota** (test: `bash scripts/publish_reports.test.sh`, 13/13 PASS).
+- Sach: GitHub purane commit ko unke exact SHA se kuch der tak dikha sakta hai (secure delete nahi); yahan koi secret nahi rakha jata. Purani history chahiye ho to workflow mein `REPORTS_HISTORY: keep` kar dein.
+- Improvement files main repo mein rehti hain (aap zip se upload karte hain); workflow unhein `reports` branch par bhi mirror karta hai. Agar aap purani zip upload kar dein (number peeche chala jaye) to publish refuse ho jata hai.

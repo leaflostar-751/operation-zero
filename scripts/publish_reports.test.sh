@@ -19,4 +19,29 @@ chk "history keeps the old version (2 commits, rollback possible)" '[ "$(git --g
 chk "main branch untouched" '[ "$(git --git-dir="$T/remote.git" ls-tree -r --name-only main)" = a.txt ]'
 set +e; REPORTS_BRANCH=main bash "$HERE/publish_reports.sh" r2 >/dev/null 2>&1; rc=$?; set -e
 chk "publishing to main is REFUSED (exit 2)" '[ $rc = 2 ]'
+
+# ---------- REPLACE mode (history dropped, data-loss guard)
+mkdir -p "$T/ik"; cd "$T/work"
+R2="$T/rep.git"; git init -q --bare "$R2"; git remote add rep "$R2"
+mk() { # mk <dir> <run> <trend_len> <improve_n>
+  rm -rf "$1"; mkdir -p "$1/latest/game" "$1/latest/goku" "$1/improvements/game"; echo "run$2" > "$1/latest/game/REPORT.md"
+  node -e "const n=+process.argv[1];require('fs').writeFileSync(process.argv[2]+'/latest/goku/trend.json',JSON.stringify(Array.from({length:n},(_,i)=>({time:'t'+i}))))" "$3" "$1"
+  echo '[{"key":"k1"}]' > "$1/ledger.json"; echo "{\"runNumber\":$2,\"days\":{\"d\":1}}" > "$1/meta.json"
+  node --input-type=module -e "import {addEntry} from '$HERE/improvement.mjs'; for(let i=1;i<=+process.argv[1];i++) addEntry(process.argv[2]+'/improvements','game','g'+i,{status:'PASS',date:'2026-11-2'+i});" "$4" "$1"
+}
+RP() { REPORTS_REMOTE=rep REPORTS_HISTORY=replace bash "$HERE/publish_reports.sh" "$1"; }
+mk "$T/a1" 1 1 1; RP "$T/a1" >/dev/null 2>&1
+mk "$T/a2" 2 2 2; RP "$T/a2" >/dev/null 2>&1
+cnt() { git --git-dir="$R2" rev-list --count reports; }
+chk "replace mode: after 2 runs the branch is ONE commit" '[ "$(cnt)" = 1 ]'
+chk "replace mode: content is run 2, improvement file is improve-game-2.md only" '[ "$(git --git-dir="$R2" show reports:latest/game/REPORT.md)" = run2 ] && git --git-dir="$R2" ls-tree -r --name-only reports | grep -q "improvements/game/improve-game-2.md" && ! git --git-dir="$R2" ls-tree -r --name-only reports | grep -q "improve-game-1.md"'
+SHA_BEFORE="$(git --git-dir="$R2" rev-parse reports)"
+mk "$T/a3" 3 1 3                                  # trend shrank (restore failed) -> must be refused
+set +e; RP "$T/a3" >/dev/null 2>&1; rc=$?; set -e
+chk "trend shrank -> REFUSED (exit 3), branch unchanged" '[ $rc = 3 ] && [ "$(git --git-dir="$R2" rev-parse reports)" = "$SHA_BEFORE" ]'
+mk "$T/a4" 4 3 1                                  # improvements went back from 2 to 1 -> must be refused
+set +e; RP "$T/a4" >/dev/null 2>&1; rc=$?; set -e
+chk "improvements lost (2 -> 1) -> REFUSED (exit 3), branch unchanged" '[ $rc = 3 ] && [ "$(git --git-dir="$R2" rev-parse reports)" = "$SHA_BEFORE" ]'
+mk "$T/a5" 5 3 3; RP "$T/a5" >/dev/null 2>&1
+chk "healthy run 3 is accepted: improve-game-3.md, still ONE commit" '[ "$(cnt)" = 1 ] && git --git-dir="$R2" ls-tree -r --name-only reports | grep -q "improve-game-3.md"'
 echo "{\"passed\":$ok,\"total\":$((ok+bad))}"; [ $bad = 0 ]

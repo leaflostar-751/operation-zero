@@ -1,0 +1,26 @@
+// Unit test of compare() with synthetic measurements (no browser, no game). Usage: node tools/oz-explorer/reference.test.mjs
+import fs from 'node:fs'; import { compare, summarize } from './reference.mjs';
+const refs = JSON.parse(fs.readFileSync(new URL('../../goku_knowledge/references.json', import.meta.url), 'utf8'));
+const res = []; const t = (name, ok, got) => { res.push(ok); console.log((ok ? 'PASS ' : 'FAIL ') + name + ' — ' + got); };
+const car = { type: 'apex-gt', name: 'Apex GT', kind: 'car', length: 4.55, width: 1.82, height: 1.305, wheelRadius: 0.335, wheelbase: 2.6 };
+let rows = compare({ vehicles: [car] }, refs);
+t('a normal sports coupe has no vehicle value outside its class range', rows.every((r) => r.verdict === 'IN_RANGE'), summarize(rows).vehicle ? JSON.stringify(summarize(rows).vehicle) : '');
+rows = compare({ vehicles: [{ ...car, wheelRadius: 0.9 }] }, refs); t('0.9 m wheel radius is flagged', rows.some((r) => r.what === 'wheelRadius (m)' && r.verdict === 'OUT_OF_RANGE'), 'flagged');
+rows = compare({ vehicles: [{ ...car, type: 'ranger', name: 'Ranger 4x4', length: 4.25, width: 1.92, height: 2.07, wheelRadius: 0.4, wheelbase: 2.55 }] }, refs);
+t('a 2.07 m tall off-road SUV is outside the typical range (height and height/length)', rows.filter((r) => r.verdict === 'OUT_OF_RANGE').map((r) => r.what).join() === 'height (m),height/length', rows.filter((r) => r.verdict === 'OUT_OF_RANGE').map((r) => r.what).join());
+rows = compare({ vehicles: [{ type: 'sprint-r', name: 'Sprint-R', kind: 'bike', length: 2.15, width: 0.8, height: 1.3, wheelRadius: 0.31, wheelbase: 1.42 }] }, refs); t('the superbike uses bike ratios and is in range', rows.every((r) => r.verdict === 'IN_RANGE'), JSON.stringify(summarize(rows)));
+const man = { who: 'hero', height: 1.78, legRatio: 0.48, armRatio: 0.30, shoulderRatio: 0.22, armAsym: 0, legAsym: 0 };
+t('a normal man is in range', compare({ humans: [man] }, refs).every((r) => r.verdict === 'IN_RANGE'), 'ok');
+t('a 2.6 m hero is flagged', compare({ humans: [{ ...man, height: 2.6 }] }, refs).some((r) => r.what === 'height' && r.verdict === 'OUT_OF_RANGE'), 'flagged');
+t('left arm 10% longer than right is flagged', compare({ humans: [{ ...man, armAsym: 0.1 }] }, refs).some((r) => /armAsym/.test(r.what) && r.verdict === 'OUT_OF_RANGE'), 'flagged');
+t('zombies are checked for symmetry only (their stooped height is not judged)', compare({ humans: [{ ...man, who: 'zombie0', height: 1.2 }] }, refs).every((r) => /Asym/.test(r.what)), 'only asym rows');
+rows = compare({ joints: [{ state: 'run', kneeFlexMax: 120, kneeWrongWay: 0, elbowFlexMax: 90, elbowWrongWay: 0 }] }, refs); t('a normal run cycle is in range', rows.every((r) => r.verdict === 'IN_RANGE'), 'ok');
+rows = compare({ joints: [{ state: 'run', kneeFlexMax: 120, kneeWrongWay: 35, elbowFlexMax: 170, elbowWrongWay: 0 }] }, refs);
+t('knee bent the wrong way = Major; elbow 170 deg = Minor', rows.some((r) => /WRONG way/.test(r.what) && r.verdict === 'OUT_OF_RANGE' && r.severity === 'Major') && rows.some((r) => /elbow flexion/.test(r.what) && r.verdict === 'OUT_OF_RANGE' && r.severity === 'Minor'), 'ok');
+t('NaN is NO_DATA, never silently "in range"', compare({ vehicles: [{ ...car, length: NaN }] }, refs).some((r) => r.what === 'length (m)' && r.verdict === 'NO_DATA'), 'NO_DATA');
+t('a vehicle type with no reference class is reported, not skipped', compare({ vehicles: [{ ...car, type: 'ufo', name: 'UFO' }] }, refs).some((r) => r.verdict === 'NO_DATA' && r.what === 'class'), 'NO_DATA');
+rows = compare({ buildings: { count: 492, storeyMin: 3, storeyMax: 3 }, landmarks: [{ id: 'hotel', kind: 'hotel', floors: 12, storey: 3.4 }, { id: 'tall', kind: 'x', floors: 2, storey: 9 }] }, refs);
+t('storey 3.0 m is fine; a 9 m storey is flagged', rows.filter((r) => r.verdict === 'OUT_OF_RANGE').length === 1 && rows.find((r) => r.verdict === 'OUT_OF_RANGE').subject.startsWith('tall'), 'one flagged');
+rows = compare({ vehicles: [car] }, { ...refs, models: [{ type: 'apex-gt', realName: 'Example Coupe 2020', length: 4.40, width: 1.82, height: 1.30, wheelbase: 2.6, wheelRadius: 0.335, source: 'test data' }] });
+t('an exact real-model spec (+-3%) is used when you provide one: 4.55 m vs 4.40 m is flagged', rows.filter((r) => r.domain === 'vehicle-vs-real-model' && r.verdict === 'OUT_OF_RANGE').map((r) => r.what).join() === 'length (m)' && rows.filter((r) => r.domain === 'vehicle-vs-real-model').length === 5, rows.filter((r) => r.domain === 'vehicle-vs-real-model' && r.verdict === 'OUT_OF_RANGE').map((r) => r.what).join());
+console.log(JSON.stringify({ passed: res.filter(Boolean).length, total: res.length })); process.exit(res.every(Boolean) ? 0 : 1);

@@ -83,8 +83,13 @@ jobs:
         if: always()
         run: |
           for f in reports/latest/game/REPORT.md reports/latest/goku/GOKU_REPORT.md; do [ -f "$f" ] && { cat "$f"; echo; } >> "$GITHUB_STEP_SUMMARY"; done; exit 0
-      - name: Publish reports (branch "reports" only)
-        run: bash scripts/publish_reports.sh reports
+      - name: Publish reports (branch "reports" only; history replaced by ONE commit after a data-loss check)
+        env:
+          REPORTS_HISTORY: replace   # set to keep if you want old commits to stay in git history
+        run: |
+          node scripts/improvement.mjs check || echo "::warning::improvement files are not healthy (see DAILY_SERVER_PLAN.md)"
+          rm -rf reports/improvements; [ -d improvements ] && cp -R improvements reports/improvements || true
+          bash scripts/publish_reports.sh reports
       - uses: actions/upload-artifact@v4
         with:
           name: goku-qa-reports

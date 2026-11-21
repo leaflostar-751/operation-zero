@@ -5,15 +5,17 @@
 //   --cells    how many map cells get a performance sample (draw calls / triangles)
 //   --selftest injects 3 known faults in page memory (floating tree, hole in the ground, empty world) and checks that GOKU/audits/the visual check notice them
 //   --noshots  skip the screenshots + pixel checks ("eyes")
+//   --noref    skip the real-world reference check (vehicle/character/joint/building measurements vs goku_knowledge/references.json)
 // Output layout (everything under --out): latest/game/ (REPORT.md, report.json, shots/*.jpg), latest/goku/ (GOKU_REPORT.md, goku.json, trend.json),
 //   ledger.json + LEDGER.md (bug list, updated in place), meta.json (last run day + calendar). `latest/` is REPLACED on every run; older versions live only in git history.
 import { chromium } from 'playwright';
 import fs from 'node:fs'; import path from 'node:path';
 import { LIM, flagsOf, analyze } from './eyes.mjs';
+import { measure, compare, summarize } from './reference.mjs';
 
 const args = process.argv.slice(2); const url = args[0] && !args[0].startsWith('--') ? args[0] : 'http://localhost:5173/';
 const opt = (k, d) => { const i = args.indexOf('--' + k); return i < 0 ? d : (args[i + 1] && !args[i + 1].startsWith('--') ? args[i + 1] : true); };
-const SIM = +opt('sim', 200), CELLS = +opt('cells', 3), SELF = !!opt('selftest', false), OUT = String(opt('out', 'reports')), RENDER = String(opt('render', 'SIMULATED (software GL)')), SHOTS = !opt('noshots', false), TRIGGER = String(opt('trigger', process.env.GITHUB_EVENT_NAME || 'local'));
+const SIM = +opt('sim', 200), CELLS = +opt('cells', 3), SELF = !!opt('selftest', false), OUT = String(opt('out', 'reports')), RENDER = String(opt('render', 'SIMULATED (software GL)')), SHOTS = !opt('noshots', false), REF = !opt('noref', false), TRIGGER = String(opt('trigger', process.env.GITHUB_EVENT_NAME || 'local'));
 const BUDGET = { drawCalls: 150, triangles: 300000 }; // project target for Android (a budget, not a measurement)
 const now = new Date(); const dayPKT = new Date(now.getTime() + 5 * 3600000).toISOString().slice(0, 10); // the "day" of this project is Pakistan time (UTC+5)
 const LATEST = path.join(OUT, 'latest'), GAMEDIR = path.join(LATEST, 'game'), GOKUDIR = path.join(LATEST, 'goku'), PREV = path.join(OUT, 'prev-shots');
@@ -101,6 +103,15 @@ if (SHOTS) { // ground-level view next to the hero, partner beside him (the view
 }
 for (const v of visual) for (const fl of v.flags) add({ id: 'VIS-' + v.name + '-' + fl, source: 'visual', type: 'visual:' + fl, position: v.position, evidence: `${v.name}: entropy ${v.entropy}, dominant colour ${(v.dominantPct * 100).toFixed(0)}%, edges ${v.edgeDensity}, contrast ${v.contrast}, brightness ${v.lumaMean}`, confidence: 'HEURISTIC', severity: 'Minor', suggested_fix: 'open this screenshot (latest/game/shots/' + v.name + '.jpg) and look: a flag only means "check this picture", not "this is a bug"' });
 
+// ---------- 3c. real-world reference check: what the game really contains vs typical real-world ranges (reference.mjs, goku_knowledge/references.json)
+const refs = JSON.parse(fs.readFileSync(new URL('../../goku_knowledge/references.json', import.meta.url), 'utf8'));
+let refRows = [], refRaw = null;
+if (REF) {
+  refRaw = await p.evaluate(measure, {}); refRows = compare(refRaw, refs);
+  for (const r of refRows.filter((x) => x.verdict === 'OUT_OF_RANGE')) add({ id: 'REF-' + r.domain + '-' + (r.subject + '-' + r.what).replace(/\W+/g, '_'), source: 'reference', type: `reference:${r.domain}:${r.subject} ${r.what}`, position: null, evidence: `game ${r.game} vs typical ${r.range[0]}..${r.range[1]} (${r.basis})`, confidence: r.approx ? 'APPROX' : 'MEASURED', severity: r.severity, suggested_fix: 'compare with the real thing; change the model/animation only if the difference is not intentional (these ranges are typical values, not a specific model)' });
+  if (!refRaw.forwardOk) add({ id: 'REF-forward', source: 'reference', type: 'reference:joints could not tell where the character faces', position: null, evidence: 'shoe geometry gave no forward direction, wrong-way joint check is NO_DATA', confidence: 'MEASURED', severity: 'Minor', suggested_fix: 'check GOKU shoe meshes / skeleton' });
+}
+
 // ---------- 4. self-test: does GOKU / the audit notice faults that we plant on purpose? (memory only, never saved)
 let selfTest = null;
 if (SELF) {
@@ -137,6 +148,16 @@ if (SELF && SHOTS && spawnShot) { // (c) empty world: every object hidden, only 
   visual.splice(visual.findIndex((v) => v.name === 'selftest_empty_world'), 1);
 }
 
+if (SELF && REF) { // (d) planted reference faults: 2.6 m hero, 0.9 m wheels, a knee bent both ways (exactly ONE direction may be called wrong)
+  const pl = (await p.evaluate(measure, { plant: true })).planted; selfTest = selfTest || [];
+  if (pl) {
+    const rh = compare({ humans: [{ ...pl.tallHero, who: 'hero' }] }, refs), rv = compare({ vehicles: [pl.bigWheel] }, refs), wrong = [pl.kneePlus.wrong, pl.kneeMinus.wrong].filter(Boolean).length;
+    selfTest.push({ name: 'planted 2.6 m tall hero is flagged by the reference check', ok: rh.some((r) => r.what === 'height' && r.verdict === 'OUT_OF_RANGE'), evidence: 'height ' + pl.tallHero.height + ' m' });
+    selfTest.push({ name: 'planted 0.9 m wheel radius is flagged by the reference check', ok: rv.some((r) => r.what === 'wheelRadius (m)' && r.verdict === 'OUT_OF_RANGE'), evidence: 'wheelRadius ' + pl.bigWheel.wheelRadius + ' m' });
+    selfTest.push({ name: 'planted knee bent both ways: exactly one direction is called wrong-way', ok: wrong === 1 && pl.kneePlus.fl > 40 && pl.kneeMinus.fl > 40, evidence: `+1.0 rad: flex ${pl.kneePlus.fl.toFixed(0)} deg, off ${pl.kneePlus.off.toFixed(2)} m, wrong=${pl.kneePlus.wrong}; -1.0 rad: flex ${pl.kneeMinus.fl.toFixed(0)} deg, off ${pl.kneeMinus.off.toFixed(2)} m, wrong=${pl.kneeMinus.wrong}` });
+  } else selfTest.push({ name: 'planted reference faults', ok: false, evidence: 'GOKU animation not available in this build' });
+}
+
 // ---------- 5. persistent bug ledger (open -> not_seen_latest; it NEVER claims "fixed" by itself)
 const ledgerFile = path.join(OUT, 'ledger.json'); let ledger = []; try { ledger = JSON.parse(fs.readFileSync(ledgerFile, 'utf8')); } catch (_) { /* first run */ }
 const keyOf = (f) => f.type + '@' + (f.position ? f.position.map((v, i) => (i === 1 ? '' : Math.round(v / 6))).join(',') : 'none') + (f.source === 'console' ? ':' + String(f.evidence).slice(0, 40) : '');
@@ -149,7 +170,7 @@ for (const f of findings) {
 // Only checks that are repeatable can say "not seen": the audits and the performance cells that were really sampled this run.
 // GOKU's own walk is random, so NOT meeting a spot again proves nothing and those entries stay open.
 const sampled = new Set([...perf.map((q) => q.x + ',' + q.z), ...visual.filter((v) => v.position).map((v) => v.position[0] + ',' + v.position[2])]);
-const repeatable = (e) => e.source === 'audit' || e.source === 'console' || ((e.source === 'perf' || e.source === 'visual') && e.position && sampled.has(e.position[0] + ',' + e.position[2]));
+const repeatable = (e) => e.source === 'audit' || e.source === 'console' || e.source === 'reference' || ((e.source === 'perf' || e.source === 'visual') && e.position && sampled.has(e.position[0] + ',' + e.position[2]));
 for (const e of ledger) if (!seen.has(e.key) && e.status === 'open' && repeatable(e)) e.status = 'not_seen_latest';
 fs.writeFileSync(ledgerFile, JSON.stringify(ledger, null, 1));
 
@@ -157,8 +178,8 @@ fs.writeFileSync(ledgerFile, JSON.stringify(ledger, null, 1));
 const bySev = (s) => findings.filter((f) => f.severity === s).length;
 const gaveUp = play.notes.filter((n) => n.type === 'partner_gave_up').length, stCount = selfTest ? selfTest.filter((t) => t.ok).length : null;
 const toolStatus = selfTest ? (selfTest.every((t) => t.ok) ? 'PASS' : 'FAIL') : 'UNVERIFIED (no self-test this run)';
-const report = { tool: 'goku_qa', time: now.toISOString(), dayPKT, trigger: TRIGGER, url, rendering: RENDER, budget: BUDGET, play: { fight: play.fight, explore: play.explore, stats: play.stats, nav: play.nav }, perf, visual, visualLimits: LIM, selfTest, summary: { findings: findings.length, major: bySev('Major'), minor: bySev('Minor'), ledgerOpen: ledger.filter((x) => x.status === 'open').length }, findings,
-  not_verified: ['real GPU frame rate (software GL here): draw calls/triangles are real counts, fps is not', 'real Rapier physics if this run used the preview stub', 'partner only walks/fights: no driving, invulnerable', 'screenshots are judged by pixel statistics only (heuristics); a person or Claude must look at the pictures for real art quality', 'the Windows GOKU agent is NOT part of this run'] };
+const report = { tool: 'goku_qa', time: now.toISOString(), dayPKT, trigger: TRIGGER, url, rendering: RENDER, budget: BUDGET, play: { fight: play.fight, explore: play.explore, stats: play.stats, nav: play.nav }, perf, visual, visualLimits: LIM, reference: { summary: summarize(refRows), rows: refRows, forwardOk: refRaw ? refRaw.forwardOk : null, notMeasurableYet: refs.notMeasurableYet }, selfTest, summary: { findings: findings.length, major: bySev('Major'), minor: bySev('Minor'), ledgerOpen: ledger.filter((x) => x.status === 'open').length }, findings,
+  not_verified: ['real GPU frame rate (software GL here): draw calls/triangles are real counts, fps is not', 'real Rapier physics if this run used the preview stub', 'partner only walks/fights: no driving, invulnerable', 'screenshots are judged by pixel statistics only (heuristics); a person or Claude must look at the pictures for real art quality', 'reference ranges are TYPICAL values for a class (not one specific car model/person): outside the range = "go and look"', 'faces, stairs/doors, car look vs real photos, clothing clipping: see goku_knowledge/references.json notMeasurableYet', 'the Windows GOKU agent is NOT part of this run'] };
 fs.writeFileSync(path.join(GAMEDIR, 'report.json'), JSON.stringify(report, null, 1));
 const md = [];
 md.push(`# Game report — ${now.toISOString()} (day ${dayPKT}, trigger: ${TRIGGER})`, '', `Rendering: **${RENDER}**. Draw calls / triangles = real three.js counts (LIVE); walking/fighting = SIMULATED time; fps is NOT measured here.`, '');
@@ -169,21 +190,28 @@ if (visual.length) {
   md.push('', `## What GOKU saw (screenshots, replaced every run)`, `Pictures are in \`shots/\`. Flags are pixel-statistics HEURISTICS (limits: entropy ≥ ${LIM.minEntropy} bits, one colour ≤ ${LIM.maxDominant * 100}%, edge density ≥ ${LIM.minEdge}, contrast ≥ ${LIM.minContrast}); "changed" = share of pixels that differ from the previous run's picture of the same spot (a big change after a code update is normal).`, '', `| Spot | Picture | Entropy | Edges | Contrast | Brightness | Flags | Changed vs last run |`, `|---|---|---|---|---|---|---|---|`);
   for (const v of visual) md.push(`| ${v.name} | ![](shots/${v.name}.jpg) | ${v.entropy} | ${v.edgeDensity} | ${v.contrast} | ${v.lumaMean} | ${v.flags.join(', ') || '-'} | ${v.diff ? (v.diff.changedPct * 100).toFixed(1) + '%' : 'first run'} |`);
 }
+if (refRows.length) {
+  const rs = summarize(refRows), outRows = refRows.filter((r) => r.verdict === 'OUT_OF_RANGE');
+  md.push('', `## GOKU vs real-world references (${refRows.length} measurements)`, Object.entries(rs).map(([d, c]) => `${d}: ${c.IN_RANGE} in range, ${c.OUT_OF_RANGE} outside, ${c.NO_DATA} no data`).join(' · '), '', `Typical ranges, not one specific model. Full table: REFERENCE.md. NOT measurable yet: ${refs.notMeasurableYet.length} things (listed in REFERENCE.md).`, '');
+  if (outRows.length) { md.push('| Domain | Subject | What | Game | Typical range | Severity |', '|---|---|---|---|---|---|'); for (const r of outRows) md.push(`| ${r.domain} | ${r.subject} | ${r.what} | ${r.game} | ${r.range[0]}..${r.range[1]} | ${r.severity} |`); } else md.push('Everything measured is inside the typical ranges.');
+  const rf = ['# Game vs real-world references', '', `Run ${now.toISOString()} (day ${dayPKT}). Typical ranges per class from goku_knowledge/references.json — outside a range means "go and look", not "bug".`, '', '| Domain | Subject | What | Game | Typical range | Verdict |', '|---|---|---|---|---|---|', ...refRows.map((r) => `| ${r.domain} | ${r.subject} | ${r.what} | ${r.game} | ${r.range[0]}..${r.range[1]} | ${r.verdict} |`), '', '## NOT measurable yet', ...refs.notMeasurableYet.map((x) => `- ${x}`), ''];
+  fs.writeFileSync(path.join(GAMEDIR, 'REFERENCE.md'), rf.join('\n'));
+}
 md.push('', `## Performance samples (budget ${BUDGET.drawCalls} draw calls / ${BUDGET.triangles} triangles)`, `| Cell (x,z) | Draw calls | Triangles | Geometries | Textures |`, `|---|---|---|---|---|`);
 for (const q of perf) md.push(`| ${q.x}, ${q.z} | ${q.drawCalls} | ${q.triangles} | ${q.geometries} | ${q.textures} |`);
 md.push('', `## NOT verified`, ...report.not_verified.map((x) => `- ${x}`), '');
 fs.writeFileSync(path.join(GAMEDIR, 'REPORT.md'), md.join('\n'));
 
 // GOKU's own report + trend (the only honest measure of "GOKU is improving": its numbers across runs; it does NOT rewrite its own code)
-const entry = { time: now.toISOString(), day: dayPKT, trigger: TRIGGER, kills: play.fight.kills, hits: play.fight.hits, meters: play.explore.metersWalked, stuck: play.stats.stuckEvents, gaveUp, selfTest: selfTest ? stCount + '/' + selfTest.length : 'not run', screenshots: visual.length, visualFlags: visual.reduce((n, v) => n + v.flags.length, 0), findings: findings.length, major: bySev('Major') };
+const entry = { time: now.toISOString(), day: dayPKT, trigger: TRIGGER, kills: play.fight.kills, hits: play.fight.hits, meters: play.explore.metersWalked, stuck: play.stats.stuckEvents, gaveUp, selfTest: selfTest ? stCount + '/' + selfTest.length : 'not run', refOut: refRows.filter((r) => r.verdict === 'OUT_OF_RANGE').length, screenshots: visual.length, visualFlags: visual.reduce((n, v) => n + v.flags.length, 0), findings: findings.length, major: bySev('Major') };
 const trend = [...prevTrend.filter((t) => t.time !== entry.time), entry].slice(-30);
 fs.writeFileSync(path.join(GOKUDIR, 'trend.json'), JSON.stringify(trend, null, 1));
 fs.writeFileSync(path.join(GOKUDIR, 'goku.json'), JSON.stringify({ time: now.toISOString(), toolStatus, play: report.play, selfTest, visualChecked: visual.map((v) => v.name) }, null, 1));
 const gm = [`# GOKU report — ${now.toISOString()} (day ${dayPKT}, trigger: ${TRIGGER})`, '', `GOKU tool status: **${toolStatus}**. This is the in-game GOKU partner (JavaScript). The Windows GOKU agent is not part of server runs.`, '',
   `## This run`, `- Fought zombies: ${play.fight.hits} hits, ${play.fight.kills} kills in ${play.fight.simSeconds} simulated s.`, `- Explored alone: ${play.explore.metersWalked} m in ${play.explore.simSeconds} simulated s; inside-solid samples ${play.explore.insideSolidSamples}; bad positions ${play.explore.badPositionFrames}; stuck events ${play.stats.stuckEvents}; gave-up paths ${gaveUp}; path plans ${play.nav ? play.nav.plans : 'n/a'}.`, `- Exact audits on ${audit.floatingTrees.checked} trees; console errors ${audit.errors.length + pageErrs.length}; screenshots looked at: ${visual.length}.`, ''];
 if (selfTest) { gm.push(`## Self-test (faults planted on purpose in memory, never saved)`); for (const t of selfTest) gm.push(`- ${t.ok ? 'PASS' : 'FAIL'} — ${t.name} (${t.evidence})`); gm.push(''); }
-gm.push(`## Trend (last ${Math.min(10, trend.length)} runs, newest first) — this is how you see GOKU getting better or worse`, `| Day | Trigger | Kills | Metres | Stuck | Gave up | Self-test | Pics flagged | Bugs (major) |`, `|---|---|---|---|---|---|---|---|---|`);
-for (const t of trend.slice(-10).reverse()) gm.push(`| ${t.day} | ${t.trigger} | ${t.kills} | ${t.meters} | ${t.stuck} | ${t.gaveUp} | ${t.selfTest} | ${t.visualFlags}/${t.screenshots} | ${t.findings} (${t.major}) |`);
+gm.push(`## Trend (last ${Math.min(10, trend.length)} runs, newest first) — this is how you see GOKU getting better or worse`, `| Day | Trigger | Kills | Metres | Stuck | Gave up | Self-test | Pics flagged | Outside real-world range | Bugs (major) |`, `|---|---|---|---|---|---|---|---|---|---|`);
+for (const t of trend.slice(-10).reverse()) gm.push(`| ${t.day} | ${t.trigger} | ${t.kills} | ${t.meters} | ${t.stuck} | ${t.gaveUp} | ${t.selfTest} | ${t.visualFlags}/${t.screenshots} | ${t.refOut ?? '-'} | ${t.findings} (${t.major}) |`);
 const days = Object.keys({ ...prevMeta.days, [dayPKT]: 1 }).sort().slice(-14);
 gm.push('', `## Daily runs (last ${days.length} days with a run)`, days.map((d) => d.slice(5)).join(' · '), '', `GOKU does not change its own code (NOT_IMPLEMENTED). Any change to the game or to GOKU is made by a person after reading these reports.`, '');
 fs.writeFileSync(path.join(GOKUDIR, 'GOKU_REPORT.md'), gm.join('\n'));
