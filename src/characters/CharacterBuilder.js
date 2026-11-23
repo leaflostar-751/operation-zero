@@ -262,9 +262,16 @@ function makeMaterials(outfit, tone, zombie) {
 }
 
 // ------------------------------------------------------------------ geometry helpers
-const sphereG = new THREE.SphereGeometry(1, 24, 18);
+const sphereG = new THREE.SphereGeometry(1, 24, 18);   // big forms (head, torso, thighs): full detail
+const sphereM = new THREE.SphereGeometry(1, 16, 12);   // medium forms (arms, calves, shoulders)
+const sphereS = new THREE.SphereGeometry(1, 10, 8);    // tiny forms (fingers, eyes, nose bits): a few pixels on screen
+/** Detail follows the on-screen size of the part: same silhouette, far fewer triangles (a 3 cm finger does not need 816 triangles). */
+const sphereFor = (rx, ry, rz) => {
+  const r = Math.max(rx, ry, rz);
+  return r >= 0.06 ? sphereG : r >= 0.03 ? sphereM : sphereS;
+};
 function ell(parent, mat, rx, ry, rz, x = 0, y = 0, z = 0) {
-  const mesh = new THREE.Mesh(sphereG, mat);
+  const mesh = new THREE.Mesh(sphereFor(rx, ry, rz), mat);
   mesh.scale.set(rx, ry, rz);
   mesh.position.set(x, y, z);
   parent.add(mesh);
@@ -657,7 +664,11 @@ function applyZombie(B, M, parts, outfit, seed) {
 }
 
 // ------------------------------------------------------------------ draw-call optimiser
-/** Merge all static meshes of each bone by material (keeps the animated jaw separate). */
+/**
+ * Rigid skinning: every static piece is baked into ONE mesh per material, each vertex bound 100% to the bone that used to carry the piece.
+ * Same look and same animation as before (bones move exactly as they did), but ~60 meshes per person become ~10 (one draw call per material,
+ * in the main pass AND in the shadow pass). The animated jaw stays a separate plain mesh.
+ */
 function optimiseHumanoid(group, bones, jaw) {
   group.updateMatrixWorld(true);
   const boneList = Object.values(bones);
@@ -670,42 +681,48 @@ function optimiseHumanoid(group, bones, jaw) {
     }
     return null;
   };
-  const buckets = new Map(); // bone -> Map(material -> geometries)
+  const byMat = new Map(); // material -> geometries (already carrying skinIndex/skinWeight)
   const meshes = [];
   group.traverse((o) => {
     if (o.isMesh) meshes.push(o);
   });
-  const inv = new THREE.Matrix4();
+  const inv = new THREE.Matrix4().copy(group.matrixWorld).invert();
   const m4 = new THREE.Matrix4();
   for (const mesh of meshes) {
     const b = owner(mesh);
-    if (!b || !boneList.includes(b)) continue;
+    const bi = b ? boneList.indexOf(b) : -1;
+    if (bi < 0) continue;
     let geo = mesh.geometry;
     if (geo.index) geo = geo.toNonIndexed();
     else geo = geo.clone();
     for (const name of Object.keys(geo.attributes)) {
       if (!['position', 'normal', 'uv'].includes(name)) geo.deleteAttribute(name);
     }
-    if (!geo.attributes.uv) geo.setAttribute('uv', new THREE.BufferAttribute(new Float32Array(geo.attributes.position.count * 2), 2));
-    inv.copy(b.matrixWorld).invert();
+    const n = geo.attributes.position.count;
+    if (!geo.attributes.uv) geo.setAttribute('uv', new THREE.BufferAttribute(new Float32Array(n * 2), 2));
     m4.multiplyMatrices(inv, mesh.matrixWorld);
-    geo.applyMatrix4(m4);
-    if (!buckets.has(b)) buckets.set(b, new Map());
-    const mm = buckets.get(b);
-    if (!mm.has(mesh.material)) mm.set(mesh.material, []);
-    mm.get(mesh.material).push(geo);
+    geo.applyMatrix4(m4); // into the person's (group) space at the rest pose
+    const si = new Uint16Array(n * 4), sw = new Float32Array(n * 4);
+    for (let i = 0; i < n; i++) { si[i * 4] = bi; sw[i * 4] = 1; }
+    geo.setAttribute('skinIndex', new THREE.Uint16BufferAttribute(si, 4));
+    geo.setAttribute('skinWeight', new THREE.Float32BufferAttribute(sw, 4));
+    if (!byMat.has(mesh.material)) byMat.set(mesh.material, []);
+    byMat.get(mesh.material).push(geo);
     mesh.parent.remove(mesh);
   }
-  for (const [b, mm] of buckets) {
-    for (const [mat, geos] of mm) {
-      const merged = mergeGeometries(geos, false);
-      if (!merged) continue;
-      const mesh = new THREE.Mesh(merged, mat);
-      mesh.castShadow = true;
-      mesh.receiveShadow = true;
-      b.add(mesh);
-      for (const g of geos) g.dispose();
-    }
+  const skeleton = new THREE.Skeleton(boneList); // inverses from the current (rest) pose
+  for (const [mat, geos] of byMat) {
+    const merged = mergeGeometries(geos, false);
+    for (const g of geos) g.dispose();
+    if (!merged) continue;
+    const mesh = new THREE.SkinnedMesh(merged, mat);
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+    // limbs leave the rest-pose bounds when the person moves: use a fixed generous sphere (a crawling zombie is < 2 m long)
+    mesh.boundingSphere = new THREE.Sphere(new THREE.Vector3(0, 0.95, 0), 1.7);
+    mesh.userData.rigidSkin = true;
+    group.add(mesh);
+    mesh.bind(skeleton, group.matrixWorld);
   }
   // drop now-empty helper groups (hand fingers, eyes, ponytail pivots), never the jaw
   const prune = (o) => {

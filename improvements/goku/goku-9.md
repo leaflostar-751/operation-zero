@@ -1,6 +1,14 @@
-# Goku 8 — improvements 1 to 8 (cumulative)
+# Goku 9 — improvements 1 to 9 (cumulative)
 
-This file replaces "Goku 7". Everything done so far is listed here, newest first. Older entries are copied unchanged.
+This file replaces "Goku 8". Everything done so far is listed here, newest first. Older entries are copied unchanged.
+
+## Improvement 9 — Per-pass draw-call accounting, reference check works with skinned characters, permission policy
+- Date: 2026-11-23
+- Status: PASS
+- Changed: tools/oz-explorer/drawcalls.mjs (main vs shadow pass), reference.mjs (foot box from skinned vertices), turntable.mjs (screenshot timeout), GOKU_PERMISSIONS.md
+- Evidence: per-pass total 928 vs measured 966 (4%); QA after fix: 11 false knee-wrong-way findings removed (22->10 findings); reference test 16/16
+- Commit/tag: tag step4-r4
+- Not verified: never run on real GitHub; GOKU still cannot change code itself
 
 ## Improvement 8 — Audit blueprint (phases 1-8), corrected audit master prompt, draw-call owner tool
 - Date: 2026-11-21

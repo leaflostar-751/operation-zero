@@ -41,7 +41,7 @@ for (const S of subjects) {
     const cam = top ? [tx, ty + S.R * 1.7, tz + 0.01] : [tx + S.R * Math.cos(el) * Math.sin(az), ty + S.R * Math.sin(el), tz + S.R * Math.cos(el) * Math.cos(az)];
     const fx = tx - cam[0], fy = ty - cam[1], fz = tz - cam[2], yaw = deg(Math.atan2(fx, fz)), pitch = deg(Math.atan2(fy, Math.hypot(fx, fz)));
     await p.evaluate(([x, y, z, yw, pt]) => window.__OZ_DEBUG.flyCamera(x, y, z, yw, pt), [cam[0], cam[1], cam[2], yaw, pitch]); await p.waitForTimeout(2300);
-    const buf = await p.screenshot({ type: 'jpeg', quality: 72 }); const m = await ap.evaluate(analyze, { a: buf.toString('base64'), b: null });
+    const buf = await p.screenshot({ type: 'jpeg', quality: 72, timeout: 120000 }); const m = await ap.evaluate(analyze, { a: buf.toString('base64'), b: null });
     tiles.push({ label: top ? 'top' : Math.round((k * 360) / ANG) + ' deg', b64: buf.toString('base64'), m, flags: flagsOf(m) });
   }
   if (!tiles.length) { console.log(S.name + ' -> SKIPPED (subject gone: dead/removed while walking round)'); manifest.push({ subject: S.name, sheet: null, skipped: true, views: [] }); continue; }

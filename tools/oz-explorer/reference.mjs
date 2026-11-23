@@ -28,7 +28,12 @@ export const measure = async (opt = {}) => {
   if (g && g.anim && g.bones && g.anim.mixer && g.human) {
     const B = g.bones, root = g.human.group, mixer = g.anim.mixer, state0 = g.anim.currentState; let fw = V(0, 0, 1);
     g.anim.transitionTo('idle', 0.01); mixer.update(0.05); root.updateWorldMatrix(true, true);
-    const toe = (foot) => { const bb = bbox(foot), f = wp(foot); return V((bb.mn.x + bb.mx.x) / 2 - f.x, 0, (bb.mn.z + bb.mx.z) / 2 - f.z); };
+    // box of the shoe: meshes carried by the foot bone, or - since people are rigid-skinned - the skinned vertices bound to that bone
+    const footBox = (foot) => { const b0 = bbox(foot); if (Number.isFinite(b0.mn.x)) return b0; const mn = V(Infinity, Infinity, Infinity), mx = V(-Infinity, -Infinity, -Infinity), p = V(); root.updateWorldMatrix(true, true);
+      root.traverse((m) => { if (!m.isSkinnedMesh || !m.skeleton) return; const idx = m.skeleton.bones.indexOf(foot); if (idx < 0) return; const gm = m.geometry, si = gm.attributes.skinIndex, sw = gm.attributes.skinWeight, ps = gm.attributes.position;
+        for (let i = 0; i < si.count; i++) { if (si.getX(i) !== idx || sw.getX(i) < 0.5) continue; p.fromBufferAttribute(ps, i); m.applyBoneTransform(i, p); p.applyMatrix4(m.matrixWorld); mn.min(p); mx.max(p); } });
+      return { mn, mx }; };
+    const toe = (foot) => { const bb = footBox(foot), f = wp(foot); return V((bb.mn.x + bb.mx.x) / 2 - f.x, 0, (bb.mn.z + bb.mx.z) / 2 - f.z); };
     const t2 = toe(B.LeftFoot).add(toe(B.RightFoot)); out.forwardOk = t2.length() > 0.02; if (out.forwardOk) fw = t2.normalize();
     legBend = (side) => { const hip = wp(B[side + 'UpLeg']), kn = wp(B[side + 'Leg']), an = wp(B[side + 'Foot']); const fl = deg(kn.clone().sub(hip).angleTo(an.clone().sub(kn))); const off = kn.clone().sub(hip.clone().add(an).multiplyScalar(0.5)).dot(fw); return { fl, off, wrong: fl > 8 && off < -0.01 }; };
     armBend = (side) => { const sh = wp(B[side + 'Arm']), el = wp(B[side + 'ForeArm']), wr = wp(B[side + 'Hand']); const fl = deg(el.clone().sub(sh).angleTo(wr.clone().sub(el))); const off = el.clone().sub(sh.clone().add(wr).multiplyScalar(0.5)).dot(fw); return { fl, off, wrong: fl > 8 && off > 0.01 }; };

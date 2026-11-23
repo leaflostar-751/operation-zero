@@ -1,6 +1,14 @@
-# Improve game 9 — improvements 1 to 9 (cumulative)
+# Improve game 10 — improvements 1 to 10 (cumulative)
 
-This file replaces "Improve game 8". Everything done so far is listed here, newest first. Older entries are copied unchanged.
+This file replaces "Improve game 9". Everything done so far is listed here, newest first. Older entries are copied unchanged.
+
+## Improvement 10 — Step 4 r4: characters rigid-skinned (1 mesh per material) + size-adaptive body-part detail — draw calls 964→681 at spawn
+- Date: 2026-11-23
+- Status: PARTIAL
+- Changed: src/characters/CharacterBuilder.js (optimiseHumanoid -> SkinnedMesh per material; ell() uses 3 sphere detail levels)
+- Evidence: LIVE drawcalls.mjs before/after: 964->681 calls, 609->395 geometries, 1.175M->1.02M tris; characters main 140->68, shadow 398->187; smoke PASS, A0 5/5, GOKU partner PASS (12 hits/4 kills), explorer 0 findings; hero A/B picture same by eye
+- Commit/tag: tag step4-r4
+- Not verified: real phone/GPU fps; skinned mesh on real mobile GPUs; shader programs 37->48 (compile time); triangles still 1.02M vs 300k budget; draw calls 681 vs 150 budget (FAIL); run-to-run variance
 
 ## Improvement 9 — Free-GPU relay planner: which free server today, hours left, what comes next
 - Date: 2026-11-21

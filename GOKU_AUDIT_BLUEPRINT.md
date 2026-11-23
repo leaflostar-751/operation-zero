@@ -94,7 +94,7 @@ Asli fps sirf asli GPU/phone par naapi ja sakti hai (UNVERIFIED).
 ## Phase 7 — Issue register (persistent; asli ledger `ledger.json` har run mein badhta hai)
 | ID | Severity | Issue | Evidence | Root cause | Fix (proposed) | Files | Test | Status |
 |---|---|---|---|---|---|---|---|---|
-| OZ-001 | Major | 969 calls vs 150 | `__OZ_DEBUG.perf()` LIVE | materials ki bharmaar, per-building meshes, 1028 shadow casters, vehicle parts | levers 1–4 | `src/world/*`, `MergeStatic.js`, `src/vehicles/*` | `goku_qa --cells 3` perf rows | FAIL (open) |
+| OZ-001 | Major | 969 calls vs 150 → **681 after fix #2 (2026-11-23)**, still FAIL vs 150 | `__OZ_DEBUG.perf()` LIVE + `drawcalls.mjs` | materials ki bharmaar, per-building meshes, 1028 shadow casters, vehicle parts | levers 1–4 | `src/world/*`, `MergeStatic.js`, `src/vehicles/*` | `goku_qa --cells 3` perf rows | PARTIAL (open) |
 | OZ-002 | Major | 1.18M tris vs 300k | LIVE | city 784k + groups 497k | LOD/cull | `City.js`, `Trees.js` | same | FAIL (open) |
 | OZ-003 | Major | 571 materials objects, 226 (type,colour,roughness,metalness) combos | LIVE | kuch materials har object par naye (kitne share ho sakte hain = UNVERIFIED) | material cache + key mein emissive/vertexColors/maps | `CityTextures.js`, `MergeStatic.js`, builders | material-count test | PARTIAL (open) |
 | OZ-004 | Minor | Ranger 2.07 m (class range ~1.7–1.95) | reference check LIVE | roof rack shamil / body height | model naam + spec chahiye | `VehicleModels.js` | `reference.test` + live | PARTIAL |
@@ -116,3 +116,13 @@ Asli fps sirf asli GPU/phone par naapi ja sakti hai (UNVERIFIED).
 
 **Zaroori tools/dependencies:** Blender (BLOCKED here; GitHub runner par `apt/snap/pip bpy` UNVERIFIED), asli phone ya GPU test (UNVERIFIED), reference photos/blueprints (aapse), GitHub link + empty repo `operation-zero` (aapse), licence-wali open assets sirf jab licence IS use ki ijazat de.
 **Hardware:** 4 GB RAM laptop → ek waqt mein ek bhari cheez; local AI model + 3D tool saath nahi. Heavy kaam online servers par.
+
+## Round 2 — fix log (2026-11-23), pehla asli GOKU-ijazat wala fix
+**Naap pehle:** `drawcalls.mjs` ke per-pass hisaab se spawn par 966 calls mein se **585 (61%) sun-shadow pass**; shadow pass ka ~70% (401 calls, 493k tris) **13 insaan** (~31–61 mesh har ek). Tool ka main 347 + shadow 581 = 928, asli 966 ke 4% ke andar (LIVE).
+| Fix | Kya | Naap (spawn, LOW tier, LIVE) |
+|---|---|---|
+| #1 | body-parts ki detail unki screen-size ke hisaab se (`ell()` mein 3 sphere detail) | triangles 1.175M → 1.020M; characters shadow tris 493k → 370k |
+| #2 | rigid skinning: har insaan ka har material ek `SkinnedMesh` (har vertex 100% apni purani bone se bandha) | draw calls 964 → **681**; characters main 140→68, shadow 398→187; geometries 609→395 |
+**Kuch toota nahi:** smoke PASS, A0 5/5, GOKU partner PASS (12 hits/4 kills), explorer 6 cells/0 findings, reference test 16/16. Hero A/B tasveer (purana vs naya code, same camera): helmet/goggles/vest/rifle/camo ek jaise, koi tooti/kheenchi body nahi (aankh se; farq animation-phase ka).
+**QA tool ko bhi theek karna pada:** pair ke "joota kis taraf" wali jaanch foot-bone ke mesh dekhti thi; ab mesh skinned hain to wo 11 jhoote "knee wrong way" Major deti thi. Ab skinned vertices se foot box banta hai → wapas saaf (QA 22 → 10 findings, baqi sab purane/APPROX).
+**Abhi bhi baqi (Step 4):** draw calls 681 vs 150, triangles ~1.02M vs 300k (city 784k tris), shader programs 37 → 48 (skinned variants; asli phone par compile-time UNVERIFIED), run-to-run triangle farq ±15% (chalte zombies). Agle levers: building/city triangles LOD, vehicles ke 216 mesh merge, shadow casters ki had.
