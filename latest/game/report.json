@@ -1,0 +1,1866 @@
+{
+ "tool": "goku_qa",
+ "time": "2026-11-24T07:33:14.740Z",
+ "dayPKT": "2026-11-24",
+ "trigger": "workflow_dispatch",
+ "url": "http://localhost:4173/",
+ "rendering": "SIMULATED (software GL on a GitHub runner)",
+ "budget": {
+  "drawCalls": 150,
+  "triangles": 300000
+ },
+ "play": {
+  "fight": {
+   "hits": 12,
+   "kills": 4,
+   "simSeconds": 30
+  },
+  "explore": {
+   "simSeconds": 200,
+   "metersWalked": 838,
+   "insideSolidSamples": 0,
+   "badPositionFrames": 0
+  },
+  "stats": {
+   "metersWalked": 857.596635947682,
+   "zombieHits": 12,
+   "stuckEvents": 0,
+   "teleports": 0,
+   "framesSeen": 6929,
+   "plans": 12,
+   "planMs": 126.80000000001746,
+   "giveUps": 1
+  },
+  "nav": {
+   "plans": 12,
+   "nodes": 32784,
+   "ms": 126.40000000002328,
+   "fails": 0,
+   "partial": 9
+  }
+ },
+ "perf": [
+  {
+   "x": -40,
+   "z": -170,
+   "fpsEma": 1.66,
+   "frameMsEma": 601.77,
+   "worstFrameMs": 4536.4,
+   "drawCalls": 893,
+   "triangles": 1107306,
+   "geometries": 544,
+   "textures": 69,
+   "heapMB": 117.3
+  },
+  {
+   "x": 0,
+   "z": 20,
+   "fpsEma": 1.47,
+   "frameMsEma": 679.47,
+   "worstFrameMs": 4536.4,
+   "drawCalls": 321,
+   "triangles": 556530,
+   "geometries": 544,
+   "textures": 69,
+   "heapMB": 117.3
+  },
+  {
+   "x": -440,
+   "z": 0,
+   "fpsEma": 2.04,
+   "frameMsEma": 490.76,
+   "worstFrameMs": 4536.4,
+   "drawCalls": 430,
+   "triangles": 618742,
+   "geometries": 592,
+   "textures": 74,
+   "heapMB": 117.3
+  }
+ ],
+ "visual": [
+  {
+   "name": "cell_-40_-170",
+   "position": [
+    -40,
+    45,
+    -170
+   ],
+   "entropy": 6.71,
+   "dominantPct": 0.069,
+   "lumaMean": 150.6,
+   "contrast": 127,
+   "edgeDensity": 0.332,
+   "diff": {
+    "meanAbs": 2.2,
+    "changedPct": 0.001
+   },
+   "flags": [],
+   "kb": 38
+  },
+  {
+   "name": "cell_0_20",
+   "position": [
+    0,
+    45,
+    20
+   ],
+   "entropy": 5.24,
+   "dominantPct": 0.125,
+   "lumaMean": 161.6,
+   "contrast": 77,
+   "edgeDensity": 0.153,
+   "diff": {
+    "meanAbs": 0.2,
+    "changedPct": 0.001
+   },
+   "flags": [],
+   "kb": 23
+  },
+  {
+   "name": "cell_-440_0",
+   "position": [
+    -440,
+    45,
+    0
+   ],
+   "entropy": 6.6,
+   "dominantPct": 0.072,
+   "lumaMean": 147,
+   "contrast": 117,
+   "edgeDensity": 0.385,
+   "diff": {
+    "meanAbs": 0.3,
+    "changedPct": 0.001
+   },
+   "flags": [],
+   "kb": 40
+  },
+  {
+   "name": "spawn",
+   "position": [
+    -14,
+    0.2,
+    17
+   ],
+   "entropy": 5.29,
+   "dominantPct": 0.159,
+   "lumaMean": 144.3,
+   "contrast": 129,
+   "edgeDensity": 0.166,
+   "diff": {
+    "meanAbs": 0.9,
+    "changedPct": 0.007
+   },
+   "flags": [],
+   "kb": 25
+  }
+ ],
+ "visualLimits": {
+  "minEntropy": 3,
+  "maxDominant": 0.6,
+  "minEdge": 0.04,
+  "minContrast": 60,
+  "dark": 25,
+  "bright": 235
+ },
+ "reference": {
+  "summary": {
+   "vehicle": {
+    "IN_RANGE": 38,
+    "OUT_OF_RANGE": 2,
+    "NO_DATA": 0
+   },
+   "human": {
+    "IN_RANGE": 12,
+    "OUT_OF_RANGE": 0,
+    "NO_DATA": 0
+   },
+   "joints": {
+    "IN_RANGE": 40,
+    "OUT_OF_RANGE": 0,
+    "NO_DATA": 0
+   },
+   "ground-contact": {
+    "IN_RANGE": 2,
+    "OUT_OF_RANGE": 0,
+    "NO_DATA": 0
+   },
+   "building": {
+    "IN_RANGE": 12,
+    "OUT_OF_RANGE": 6,
+    "NO_DATA": 0
+   }
+  },
+  "rows": [
+   {
+    "domain": "vehicle",
+    "subject": "Apex GT (sports_coupe)",
+    "what": "length (m)",
+    "game": 4.55,
+    "range": [
+     4.1,
+     4.9
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Apex GT (sports_coupe)",
+    "what": "width (m)",
+    "game": 1.82,
+    "range": [
+     1.7,
+     2
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Apex GT (sports_coupe)",
+    "what": "height (m)",
+    "game": 1.305,
+    "range": [
+     1.1,
+     1.4
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Apex GT (sports_coupe)",
+    "what": "wheelbase (m)",
+    "game": 2.6,
+    "range": [
+     2.4,
+     2.8
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Apex GT (sports_coupe)",
+    "what": "wheelRadius (m)",
+    "game": 0.335,
+    "range": [
+     0.3,
+     0.37
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Apex GT (sports_coupe)",
+    "what": "wheelbase/length",
+    "game": 0.571,
+    "range": [
+     0.53,
+     0.65
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Apex GT (sports_coupe)",
+    "what": "width/length",
+    "game": 0.4,
+    "range": [
+     0.37,
+     0.47
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Apex GT (sports_coupe)",
+    "what": "height/length",
+    "game": 0.287,
+    "range": [
+     0.24,
+     0.46
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Stallion V8 (muscle_coupe)",
+    "what": "length (m)",
+    "game": 4.89,
+    "range": [
+     4.6,
+     5.2
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Stallion V8 (muscle_coupe)",
+    "what": "width (m)",
+    "game": 1.95,
+    "range": [
+     1.8,
+     2
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Stallion V8 (muscle_coupe)",
+    "what": "height (m)",
+    "game": 1.42,
+    "range": [
+     1.3,
+     1.5
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Stallion V8 (muscle_coupe)",
+    "what": "wheelbase (m)",
+    "game": 2.75,
+    "range": [
+     2.65,
+     2.95
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Stallion V8 (muscle_coupe)",
+    "what": "wheelRadius (m)",
+    "game": 0.355,
+    "range": [
+     0.31,
+     0.38
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Stallion V8 (muscle_coupe)",
+    "what": "wheelbase/length",
+    "game": 0.562,
+    "range": [
+     0.53,
+     0.65
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Stallion V8 (muscle_coupe)",
+    "what": "width/length",
+    "game": 0.399,
+    "range": [
+     0.37,
+     0.47
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Stallion V8 (muscle_coupe)",
+    "what": "height/length",
+    "game": 0.29,
+    "range": [
+     0.24,
+     0.46
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Ranger 4x4 (offroad_suv)",
+    "what": "length (m)",
+    "game": 4.25,
+    "range": [
+     3.9,
+     5.4
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Ranger 4x4 (offroad_suv)",
+    "what": "width (m)",
+    "game": 1.92,
+    "range": [
+     1.7,
+     2.05
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Ranger 4x4 (offroad_suv)",
+    "what": "height (m)",
+    "game": 2.07,
+    "range": [
+     1.65,
+     2
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "OUT_OF_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Ranger 4x4 (offroad_suv)",
+    "what": "wheelbase (m)",
+    "game": 2.55,
+    "range": [
+     2.3,
+     3.1
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Ranger 4x4 (offroad_suv)",
+    "what": "wheelRadius (m)",
+    "game": 0.4,
+    "range": [
+     0.34,
+     0.43
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Ranger 4x4 (offroad_suv)",
+    "what": "wheelbase/length",
+    "game": 0.6,
+    "range": [
+     0.53,
+     0.65
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Ranger 4x4 (offroad_suv)",
+    "what": "width/length",
+    "game": 0.452,
+    "range": [
+     0.37,
+     0.47
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Ranger 4x4 (offroad_suv)",
+    "what": "height/length",
+    "game": 0.487,
+    "range": [
+     0.24,
+     0.46
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "OUT_OF_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Vortex R (hypercar)",
+    "what": "length (m)",
+    "game": 4.67,
+    "range": [
+     4.3,
+     4.9
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Vortex R (hypercar)",
+    "what": "width (m)",
+    "game": 2,
+    "range": [
+     1.9,
+     2.1
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Vortex R (hypercar)",
+    "what": "height (m)",
+    "game": 1.23,
+    "range": [
+     1.05,
+     1.25
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Vortex R (hypercar)",
+    "what": "wheelbase (m)",
+    "game": 2.7,
+    "range": [
+     2.5,
+     2.8
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Vortex R (hypercar)",
+    "what": "wheelRadius (m)",
+    "game": 0.345,
+    "range": [
+     0.32,
+     0.37
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Vortex R (hypercar)",
+    "what": "wheelbase/length",
+    "game": 0.578,
+    "range": [
+     0.53,
+     0.65
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Vortex R (hypercar)",
+    "what": "width/length",
+    "game": 0.428,
+    "range": [
+     0.37,
+     0.47
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Vortex R (hypercar)",
+    "what": "height/length",
+    "game": 0.263,
+    "range": [
+     0.24,
+     0.46
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Sprint-R (superbike)",
+    "what": "length (m)",
+    "game": 2.15,
+    "range": [
+     1.95,
+     2.2
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Sprint-R (superbike)",
+    "what": "width (m)",
+    "game": 0.8,
+    "range": [
+     0.65,
+     0.85
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Sprint-R (superbike)",
+    "what": "height (m)",
+    "game": 1.3,
+    "range": [
+     1.05,
+     1.3
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Sprint-R (superbike)",
+    "what": "wheelbase (m)",
+    "game": 1.42,
+    "range": [
+     1.35,
+     1.47
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Sprint-R (superbike)",
+    "what": "wheelRadius (m)",
+    "game": 0.31,
+    "range": [
+     0.29,
+     0.33
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Sprint-R (superbike)",
+    "what": "wheelbase/length",
+    "game": 0.66,
+    "range": [
+     0.6,
+     0.72
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Sprint-R (superbike)",
+    "what": "width/length",
+    "game": 0.372,
+    "range": [
+     0.3,
+     0.42
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "vehicle",
+    "subject": "Sprint-R (superbike)",
+    "what": "height/length",
+    "game": 0.605,
+    "range": [
+     0.45,
+     0.65
+    ],
+    "basis": "typical automotive spec ranges per body class (general manufacturer data)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "human",
+    "subject": "hero",
+    "what": "height",
+    "game": 1.904,
+    "range": [
+     1.55,
+     1.95
+    ],
+    "basis": "typical adult anthropometry (standing height, limb/segment proportions)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "human",
+    "subject": "hero",
+    "what": "legRatio",
+    "game": 0.446,
+    "range": [
+     0.44,
+     0.53
+    ],
+    "basis": "typical adult anthropometry (standing height, limb/segment proportions)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "human",
+    "subject": "hero",
+    "what": "armRatio",
+    "game": 0.284,
+    "range": [
+     0.27,
+     0.37
+    ],
+    "basis": "typical adult anthropometry (standing height, limb/segment proportions)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "human",
+    "subject": "hero",
+    "what": "shoulderRatio",
+    "game": 0.21,
+    "range": [
+     0.19,
+     0.27
+    ],
+    "basis": "typical adult anthropometry (standing height, limb/segment proportions)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "human",
+    "subject": "hero",
+    "what": "armAsym (left vs right limb length)",
+    "game": 0,
+    "range": [
+     0,
+     0.03
+    ],
+    "basis": "typical adult anthropometry (standing height, limb/segment proportions)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "human",
+    "subject": "hero",
+    "what": "legAsym (left vs right limb length)",
+    "game": 0,
+    "range": [
+     0,
+     0.03
+    ],
+    "basis": "typical adult anthropometry (standing height, limb/segment proportions)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "human",
+    "subject": "goku",
+    "what": "height",
+    "game": 1.899,
+    "range": [
+     1.55,
+     1.95
+    ],
+    "basis": "typical adult anthropometry (standing height, limb/segment proportions)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "human",
+    "subject": "goku",
+    "what": "legRatio",
+    "game": 0.448,
+    "range": [
+     0.44,
+     0.53
+    ],
+    "basis": "typical adult anthropometry (standing height, limb/segment proportions)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "human",
+    "subject": "goku",
+    "what": "armRatio",
+    "game": 0.284,
+    "range": [
+     0.27,
+     0.37
+    ],
+    "basis": "typical adult anthropometry (standing height, limb/segment proportions)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "human",
+    "subject": "goku",
+    "what": "shoulderRatio",
+    "game": 0.211,
+    "range": [
+     0.19,
+     0.27
+    ],
+    "basis": "typical adult anthropometry (standing height, limb/segment proportions)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "human",
+    "subject": "goku",
+    "what": "armAsym (left vs right limb length)",
+    "game": 0,
+    "range": [
+     0,
+     0.03
+    ],
+    "basis": "typical adult anthropometry (standing height, limb/segment proportions)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "human",
+    "subject": "goku",
+    "what": "legAsym (left vs right limb length)",
+    "game": 0,
+    "range": [
+     0,
+     0.03
+    ],
+    "basis": "typical adult anthropometry (standing height, limb/segment proportions)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip idle",
+    "what": "knee flexion max (deg)",
+    "game": 4.584,
+    "range": [
+     0,
+     150
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip idle",
+    "what": "elbow flexion max (deg)",
+    "game": 0,
+    "range": [
+     0,
+     150
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip idle",
+    "what": "knee bent the WRONG way (deg)",
+    "game": 0,
+    "range": [
+     0,
+     0
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Major",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip idle",
+    "what": "elbow bent the WRONG way (deg)",
+    "game": 0,
+    "range": [
+     0,
+     0
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Major",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip walk",
+    "what": "knee flexion max (deg)",
+    "game": 60.759,
+    "range": [
+     0,
+     150
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip walk",
+    "what": "elbow flexion max (deg)",
+    "game": 0,
+    "range": [
+     0,
+     150
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip walk",
+    "what": "knee bent the WRONG way (deg)",
+    "game": 0,
+    "range": [
+     0,
+     0
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Major",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip walk",
+    "what": "elbow bent the WRONG way (deg)",
+    "game": 0,
+    "range": [
+     0,
+     0
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Major",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip run",
+    "what": "knee flexion max (deg)",
+    "game": 114.036,
+    "range": [
+     0,
+     150
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip run",
+    "what": "elbow flexion max (deg)",
+    "game": 37.242,
+    "range": [
+     0,
+     150
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip run",
+    "what": "knee bent the WRONG way (deg)",
+    "game": 0,
+    "range": [
+     0,
+     0
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Major",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip run",
+    "what": "elbow bent the WRONG way (deg)",
+    "game": 0,
+    "range": [
+     0,
+     0
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Major",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip sprint",
+    "what": "knee flexion max (deg)",
+    "game": 127.695,
+    "range": [
+     0,
+     150
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip sprint",
+    "what": "elbow flexion max (deg)",
+    "game": 48.701,
+    "range": [
+     0,
+     150
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip sprint",
+    "what": "knee bent the WRONG way (deg)",
+    "game": 0,
+    "range": [
+     0,
+     0
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Major",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip sprint",
+    "what": "elbow bent the WRONG way (deg)",
+    "game": 0,
+    "range": [
+     0,
+     0
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Major",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip crouch",
+    "what": "knee flexion max (deg)",
+    "game": 77.349,
+    "range": [
+     0,
+     150
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip crouch",
+    "what": "elbow flexion max (deg)",
+    "game": 0,
+    "range": [
+     0,
+     150
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip crouch",
+    "what": "knee bent the WRONG way (deg)",
+    "game": 0,
+    "range": [
+     0,
+     0
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Major",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip crouch",
+    "what": "elbow bent the WRONG way (deg)",
+    "game": 0,
+    "range": [
+     0,
+     0
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Major",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip crouch-walk",
+    "what": "knee flexion max (deg)",
+    "game": 85.82,
+    "range": [
+     0,
+     150
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip crouch-walk",
+    "what": "elbow flexion max (deg)",
+    "game": 0,
+    "range": [
+     0,
+     150
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip crouch-walk",
+    "what": "knee bent the WRONG way (deg)",
+    "game": 0,
+    "range": [
+     0,
+     0
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Major",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip crouch-walk",
+    "what": "elbow bent the WRONG way (deg)",
+    "game": 0,
+    "range": [
+     0,
+     0
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Major",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip jump",
+    "what": "knee flexion max (deg)",
+    "game": 37.242,
+    "range": [
+     0,
+     150
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip jump",
+    "what": "elbow flexion max (deg)",
+    "game": 0,
+    "range": [
+     0,
+     150
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip jump",
+    "what": "knee bent the WRONG way (deg)",
+    "game": 0,
+    "range": [
+     0,
+     0
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Major",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip jump",
+    "what": "elbow bent the WRONG way (deg)",
+    "game": 0,
+    "range": [
+     0,
+     0
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Major",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip fall",
+    "what": "knee flexion max (deg)",
+    "game": 31.513,
+    "range": [
+     0,
+     150
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip fall",
+    "what": "elbow flexion max (deg)",
+    "game": 0,
+    "range": [
+     0,
+     150
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip fall",
+    "what": "knee bent the WRONG way (deg)",
+    "game": 0,
+    "range": [
+     0,
+     0
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Major",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip fall",
+    "what": "elbow bent the WRONG way (deg)",
+    "game": 0,
+    "range": [
+     0,
+     0
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Major",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip land",
+    "what": "knee flexion max (deg)",
+    "game": 54.431,
+    "range": [
+     0,
+     150
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip land",
+    "what": "elbow flexion max (deg)",
+    "game": 0,
+    "range": [
+     0,
+     150
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip land",
+    "what": "knee bent the WRONG way (deg)",
+    "game": 0,
+    "range": [
+     0,
+     0
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Major",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip land",
+    "what": "elbow bent the WRONG way (deg)",
+    "game": 0,
+    "range": [
+     0,
+     0
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Major",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip turn",
+    "what": "knee flexion max (deg)",
+    "game": 14.324,
+    "range": [
+     0,
+     150
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip turn",
+    "what": "elbow flexion max (deg)",
+    "game": 0,
+    "range": [
+     0,
+     150
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip turn",
+    "what": "knee bent the WRONG way (deg)",
+    "game": 0,
+    "range": [
+     0,
+     0
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Major",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "joints",
+    "subject": "GOKU clip turn",
+    "what": "elbow bent the WRONG way (deg)",
+    "game": 0,
+    "range": [
+     0,
+     0
+    ],
+    "basis": "typical human joint range of motion (knee/elbow flexion; no hyperextension)",
+    "severity": "Major",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "ground-contact",
+    "subject": "hero",
+    "what": "lowest foot above ground (m)",
+    "game": 0.199,
+    "range": [
+     -0.1,
+     0.2
+    ],
+    "basis": "a standing or walking person always has one foot on the ground [hero anim idle, speed 0.01 m/s; measured 0.199 m]",
+    "severity": "Major",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "ground-contact",
+    "subject": "goku",
+    "what": "lowest foot above ground (m)",
+    "game": 0.047,
+    "range": [
+     -0.1,
+     0.2
+    ],
+    "basis": "a standing or walking person always has one foot on the ground",
+    "severity": "Major",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "building",
+    "subject": "492 houses/blocks",
+    "what": "storey height min (m)",
+    "game": 3,
+    "range": [
+     2.6,
+     3.6
+    ],
+    "basis": "typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "building",
+    "subject": "492 houses/blocks",
+    "what": "storey height max (m)",
+    "game": 3.4,
+    "range": [
+     2.6,
+     3.6
+    ],
+    "basis": "typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE"
+   },
+   {
+    "domain": "building",
+    "subject": "central-hospital (hospital, 5 floors)",
+    "what": "storey height APPROX (m)",
+    "game": 4.66,
+    "range": [
+     2.6,
+     5
+    ],
+    "basis": "typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE",
+    "approx": true
+   },
+   {
+    "domain": "building",
+    "subject": "meridien (hotel, 12 floors)",
+    "what": "storey height APPROX (m)",
+    "game": 5.1,
+    "range": [
+     2.6,
+     5
+    ],
+    "basis": "typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m)",
+    "severity": "Minor",
+    "verdict": "OUT_OF_RANGE",
+    "approx": true
+   },
+   {
+    "domain": "building",
+    "subject": "vu (university, 3 floors)",
+    "what": "storey height APPROX (m)",
+    "game": 8.029,
+    "range": [
+     2.6,
+     5
+    ],
+    "basis": "typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m)",
+    "severity": "Minor",
+    "verdict": "OUT_OF_RANGE",
+    "approx": true
+   },
+   {
+    "domain": "building",
+    "subject": "eye-hospital (hospital, 4 floors)",
+    "what": "storey height APPROX (m)",
+    "game": 4.925,
+    "range": [
+     2.6,
+     5
+    ],
+    "basis": "typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE",
+    "approx": true
+   },
+   {
+    "domain": "building",
+    "subject": "ashraf-palace (wedding, 3 floors)",
+    "what": "storey height APPROX (m)",
+    "game": 8.867,
+    "range": [
+     2.6,
+     5
+    ],
+    "basis": "typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m)",
+    "severity": "Minor",
+    "verdict": "OUT_OF_RANGE",
+    "approx": true
+   },
+   {
+    "domain": "building",
+    "subject": "nazari-palace (wedding, 3 floors)",
+    "what": "storey height APPROX (m)",
+    "game": 5.833,
+    "range": [
+     2.6,
+     5
+    ],
+    "basis": "typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m)",
+    "severity": "Minor",
+    "verdict": "OUT_OF_RANGE",
+    "approx": true
+   },
+   {
+    "domain": "building",
+    "subject": "school-1 (school, 2 floors)",
+    "what": "storey height APPROX (m)",
+    "game": 5.063,
+    "range": [
+     2.6,
+     5
+    ],
+    "basis": "typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m)",
+    "severity": "Minor",
+    "verdict": "OUT_OF_RANGE",
+    "approx": true
+   },
+   {
+    "domain": "building",
+    "subject": "school-2 (school, 2 floors)",
+    "what": "storey height APPROX (m)",
+    "game": 5.063,
+    "range": [
+     2.6,
+     5
+    ],
+    "basis": "typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m)",
+    "severity": "Minor",
+    "verdict": "OUT_OF_RANGE",
+    "approx": true
+   },
+   {
+    "domain": "building",
+    "subject": "desi-babu (shop, 2 floors)",
+    "what": "storey height APPROX (m)",
+    "game": 3.8,
+    "range": [
+     2.6,
+     5
+    ],
+    "basis": "typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE",
+    "approx": true
+   },
+   {
+    "domain": "building",
+    "subject": "pind (shop, 3 floors)",
+    "what": "storey height APPROX (m)",
+    "game": 4.067,
+    "range": [
+     2.6,
+     5
+    ],
+    "basis": "typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE",
+    "approx": true
+   },
+   {
+    "domain": "building",
+    "subject": "bazm (shop, 2 floors)",
+    "what": "storey height APPROX (m)",
+    "game": 3.6,
+    "range": [
+     2.6,
+     5
+    ],
+    "basis": "typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE",
+    "approx": true
+   },
+   {
+    "domain": "building",
+    "subject": "mirha (shop, 2 floors)",
+    "what": "storey height APPROX (m)",
+    "game": 3.6,
+    "range": [
+     2.6,
+     5
+    ],
+    "basis": "typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE",
+    "approx": true
+   },
+   {
+    "domain": "building",
+    "subject": "nybites (shop, 2 floors)",
+    "what": "storey height APPROX (m)",
+    "game": 3.6,
+    "range": [
+     2.6,
+     5
+    ],
+    "basis": "typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE",
+    "approx": true
+   },
+   {
+    "domain": "building",
+    "subject": "atos (shop, 3 floors)",
+    "what": "storey height APPROX (m)",
+    "game": 3.6,
+    "range": [
+     2.6,
+     5
+    ],
+    "basis": "typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE",
+    "approx": true
+   },
+   {
+    "domain": "building",
+    "subject": "neelam (shop, 2 floors)",
+    "what": "storey height APPROX (m)",
+    "game": 3.6,
+    "range": [
+     2.6,
+     5
+    ],
+    "basis": "typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE",
+    "approx": true
+   },
+   {
+    "domain": "building",
+    "subject": "gym (shop, 2 floors)",
+    "what": "storey height APPROX (m)",
+    "game": 3.6,
+    "range": [
+     2.6,
+     5
+    ],
+    "basis": "typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m)",
+    "severity": "Minor",
+    "verdict": "IN_RANGE",
+    "approx": true
+   }
+  ],
+  "forwardOk": true,
+  "notMeasurableYet": [
+   "face shape / eye spacing / nose-mouth proportions: face parts are not tagged in the character builder (needs Step 1: characters)",
+   "stairs, doors, windows, railings: the game has no interiors or stair/door data yet (a stair 'tower' is a plain box)",
+   "does a car LOOK like its real counterpart (grille, lights, body lines): needs real photos/blueprints + a person or vision AI to look",
+   "clothing clipping, skin/texture realism, brand-specific model dimensions (give me the model and I add its real specs to `models`)",
+   "muscle volume profile along limbs (thigh/calf taper) - needs a width-slice measure (next)",
+   "joint gaps / creases at knee, elbow, shoulder when bent (rigid skinning) - needs a close-up picture check",
+   "arm swing and weapon-hold pose (a weapon IK overrides the clips)",
+   "foot IK in motion (needs real input, moving hero)",
+   "vehicle behaviour while driving forward / reverse / turning (separate vehicle motion tool, next)"
+  ]
+ },
+ "selfTest": [
+  {
+   "name": "planted floating tree (+1.5 m) is detected by the audit",
+   "ok": true,
+   "evidence": "gap 1.54 m at -798.62,48.3"
+  },
+  {
+   "name": "planted hole in the ground is noted by GOKU as no_ground",
+   "ok": true,
+   "evidence": "{\"x\":40.4,\"z\":40.4,\"confidence\":\"EXACT\"}"
+  },
+  {
+   "name": "planted empty world (all objects hidden) is flagged by the visual check",
+   "ok": true,
+   "evidence": "flags [too_dark,flat_or_empty,low_detail,low_contrast] entropy 0.27, edges 0.03, contrast 1 (healthy spawn view had 0 flags, edges 0.166)"
+  },
+  {
+   "name": "planted 2.6 m tall hero is flagged by the reference check",
+   "ok": true,
+   "evidence": "height 2.761 m"
+  },
+  {
+   "name": "planted 0.9 m wheel radius is flagged by the reference check",
+   "ok": true,
+   "evidence": "wheelRadius 0.9 m"
+  },
+  {
+   "name": "planted knee bent both ways: exactly one direction is called wrong-way",
+   "ok": true,
+   "evidence": "+1.0 rad: flex 62 deg, off 0.19 m, wrong=false; -1.0 rad: flex 53 deg, off -0.16 m, wrong=true"
+  }
+ ],
+ "summary": {
+  "findings": 12,
+  "major": 3,
+  "minor": 9,
+  "ledgerOpen": 13
+ },
+ "findings": [
+  {
+   "confidence": "EXACT",
+   "id": "GOKU-partner_gave_up-0",
+   "source": "goku-partner",
+   "type": "partner_gave_up",
+   "position": [
+    -185,
+    0,
+    138.3
+   ],
+   "evidence": "no walkable path to the target, picked a new one | diagnosis: standable spot free, 3 solids within 3 m",
+   "severity": "Minor",
+   "suggested_fix": "no walkable path from here to the partner target: it may sit in a closed compound, behind the highway barrier, or beyond the planner budget; check whether a player could reach it"
+  },
+  {
+   "confidence": "EXACT",
+   "id": "PERF--40_-170",
+   "source": "perf",
+   "type": "over mobile budget",
+   "position": [
+    -40,
+    45,
+    -170
+   ],
+   "evidence": "893 draw calls (budget 150), 1107306 triangles (budget 300000)",
+   "severity": "Major",
+   "suggested_fix": "merge/instance statics, LOD for buildings and characters, limit the shadow pass"
+  },
+  {
+   "confidence": "EXACT",
+   "id": "PERF-0_20",
+   "source": "perf",
+   "type": "over mobile budget",
+   "position": [
+    0,
+    45,
+    20
+   ],
+   "evidence": "321 draw calls (budget 150), 556530 triangles (budget 300000)",
+   "severity": "Major",
+   "suggested_fix": "merge/instance statics, LOD for buildings and characters, limit the shadow pass"
+  },
+  {
+   "confidence": "EXACT",
+   "id": "PERF--440_0",
+   "source": "perf",
+   "type": "over mobile budget",
+   "position": [
+    -440,
+    45,
+    0
+   ],
+   "evidence": "430 draw calls (budget 150), 618742 triangles (budget 300000)",
+   "severity": "Major",
+   "suggested_fix": "merge/instance statics, LOD for buildings and characters, limit the shadow pass"
+  },
+  {
+   "confidence": "MEASURED",
+   "id": "REF-vehicle-Ranger_4x4_offroad_suv_height_m_",
+   "source": "reference",
+   "type": "reference:vehicle:Ranger 4x4 (offroad_suv) height (m)",
+   "position": null,
+   "evidence": "game 2.07 vs typical 1.65..2 (typical automotive spec ranges per body class (general manufacturer data))",
+   "severity": "Minor",
+   "suggested_fix": "compare with the real thing; change the model/animation only if the difference is not intentional (these ranges are typical values, not a specific model)"
+  },
+  {
+   "confidence": "MEASURED",
+   "id": "REF-vehicle-Ranger_4x4_offroad_suv_height_length",
+   "source": "reference",
+   "type": "reference:vehicle:Ranger 4x4 (offroad_suv) height/length",
+   "position": null,
+   "evidence": "game 0.487 vs typical 0.24..0.46 (typical automotive spec ranges per body class (general manufacturer data))",
+   "severity": "Minor",
+   "suggested_fix": "compare with the real thing; change the model/animation only if the difference is not intentional (these ranges are typical values, not a specific model)"
+  },
+  {
+   "confidence": "APPROX",
+   "id": "REF-building-meridien_hotel_12_floors_storey_height_APPROX_m_",
+   "source": "reference",
+   "type": "reference:building:meridien (hotel, 12 floors) storey height APPROX (m)",
+   "position": null,
+   "evidence": "game 5.1 vs typical 2.6..5 (typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m))",
+   "severity": "Minor",
+   "suggested_fix": "compare with the real thing; change the model/animation only if the difference is not intentional (these ranges are typical values, not a specific model)"
+  },
+  {
+   "confidence": "APPROX",
+   "id": "REF-building-vu_university_3_floors_storey_height_APPROX_m_",
+   "source": "reference",
+   "type": "reference:building:vu (university, 3 floors) storey height APPROX (m)",
+   "position": null,
+   "evidence": "game 8.029 vs typical 2.6..5 (typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m))",
+   "severity": "Minor",
+   "suggested_fix": "compare with the real thing; change the model/animation only if the difference is not intentional (these ranges are typical values, not a specific model)"
+  },
+  {
+   "confidence": "APPROX",
+   "id": "REF-building-ashraf_palace_wedding_3_floors_storey_height_APPROX_m_",
+   "source": "reference",
+   "type": "reference:building:ashraf-palace (wedding, 3 floors) storey height APPROX (m)",
+   "position": null,
+   "evidence": "game 8.867 vs typical 2.6..5 (typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m))",
+   "severity": "Minor",
+   "suggested_fix": "compare with the real thing; change the model/animation only if the difference is not intentional (these ranges are typical values, not a specific model)"
+  },
+  {
+   "confidence": "APPROX",
+   "id": "REF-building-nazari_palace_wedding_3_floors_storey_height_APPROX_m_",
+   "source": "reference",
+   "type": "reference:building:nazari-palace (wedding, 3 floors) storey height APPROX (m)",
+   "position": null,
+   "evidence": "game 5.833 vs typical 2.6..5 (typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m))",
+   "severity": "Minor",
+   "suggested_fix": "compare with the real thing; change the model/animation only if the difference is not intentional (these ranges are typical values, not a specific model)"
+  },
+  {
+   "confidence": "APPROX",
+   "id": "REF-building-school_1_school_2_floors_storey_height_APPROX_m_",
+   "source": "reference",
+   "type": "reference:building:school-1 (school, 2 floors) storey height APPROX (m)",
+   "position": null,
+   "evidence": "game 5.063 vs typical 2.6..5 (typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m))",
+   "severity": "Minor",
+   "suggested_fix": "compare with the real thing; change the model/animation only if the difference is not intentional (these ranges are typical values, not a specific model)"
+  },
+  {
+   "confidence": "APPROX",
+   "id": "REF-building-school_2_school_2_floors_storey_height_APPROX_m_",
+   "source": "reference",
+   "type": "reference:building:school-2 (school, 2 floors) storey height APPROX (m)",
+   "position": null,
+   "evidence": "game 5.063 vs typical 2.6..5 (typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m))",
+   "severity": "Minor",
+   "suggested_fix": "compare with the real thing; change the model/animation only if the difference is not intentional (these ranges are typical values, not a specific model)"
+  }
+ ],
+ "not_verified": [
+  "real GPU frame rate (software GL here): draw calls/triangles are real counts, fps is not",
+  "real Rapier physics if this run used the preview stub",
+  "partner only walks/fights: no driving, invulnerable",
+  "screenshots are judged by pixel statistics only (heuristics); a person or Claude must look at the pictures for real art quality",
+  "reference ranges are TYPICAL values for a class (not one specific car model/person): outside the range = \"go and look\"",
+  "faces, stairs/doors, car look vs real photos, clothing clipping: see goku_knowledge/references.json notMeasurableYet",
+  "the Windows GOKU agent is NOT part of this run"
+ ]
+}

@@ -1,0 +1,2314 @@
+{
+ "time": "2026-11-24T07:45:43.719Z",
+ "summary": {
+  "IN_RANGE": 132,
+  "OUT_OF_RANGE": 14,
+  "NO_DATA": 0,
+  "major": 0,
+  "minor": 14
+ },
+ "rows": [
+  {
+   "domain": "motion",
+   "subject": "hero walk",
+   "what": "steps per minute",
+   "game": 126.316,
+   "range": [
+    90,
+    135
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero walk",
+   "what": "knee bend max (deg)",
+   "game": 60.493,
+   "range": [
+    40,
+    80
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero walk",
+   "what": "pelvis up-down travel (m)",
+   "game": 0.055,
+   "range": [
+    0.02,
+    0.08
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero walk",
+   "what": "trunk lean forward (deg)",
+   "game": 2.611,
+   "range": [
+    -3,
+    10
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero walk",
+   "what": "share of time a foot is on the ground",
+   "game": 0.675,
+   "range": [
+    0.5,
+    0.7
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero walk",
+   "what": "share of time BOTH feet are in the air",
+   "game": 0,
+   "range": [
+    0,
+    0.02
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero walk",
+   "what": "knee bend min (deg, negative = hyper-extended)",
+   "game": 5.125,
+   "range": [
+    -5,
+    35
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero walk",
+   "what": "knee bent the WRONG way (deg)",
+   "game": 0,
+   "range": [
+    0,
+    3
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero walk",
+   "what": "leg bone length change over the cycle (fraction)",
+   "game": 0,
+   "range": [
+    0,
+    0.03
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (a rigid bone must not change length)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero walk",
+   "what": "hip-ankle / leg length (1.0 = knee locked straight)",
+   "game": 0.999,
+   "range": [
+    0,
+    0.995
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "OUT_OF_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero walk",
+   "what": "knee sideways off the hip-ankle line (m) = curved / bow / knock-knee",
+   "game": 0,
+   "range": [
+    0,
+    0.07
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero walk",
+   "what": "left-right foot phase (0.5 = opposite)",
+   "game": 0.491,
+   "range": [
+    0.42,
+    0.58
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero walk",
+   "what": "foot skating at the clip's own speed 1.46 m/s (fraction)",
+   "game": 0.001,
+   "range": [
+    0,
+    0.2
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (clip only, no foot IK)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero walk",
+   "what": "foot skating at the slowest speed this clip is used (0.2 m/s)",
+   "game": 3.013,
+   "range": [
+    0,
+    0.6
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (clip only, no foot IK)",
+   "severity": "Minor",
+   "verdict": "OUT_OF_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero walk",
+   "what": "foot skating at the fastest speed this clip is used (2.5 m/s)",
+   "game": 0.001,
+   "range": [
+    0,
+    0.6
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (clip only, no foot IK)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero run",
+   "what": "steps per minute",
+   "game": 166.667,
+   "range": [
+    140,
+    195
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero run",
+   "what": "knee bend max (deg)",
+   "game": 114.326,
+   "range": [
+    75,
+    135
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero run",
+   "what": "pelvis up-down travel (m)",
+   "game": 0.069,
+   "range": [
+    0.04,
+    0.13
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero run",
+   "what": "trunk lean forward (deg)",
+   "game": 7.656,
+   "range": [
+    2,
+    20
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero run",
+   "what": "share of time a foot is on the ground",
+   "game": 0.384,
+   "range": [
+    0.25,
+    0.5
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero run",
+   "what": "share of time BOTH feet are in the air",
+   "game": 0.233,
+   "range": [
+    0,
+    0.4
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero run",
+   "what": "knee bend min (deg, negative = hyper-extended)",
+   "game": 5.125,
+   "range": [
+    -5,
+    35
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero run",
+   "what": "knee bent the WRONG way (deg)",
+   "game": 0,
+   "range": [
+    0,
+    3
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero run",
+   "what": "leg bone length change over the cycle (fraction)",
+   "game": 0,
+   "range": [
+    0,
+    0.03
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (a rigid bone must not change length)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero run",
+   "what": "hip-ankle / leg length (1.0 = knee locked straight)",
+   "game": 0.999,
+   "range": [
+    0,
+    0.995
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "OUT_OF_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero run",
+   "what": "knee sideways off the hip-ankle line (m) = curved / bow / knock-knee",
+   "game": 0,
+   "range": [
+    0,
+    0.07
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero run",
+   "what": "left-right foot phase (0.5 = opposite)",
+   "game": 0.465,
+   "range": [
+    0.42,
+    0.58
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero run",
+   "what": "foot skating at the clip's own speed 2.997 m/s (fraction)",
+   "game": 0.003,
+   "range": [
+    0,
+    0.2
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (clip only, no foot IK)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero run",
+   "what": "foot skating at the slowest speed this clip is used (2 m/s)",
+   "game": 0.003,
+   "range": [
+    0,
+    0.6
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (clip only, no foot IK)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero run",
+   "what": "foot skating at the fastest speed this clip is used (5.2 m/s)",
+   "game": 0.003,
+   "range": [
+    0,
+    0.6
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (clip only, no foot IK)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero sprint",
+   "what": "steps per minute",
+   "game": 214.286,
+   "range": [
+    165,
+    235
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero sprint",
+   "what": "knee bend max (deg)",
+   "game": 128.33,
+   "range": [
+    90,
+    150
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero sprint",
+   "what": "pelvis up-down travel (m)",
+   "game": 0.077,
+   "range": [
+    0.04,
+    0.15
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero sprint",
+   "what": "trunk lean forward (deg)",
+   "game": 12.253,
+   "range": [
+    6,
+    32
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero sprint",
+   "what": "share of time a foot is on the ground",
+   "game": 0.313,
+   "range": [
+    0.15,
+    0.4
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero sprint",
+   "what": "share of time BOTH feet are in the air",
+   "game": 0.373,
+   "range": [
+    0,
+    0.6
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero sprint",
+   "what": "knee bend min (deg, negative = hyper-extended)",
+   "game": 5.125,
+   "range": [
+    -5,
+    35
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero sprint",
+   "what": "knee bent the WRONG way (deg)",
+   "game": 0,
+   "range": [
+    0,
+    3
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero sprint",
+   "what": "leg bone length change over the cycle (fraction)",
+   "game": 0,
+   "range": [
+    0,
+    0.03
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (a rigid bone must not change length)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero sprint",
+   "what": "hip-ankle / leg length (1.0 = knee locked straight)",
+   "game": 0.999,
+   "range": [
+    0,
+    0.995
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "OUT_OF_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero sprint",
+   "what": "knee sideways off the hip-ankle line (m) = curved / bow / knock-knee",
+   "game": 0,
+   "range": [
+    0,
+    0.07
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero sprint",
+   "what": "left-right foot phase (0.5 = opposite)",
+   "game": 0.5,
+   "range": [
+    0.42,
+    0.58
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero sprint",
+   "what": "foot skating at the clip's own speed 5.303 m/s (fraction)",
+   "game": 0.001,
+   "range": [
+    0,
+    0.2
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (clip only, no foot IK)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero sprint",
+   "what": "foot skating at the slowest speed this clip is used (4.6 m/s)",
+   "game": 0.001,
+   "range": [
+    0,
+    0.6
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (clip only, no foot IK)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero sprint",
+   "what": "foot skating at the fastest speed this clip is used (7.5 m/s)",
+   "game": 0.001,
+   "range": [
+    0,
+    0.6
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (clip only, no foot IK)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero crouch-walk",
+   "what": "steps per minute",
+   "game": 126.316,
+   "range": [
+    70,
+    130
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero crouch-walk",
+   "what": "knee bend max (deg)",
+   "game": 85.944,
+   "range": [
+    40,
+    130
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero crouch-walk",
+   "what": "pelvis up-down travel (m)",
+   "game": 0.019,
+   "range": [
+    0,
+    0.1
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero crouch-walk",
+   "what": "trunk lean forward (deg)",
+   "game": 15.942,
+   "range": [
+    0,
+    40
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero crouch-walk",
+   "what": "share of time a foot is on the ground",
+   "game": 0.447,
+   "range": [
+    0.45,
+    0.8
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "OUT_OF_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero crouch-walk",
+   "what": "share of time BOTH feet are in the air",
+   "game": 0.105,
+   "range": [
+    0,
+    0.02
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "OUT_OF_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero crouch-walk",
+   "what": "knee bend min (deg, negative = hyper-extended)",
+   "game": 65.89,
+   "range": [
+    20,
+    95
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero crouch-walk",
+   "what": "knee bent the WRONG way (deg)",
+   "game": 0,
+   "range": [
+    0,
+    3
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero crouch-walk",
+   "what": "leg bone length change over the cycle (fraction)",
+   "game": 0,
+   "range": [
+    0,
+    0.03
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (a rigid bone must not change length)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero crouch-walk",
+   "what": "hip-ankle / leg length (1.0 = knee locked straight)",
+   "game": 0.839,
+   "range": [
+    0,
+    0.995
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero crouch-walk",
+   "what": "knee sideways off the hip-ankle line (m) = curved / bow / knock-knee",
+   "game": 0,
+   "range": [
+    0,
+    0.07
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero crouch-walk",
+   "what": "left-right foot phase (0.5 = opposite)",
+   "game": 0.491,
+   "range": [
+    0.42,
+    0.58
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero crouch-walk",
+   "what": "foot skating at the clip's own speed 1.35 m/s (fraction)",
+   "game": 0.076,
+   "range": [
+    0,
+    0.2
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (clip only, no foot IK)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero crouch-walk",
+   "what": "foot skating at the slowest speed this clip is used (0.25 m/s)",
+   "game": 1.745,
+   "range": [
+    0,
+    0.6
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (clip only, no foot IK)",
+   "severity": "Minor",
+   "verdict": "OUT_OF_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero crouch-walk",
+   "what": "foot skating at the fastest speed this clip is used (1.8 m/s)",
+   "game": 0.076,
+   "range": [
+    0,
+    0.6
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (clip only, no foot IK)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero blend idle -> walk",
+   "what": "biggest one-frame joint turn (deg, bone RightLeg)",
+   "game": 12.801,
+   "range": [
+    0,
+    30
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (60 steps/s)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero blend walk -> run",
+   "what": "biggest one-frame joint turn (deg, bone LeftLeg)",
+   "game": 17.321,
+   "range": [
+    0,
+    30
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (60 steps/s)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero blend run -> sprint",
+   "what": "biggest one-frame joint turn (deg, bone LeftLeg)",
+   "game": 21.594,
+   "range": [
+    0,
+    30
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (60 steps/s)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero blend sprint -> run",
+   "what": "biggest one-frame joint turn (deg, bone RightLeg)",
+   "game": 16.341,
+   "range": [
+    0,
+    30
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (60 steps/s)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero blend run -> walk",
+   "what": "biggest one-frame joint turn (deg, bone LeftLeg)",
+   "game": 15.99,
+   "range": [
+    0,
+    30
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (60 steps/s)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero blend walk -> idle",
+   "what": "biggest one-frame joint turn (deg, bone LeftLeg)",
+   "game": 8.431,
+   "range": [
+    0,
+    30
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (60 steps/s)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero blend idle -> jump",
+   "what": "biggest one-frame joint turn (deg, bone LeftArm)",
+   "game": 5.779,
+   "range": [
+    0,
+    30
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (60 steps/s)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero blend jump -> fall",
+   "what": "biggest one-frame joint turn (deg, bone LeftArm)",
+   "game": 1.499,
+   "range": [
+    0,
+    30
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (60 steps/s)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero blend fall -> land",
+   "what": "biggest one-frame joint turn (deg, bone LeftArm)",
+   "game": 3.039,
+   "range": [
+    0,
+    30
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (60 steps/s)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero blend land -> idle",
+   "what": "biggest one-frame joint turn (deg, bone LeftLeg)",
+   "game": 4.616,
+   "range": [
+    0,
+    30
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (60 steps/s)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero blend idle -> crouch",
+   "what": "biggest one-frame joint turn (deg, bone LeftLeg)",
+   "game": 6.738,
+   "range": [
+    0,
+    30
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (60 steps/s)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero blend crouch -> crouch-walk",
+   "what": "biggest one-frame joint turn (deg, bone RightUpLeg)",
+   "game": 3.036,
+   "range": [
+    0,
+    30
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (60 steps/s)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "hero blend idle -> turn",
+   "what": "biggest one-frame joint turn (deg, bone LeftUpLeg)",
+   "game": 2.156,
+   "range": [
+    0,
+    30
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (60 steps/s)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku walk",
+   "what": "steps per minute",
+   "game": 126.316,
+   "range": [
+    90,
+    135
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku walk",
+   "what": "knee bend max (deg)",
+   "game": 60.765,
+   "range": [
+    40,
+    80
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku walk",
+   "what": "pelvis up-down travel (m)",
+   "game": 0.055,
+   "range": [
+    0.02,
+    0.08
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku walk",
+   "what": "trunk lean forward (deg)",
+   "game": 2.292,
+   "range": [
+    -3,
+    10
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku walk",
+   "what": "share of time a foot is on the ground",
+   "game": 0.675,
+   "range": [
+    0.5,
+    0.7
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku walk",
+   "what": "share of time BOTH feet are in the air",
+   "game": 0,
+   "range": [
+    0,
+    0.02
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku walk",
+   "what": "knee bend min (deg, negative = hyper-extended)",
+   "game": 5.125,
+   "range": [
+    -5,
+    35
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku walk",
+   "what": "knee bent the WRONG way (deg)",
+   "game": 0,
+   "range": [
+    0,
+    3
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku walk",
+   "what": "leg bone length change over the cycle (fraction)",
+   "game": 0,
+   "range": [
+    0,
+    0.03
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (a rigid bone must not change length)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku walk",
+   "what": "hip-ankle / leg length (1.0 = knee locked straight)",
+   "game": 0.999,
+   "range": [
+    0,
+    0.995
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "OUT_OF_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku walk",
+   "what": "knee sideways off the hip-ankle line (m) = curved / bow / knock-knee",
+   "game": 0,
+   "range": [
+    0,
+    0.07
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku walk",
+   "what": "left-right foot phase (0.5 = opposite)",
+   "game": 0.491,
+   "range": [
+    0.42,
+    0.58
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku walk",
+   "what": "foot skating at the clip's own speed 1.46 m/s (fraction)",
+   "game": 0.001,
+   "range": [
+    0,
+    0.2
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (clip only, no foot IK)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku walk",
+   "what": "foot skating at the slowest speed this clip is used (0.2 m/s)",
+   "game": 3.012,
+   "range": [
+    0,
+    0.6
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (clip only, no foot IK)",
+   "severity": "Minor",
+   "verdict": "OUT_OF_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku walk",
+   "what": "foot skating at the fastest speed this clip is used (2.5 m/s)",
+   "game": 0.001,
+   "range": [
+    0,
+    0.6
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (clip only, no foot IK)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku run",
+   "what": "steps per minute",
+   "game": 166.667,
+   "range": [
+    140,
+    195
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku run",
+   "what": "knee bend max (deg)",
+   "game": 114.05,
+   "range": [
+    75,
+    135
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku run",
+   "what": "pelvis up-down travel (m)",
+   "game": 0.069,
+   "range": [
+    0.04,
+    0.13
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku run",
+   "what": "trunk lean forward (deg)",
+   "game": 7.338,
+   "range": [
+    2,
+    20
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku run",
+   "what": "share of time a foot is on the ground",
+   "game": 0.378,
+   "range": [
+    0.25,
+    0.5
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku run",
+   "what": "share of time BOTH feet are in the air",
+   "game": 0.244,
+   "range": [
+    0,
+    0.4
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku run",
+   "what": "knee bend min (deg, negative = hyper-extended)",
+   "game": 5.125,
+   "range": [
+    -5,
+    35
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku run",
+   "what": "knee bent the WRONG way (deg)",
+   "game": 0,
+   "range": [
+    0,
+    3
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku run",
+   "what": "leg bone length change over the cycle (fraction)",
+   "game": 0,
+   "range": [
+    0,
+    0.03
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (a rigid bone must not change length)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku run",
+   "what": "hip-ankle / leg length (1.0 = knee locked straight)",
+   "game": 0.999,
+   "range": [
+    0,
+    0.995
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "OUT_OF_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku run",
+   "what": "knee sideways off the hip-ankle line (m) = curved / bow / knock-knee",
+   "game": 0,
+   "range": [
+    0,
+    0.07
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku run",
+   "what": "left-right foot phase (0.5 = opposite)",
+   "game": 0.488,
+   "range": [
+    0.42,
+    0.58
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku run",
+   "what": "foot skating at the clip's own speed 2.997 m/s (fraction)",
+   "game": 0.001,
+   "range": [
+    0,
+    0.2
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (clip only, no foot IK)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku run",
+   "what": "foot skating at the slowest speed this clip is used (2 m/s)",
+   "game": 0.001,
+   "range": [
+    0,
+    0.6
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (clip only, no foot IK)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku run",
+   "what": "foot skating at the fastest speed this clip is used (5.2 m/s)",
+   "game": 0.001,
+   "range": [
+    0,
+    0.6
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (clip only, no foot IK)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku sprint",
+   "what": "steps per minute",
+   "game": 214.286,
+   "range": [
+    165,
+    235
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku sprint",
+   "what": "knee bend max (deg)",
+   "game": 128.641,
+   "range": [
+    90,
+    150
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku sprint",
+   "what": "pelvis up-down travel (m)",
+   "game": 0.077,
+   "range": [
+    0.04,
+    0.15
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku sprint",
+   "what": "trunk lean forward (deg)",
+   "game": 11.934,
+   "range": [
+    6,
+    32
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku sprint",
+   "what": "share of time a foot is on the ground",
+   "game": 0.313,
+   "range": [
+    0.15,
+    0.4
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku sprint",
+   "what": "share of time BOTH feet are in the air",
+   "game": 0.373,
+   "range": [
+    0,
+    0.6
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku sprint",
+   "what": "knee bend min (deg, negative = hyper-extended)",
+   "game": 5.125,
+   "range": [
+    -5,
+    35
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku sprint",
+   "what": "knee bent the WRONG way (deg)",
+   "game": 0,
+   "range": [
+    0,
+    3
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku sprint",
+   "what": "leg bone length change over the cycle (fraction)",
+   "game": 0,
+   "range": [
+    0,
+    0.03
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (a rigid bone must not change length)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku sprint",
+   "what": "hip-ankle / leg length (1.0 = knee locked straight)",
+   "game": 0.999,
+   "range": [
+    0,
+    0.995
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "OUT_OF_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku sprint",
+   "what": "knee sideways off the hip-ankle line (m) = curved / bow / knock-knee",
+   "game": 0,
+   "range": [
+    0,
+    0.07
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku sprint",
+   "what": "left-right foot phase (0.5 = opposite)",
+   "game": 0.5,
+   "range": [
+    0.42,
+    0.58
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku sprint",
+   "what": "foot skating at the clip's own speed 5.303 m/s (fraction)",
+   "game": 0.002,
+   "range": [
+    0,
+    0.2
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (clip only, no foot IK)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku sprint",
+   "what": "foot skating at the slowest speed this clip is used (4.6 m/s)",
+   "game": 0.002,
+   "range": [
+    0,
+    0.6
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (clip only, no foot IK)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku sprint",
+   "what": "foot skating at the fastest speed this clip is used (7.5 m/s)",
+   "game": 0.002,
+   "range": [
+    0,
+    0.6
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (clip only, no foot IK)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku crouch-walk",
+   "what": "steps per minute",
+   "game": 126.316,
+   "range": [
+    70,
+    130
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku crouch-walk",
+   "what": "knee bend max (deg)",
+   "game": 85.944,
+   "range": [
+    40,
+    130
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku crouch-walk",
+   "what": "pelvis up-down travel (m)",
+   "game": 0.019,
+   "range": [
+    0,
+    0.1
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku crouch-walk",
+   "what": "trunk lean forward (deg)",
+   "game": 15.621,
+   "range": [
+    0,
+    40
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku crouch-walk",
+   "what": "share of time a foot is on the ground",
+   "game": 0.447,
+   "range": [
+    0.45,
+    0.8
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "OUT_OF_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku crouch-walk",
+   "what": "share of time BOTH feet are in the air",
+   "game": 0.105,
+   "range": [
+    0,
+    0.02
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "OUT_OF_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku crouch-walk",
+   "what": "knee bend min (deg, negative = hyper-extended)",
+   "game": 65.89,
+   "range": [
+    20,
+    95
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku crouch-walk",
+   "what": "knee bent the WRONG way (deg)",
+   "game": 0,
+   "range": [
+    0,
+    3
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku crouch-walk",
+   "what": "leg bone length change over the cycle (fraction)",
+   "game": 0,
+   "range": [
+    0,
+    0.03
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (a rigid bone must not change length)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku crouch-walk",
+   "what": "hip-ankle / leg length (1.0 = knee locked straight)",
+   "game": 0.839,
+   "range": [
+    0,
+    0.995
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku crouch-walk",
+   "what": "knee sideways off the hip-ankle line (m) = curved / bow / knock-knee",
+   "game": 0,
+   "range": [
+    0,
+    0.07
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku crouch-walk",
+   "what": "left-right foot phase (0.5 = opposite)",
+   "game": 0.491,
+   "range": [
+    0.42,
+    0.58
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku crouch-walk",
+   "what": "foot skating at the clip's own speed 1.35 m/s (fraction)",
+   "game": 0.076,
+   "range": [
+    0,
+    0.2
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (clip only, no foot IK)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku crouch-walk",
+   "what": "foot skating at the slowest speed this clip is used (0.25 m/s)",
+   "game": 1.745,
+   "range": [
+    0,
+    0.6
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (clip only, no foot IK)",
+   "severity": "Minor",
+   "verdict": "OUT_OF_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku crouch-walk",
+   "what": "foot skating at the fastest speed this clip is used (1.8 m/s)",
+   "game": 0.076,
+   "range": [
+    0,
+    0.6
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (clip only, no foot IK)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku blend idle -> walk",
+   "what": "biggest one-frame joint turn (deg, bone RightLeg)",
+   "game": 14.631,
+   "range": [
+    0,
+    30
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (60 steps/s)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku blend walk -> run",
+   "what": "biggest one-frame joint turn (deg, bone LeftLeg)",
+   "game": 17.695,
+   "range": [
+    0,
+    30
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (60 steps/s)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku blend run -> sprint",
+   "what": "biggest one-frame joint turn (deg, bone LeftLeg)",
+   "game": 18.376,
+   "range": [
+    0,
+    30
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (60 steps/s)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku blend sprint -> run",
+   "what": "biggest one-frame joint turn (deg, bone RightLeg)",
+   "game": 18.389,
+   "range": [
+    0,
+    30
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (60 steps/s)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku blend run -> walk",
+   "what": "biggest one-frame joint turn (deg, bone RightLeg)",
+   "game": 14.631,
+   "range": [
+    0,
+    30
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (60 steps/s)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku blend walk -> idle",
+   "what": "biggest one-frame joint turn (deg, bone LeftUpLeg)",
+   "game": 4.965,
+   "range": [
+    0,
+    30
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (60 steps/s)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku blend idle -> jump",
+   "what": "biggest one-frame joint turn (deg, bone LeftArm)",
+   "game": 5.779,
+   "range": [
+    0,
+    30
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (60 steps/s)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku blend jump -> fall",
+   "what": "biggest one-frame joint turn (deg, bone LeftArm)",
+   "game": 1.499,
+   "range": [
+    0,
+    30
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (60 steps/s)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku blend fall -> land",
+   "what": "biggest one-frame joint turn (deg, bone LeftArm)",
+   "game": 3.039,
+   "range": [
+    0,
+    30
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (60 steps/s)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku blend land -> idle",
+   "what": "biggest one-frame joint turn (deg, bone LeftLeg)",
+   "game": 4.616,
+   "range": [
+    0,
+    30
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (60 steps/s)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku blend idle -> crouch",
+   "what": "biggest one-frame joint turn (deg, bone LeftLeg)",
+   "game": 6.738,
+   "range": [
+    0,
+    30
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (60 steps/s)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku blend crouch -> crouch-walk",
+   "what": "biggest one-frame joint turn (deg, bone RightUpLeg)",
+   "game": 3.036,
+   "range": [
+    0,
+    30
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (60 steps/s)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "motion",
+   "subject": "goku blend idle -> turn",
+   "what": "biggest one-frame joint turn (deg, bone LeftUpLeg)",
+   "game": 2.156,
+   "range": [
+    0,
+    30
+   ],
+   "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person) (60 steps/s)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  }
+ ],
+ "raw": {
+  "rigs": [
+   {
+    "who": "hero",
+    "synthesized": true,
+    "forwardOk": true,
+    "states": [
+     {
+      "state": "walk",
+      "duration": 0.95,
+      "refSpeed": 1.46,
+      "cadence": 126.316,
+      "kneeFlexMax": 60.493,
+      "kneeFlexMin": 5.125,
+      "kneeWrongWay": 0,
+      "legStretch": 0,
+      "reachMax": 0.999,
+      "bow": 0,
+      "bob": 0.055,
+      "lean": 2.611,
+      "duty": 0.675,
+      "flight": 0,
+      "doubleSupport": 0.351,
+      "phase": 0.491,
+      "stanceFootSpeed": 1.459,
+      "slideRef": 0.001,
+      "slideLow": 3.013,
+      "slideHigh": 0.001,
+      "domain": [
+       0.2,
+       2.5
+      ],
+      "samples": 114,
+      "stanceSamples": 148
+     },
+     {
+      "state": "run",
+      "duration": 0.72,
+      "refSpeed": 2.997,
+      "cadence": 166.667,
+      "kneeFlexMax": 114.326,
+      "kneeFlexMin": 5.125,
+      "kneeWrongWay": 0,
+      "legStretch": 0,
+      "reachMax": 0.999,
+      "bow": 0,
+      "bob": 0.069,
+      "lean": 7.656,
+      "duty": 0.384,
+      "flight": 0.233,
+      "doubleSupport": 0,
+      "phase": 0.465,
+      "stanceFootSpeed": 2.988,
+      "slideRef": 0.003,
+      "slideLow": 0.003,
+      "slideHigh": 0.003,
+      "domain": [
+       2,
+       5.2
+      ],
+      "samples": 86,
+      "stanceSamples": 61
+     },
+     {
+      "state": "sprint",
+      "duration": 0.56,
+      "refSpeed": 5.303,
+      "cadence": 214.286,
+      "kneeFlexMax": 128.33,
+      "kneeFlexMin": 5.125,
+      "kneeWrongWay": 0,
+      "legStretch": 0,
+      "reachMax": 0.999,
+      "bow": 0,
+      "bob": 0.077,
+      "lean": 12.253,
+      "duty": 0.313,
+      "flight": 0.373,
+      "doubleSupport": 0,
+      "phase": 0.5,
+      "stanceFootSpeed": 5.296,
+      "slideRef": 0.001,
+      "slideLow": 0.001,
+      "slideHigh": 0.001,
+      "domain": [
+       4.6,
+       7.5
+      ],
+      "samples": 67,
+      "stanceSamples": 37
+     },
+     {
+      "state": "crouch-walk",
+      "duration": 0.95,
+      "refSpeed": 1.35,
+      "cadence": 126.316,
+      "kneeFlexMax": 85.944,
+      "kneeFlexMin": 65.89,
+      "kneeWrongWay": 0,
+      "legStretch": 0,
+      "reachMax": 0.839,
+      "bow": 0,
+      "bob": 0.019,
+      "lean": 15.942,
+      "duty": 0.447,
+      "flight": 0.105,
+      "doubleSupport": 0,
+      "phase": 0.491,
+      "stanceFootSpeed": 1.248,
+      "slideRef": 0.076,
+      "slideLow": 1.745,
+      "slideHigh": 0.076,
+      "domain": [
+       0.25,
+       1.8
+      ],
+      "samples": 114,
+      "stanceSamples": 97
+     }
+    ],
+    "pops": [
+     {
+      "from": "idle",
+      "to": "walk",
+      "maxStepDeg": 12.801,
+      "bone": "RightLeg"
+     },
+     {
+      "from": "walk",
+      "to": "run",
+      "maxStepDeg": 17.321,
+      "bone": "LeftLeg"
+     },
+     {
+      "from": "run",
+      "to": "sprint",
+      "maxStepDeg": 21.594,
+      "bone": "LeftLeg"
+     },
+     {
+      "from": "sprint",
+      "to": "run",
+      "maxStepDeg": 16.341,
+      "bone": "RightLeg"
+     },
+     {
+      "from": "run",
+      "to": "walk",
+      "maxStepDeg": 15.99,
+      "bone": "LeftLeg"
+     },
+     {
+      "from": "walk",
+      "to": "idle",
+      "maxStepDeg": 8.431,
+      "bone": "LeftLeg"
+     },
+     {
+      "from": "idle",
+      "to": "jump",
+      "maxStepDeg": 5.779,
+      "bone": "LeftArm"
+     },
+     {
+      "from": "jump",
+      "to": "fall",
+      "maxStepDeg": 1.499,
+      "bone": "LeftArm"
+     },
+     {
+      "from": "fall",
+      "to": "land",
+      "maxStepDeg": 3.039,
+      "bone": "LeftArm"
+     },
+     {
+      "from": "land",
+      "to": "idle",
+      "maxStepDeg": 4.616,
+      "bone": "LeftLeg"
+     },
+     {
+      "from": "idle",
+      "to": "crouch",
+      "maxStepDeg": 6.738,
+      "bone": "LeftLeg"
+     },
+     {
+      "from": "crouch",
+      "to": "crouch-walk",
+      "maxStepDeg": 3.036,
+      "bone": "RightUpLeg"
+     },
+     {
+      "from": "idle",
+      "to": "turn",
+      "maxStepDeg": 2.156,
+      "bone": "LeftUpLeg"
+     }
+    ]
+   },
+   {
+    "who": "goku",
+    "synthesized": true,
+    "forwardOk": true,
+    "states": [
+     {
+      "state": "walk",
+      "duration": 0.95,
+      "refSpeed": 1.46,
+      "cadence": 126.316,
+      "kneeFlexMax": 60.765,
+      "kneeFlexMin": 5.125,
+      "kneeWrongWay": 0,
+      "legStretch": 0,
+      "reachMax": 0.999,
+      "bow": 0,
+      "bob": 0.055,
+      "lean": 2.292,
+      "duty": 0.675,
+      "flight": 0,
+      "doubleSupport": 0.351,
+      "phase": 0.491,
+      "stanceFootSpeed": 1.459,
+      "slideRef": 0.001,
+      "slideLow": 3.012,
+      "slideHigh": 0.001,
+      "domain": [
+       0.2,
+       2.5
+      ],
+      "samples": 114,
+      "stanceSamples": 149
+     },
+     {
+      "state": "run",
+      "duration": 0.72,
+      "refSpeed": 2.997,
+      "cadence": 166.667,
+      "kneeFlexMax": 114.05,
+      "kneeFlexMin": 5.125,
+      "kneeWrongWay": 0,
+      "legStretch": 0,
+      "reachMax": 0.999,
+      "bow": 0,
+      "bob": 0.069,
+      "lean": 7.338,
+      "duty": 0.378,
+      "flight": 0.244,
+      "doubleSupport": 0,
+      "phase": 0.488,
+      "stanceFootSpeed": 2.993,
+      "slideRef": 0.001,
+      "slideLow": 0.001,
+      "slideHigh": 0.001,
+      "domain": [
+       2,
+       5.2
+      ],
+      "samples": 86,
+      "stanceSamples": 60
+     },
+     {
+      "state": "sprint",
+      "duration": 0.56,
+      "refSpeed": 5.303,
+      "cadence": 214.286,
+      "kneeFlexMax": 128.641,
+      "kneeFlexMin": 5.125,
+      "kneeWrongWay": 0,
+      "legStretch": 0,
+      "reachMax": 0.999,
+      "bow": 0,
+      "bob": 0.077,
+      "lean": 11.934,
+      "duty": 0.313,
+      "flight": 0.373,
+      "doubleSupport": 0,
+      "phase": 0.5,
+      "stanceFootSpeed": 5.291,
+      "slideRef": 0.002,
+      "slideLow": 0.002,
+      "slideHigh": 0.002,
+      "domain": [
+       4.6,
+       7.5
+      ],
+      "samples": 67,
+      "stanceSamples": 37
+     },
+     {
+      "state": "crouch-walk",
+      "duration": 0.95,
+      "refSpeed": 1.35,
+      "cadence": 126.316,
+      "kneeFlexMax": 85.944,
+      "kneeFlexMin": 65.89,
+      "kneeWrongWay": 0,
+      "legStretch": 0,
+      "reachMax": 0.839,
+      "bow": 0,
+      "bob": 0.019,
+      "lean": 15.621,
+      "duty": 0.447,
+      "flight": 0.105,
+      "doubleSupport": 0,
+      "phase": 0.491,
+      "stanceFootSpeed": 1.248,
+      "slideRef": 0.076,
+      "slideLow": 1.745,
+      "slideHigh": 0.076,
+      "domain": [
+       0.25,
+       1.8
+      ],
+      "samples": 114,
+      "stanceSamples": 97
+     }
+    ],
+    "pops": [
+     {
+      "from": "idle",
+      "to": "walk",
+      "maxStepDeg": 14.631,
+      "bone": "RightLeg"
+     },
+     {
+      "from": "walk",
+      "to": "run",
+      "maxStepDeg": 17.695,
+      "bone": "LeftLeg"
+     },
+     {
+      "from": "run",
+      "to": "sprint",
+      "maxStepDeg": 18.376,
+      "bone": "LeftLeg"
+     },
+     {
+      "from": "sprint",
+      "to": "run",
+      "maxStepDeg": 18.389,
+      "bone": "RightLeg"
+     },
+     {
+      "from": "run",
+      "to": "walk",
+      "maxStepDeg": 14.631,
+      "bone": "RightLeg"
+     },
+     {
+      "from": "walk",
+      "to": "idle",
+      "maxStepDeg": 4.965,
+      "bone": "LeftUpLeg"
+     },
+     {
+      "from": "idle",
+      "to": "jump",
+      "maxStepDeg": 5.779,
+      "bone": "LeftArm"
+     },
+     {
+      "from": "jump",
+      "to": "fall",
+      "maxStepDeg": 1.499,
+      "bone": "LeftArm"
+     },
+     {
+      "from": "fall",
+      "to": "land",
+      "maxStepDeg": 3.039,
+      "bone": "LeftArm"
+     },
+     {
+      "from": "land",
+      "to": "idle",
+      "maxStepDeg": 4.616,
+      "bone": "LeftLeg"
+     },
+     {
+      "from": "idle",
+      "to": "crouch",
+      "maxStepDeg": 6.738,
+      "bone": "LeftLeg"
+     },
+     {
+      "from": "crouch",
+      "to": "crouch-walk",
+      "maxStepDeg": 3.036,
+      "bone": "RightUpLeg"
+     },
+     {
+      "from": "idle",
+      "to": "turn",
+      "maxStepDeg": 2.156,
+      "bone": "LeftUpLeg"
+     }
+    ]
+   }
+  ],
+  "planted": null
+ },
+ "pageErrors": []
+}

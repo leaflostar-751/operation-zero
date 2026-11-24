@@ -1,0 +1,34 @@
+[
+ {
+  "time": "2026-11-23T19:08:59.116Z",
+  "day": "2026-11-24",
+  "trigger": "workflow_dispatch",
+  "kills": 4,
+  "hits": 12,
+  "meters": 836,
+  "stuck": 0,
+  "gaveUp": 1,
+  "selfTest": "6/6",
+  "refOut": 9,
+  "screenshots": 4,
+  "visualFlags": 0,
+  "findings": 13,
+  "major": 4
+ },
+ {
+  "time": "2026-11-24T07:33:14.740Z",
+  "day": "2026-11-24",
+  "trigger": "workflow_dispatch",
+  "kills": 4,
+  "hits": 12,
+  "meters": 838,
+  "stuck": 0,
+  "gaveUp": 1,
+  "selfTest": "6/6",
+  "refOut": 8,
+  "screenshots": 4,
+  "visualFlags": 0,
+  "findings": 12,
+  "major": 3
+ }
+]

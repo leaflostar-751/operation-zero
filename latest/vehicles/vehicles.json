@@ -1,0 +1,1549 @@
+{
+ "time": "2026-11-24T07:46:11.110Z",
+ "summary": {
+  "IN_RANGE": 101,
+  "OUT_OF_RANGE": 3,
+  "NO_DATA": 0,
+  "major": 0,
+  "minor": 3
+ },
+ "rows": [
+  {
+   "domain": "vehicle-motion",
+   "subject": "Apex GT (car)",
+   "what": "any NaN / broken number while driving (0 = none)",
+   "game": 0,
+   "range": [
+    0,
+    0
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Apex GT (car)",
+   "what": "wheels turn the right way when going FORWARD (share of samples)",
+   "game": 1,
+   "range": [
+    1,
+    1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Apex GT (car)",
+   "what": "wheels turn the right way when going in REVERSE (share of samples)",
+   "game": 1,
+   "range": [
+    1,
+    1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Apex GT (car)",
+   "what": "wheel spin vs ground speed (1.0 = rolls without slipping)",
+   "game": 1,
+   "range": [
+    0.9,
+    1.1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Apex GT (car)",
+   "what": "left input turns the vehicle left, right input turns it right (1 = yes)",
+   "game": 1,
+   "range": [
+    1,
+    1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Apex GT (car)",
+   "what": "front wheel(s) point the way the vehicle turns (1 = yes)",
+   "game": 1,
+   "range": [
+    1,
+    1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Apex GT (car)",
+   "what": "front wheel steer angle at full lock, parking speed (deg)",
+   "game": 25.892,
+   "range": [
+    25,
+    45
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Apex GT (car)",
+   "what": "front wheel steer angle at 14 m/s (deg): less lock at speed",
+   "game": 25.245,
+   "range": [
+    1,
+    35
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Apex GT (car)",
+   "what": "Ackermann: inner wheel turns more than the outer by (deg)",
+   "game": 5.104,
+   "range": [
+    0,
+    15
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Apex GT (car)",
+   "what": "body roll OUTWARD in a turn (deg, + = outward like a real car, - = leans into the turn like a bike)",
+   "game": 1.445,
+   "range": [
+    0,
+    7
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Apex GT (car)",
+   "what": "roll left-turn vs right-turn size difference (deg)",
+   "game": 0,
+   "range": [
+    0,
+    1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Apex GT (car)",
+   "what": "nose UP when accelerating (deg)",
+   "game": 1.445,
+   "range": [
+    0,
+    4
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Apex GT (car)",
+   "what": "nose DOWN when braking (deg)",
+   "game": 2.288,
+   "range": [
+    0,
+    6
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Apex GT (car)",
+   "what": "lowest wheel hub minus wheel radius = wheel sunk into the ground (m)",
+   "game": 0,
+   "range": [
+    -0.05,
+    0.05
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Apex GT (car)",
+   "what": "highest wheel hub minus wheel radius = wheel floating (m)",
+   "game": 0,
+   "range": [
+    -0.05,
+    0.05
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Apex GT (car)",
+   "what": "straight line drift with no steering after 6 s (m)",
+   "game": 0,
+   "range": [
+    0,
+    0.05
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Apex GT (car)",
+   "what": "speed RISES while braking and still rolling forward (m/s)",
+   "game": 0,
+   "range": [
+    0,
+    0.01
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Apex GT (car)",
+   "what": "strongest braking (g)",
+   "game": 1.506,
+   "range": [
+    0,
+    1.6
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Apex GT (car)",
+   "what": "biggest speed jump in one 1/60 s frame (m/s)",
+   "game": 0.396,
+   "range": [
+    0,
+    0.5
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Apex GT (car)",
+   "what": "sideways acceleration in turns (g)",
+   "game": 1.045,
+   "range": [
+    0,
+    1.3650000000000002
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Apex GT (car)",
+   "what": "handbrake slide angle (deg)",
+   "game": 65.845,
+   "range": [
+    5,
+    90
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Stallion V8 (car)",
+   "what": "any NaN / broken number while driving (0 = none)",
+   "game": 0,
+   "range": [
+    0,
+    0
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Stallion V8 (car)",
+   "what": "wheels turn the right way when going FORWARD (share of samples)",
+   "game": 1,
+   "range": [
+    1,
+    1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Stallion V8 (car)",
+   "what": "wheels turn the right way when going in REVERSE (share of samples)",
+   "game": 1,
+   "range": [
+    1,
+    1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Stallion V8 (car)",
+   "what": "wheel spin vs ground speed (1.0 = rolls without slipping)",
+   "game": 1,
+   "range": [
+    0.9,
+    1.1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Stallion V8 (car)",
+   "what": "left input turns the vehicle left, right input turns it right (1 = yes)",
+   "game": 1,
+   "range": [
+    1,
+    1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Stallion V8 (car)",
+   "what": "front wheel(s) point the way the vehicle turns (1 = yes)",
+   "game": 1,
+   "range": [
+    1,
+    1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Stallion V8 (car)",
+   "what": "front wheel steer angle at full lock, parking speed (deg)",
+   "game": 25.936,
+   "range": [
+    25,
+    45
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Stallion V8 (car)",
+   "what": "front wheel steer angle at 14 m/s (deg): less lock at speed",
+   "game": 25.084,
+   "range": [
+    1,
+    35
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Stallion V8 (car)",
+   "what": "Ackermann: inner wheel turns more than the outer by (deg)",
+   "game": 5.173,
+   "range": [
+    0,
+    15
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Stallion V8 (car)",
+   "what": "body roll OUTWARD in a turn (deg, + = outward like a real car, - = leans into the turn like a bike)",
+   "game": 1.826,
+   "range": [
+    0,
+    7
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Stallion V8 (car)",
+   "what": "roll left-turn vs right-turn size difference (deg)",
+   "game": 0,
+   "range": [
+    0,
+    1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Stallion V8 (car)",
+   "what": "nose UP when accelerating (deg)",
+   "game": 1.333,
+   "range": [
+    0,
+    4
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Stallion V8 (car)",
+   "what": "nose DOWN when braking (deg)",
+   "game": 2.081,
+   "range": [
+    0,
+    6
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Stallion V8 (car)",
+   "what": "lowest wheel hub minus wheel radius = wheel sunk into the ground (m)",
+   "game": 0,
+   "range": [
+    -0.05,
+    0.05
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Stallion V8 (car)",
+   "what": "highest wheel hub minus wheel radius = wheel floating (m)",
+   "game": 0,
+   "range": [
+    -0.05,
+    0.05
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Stallion V8 (car)",
+   "what": "straight line drift with no steering after 6 s (m)",
+   "game": 0,
+   "range": [
+    0,
+    0.05
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Stallion V8 (car)",
+   "what": "speed RISES while braking and still rolling forward (m/s)",
+   "game": 0,
+   "range": [
+    0,
+    0.01
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Stallion V8 (car)",
+   "what": "strongest braking (g)",
+   "game": 1.372,
+   "range": [
+    0,
+    1.6
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Stallion V8 (car)",
+   "what": "biggest speed jump in one 1/60 s frame (m/s)",
+   "game": 0.388,
+   "range": [
+    0,
+    0.5
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Stallion V8 (car)",
+   "what": "sideways acceleration in turns (g)",
+   "game": 0.944,
+   "range": [
+    0,
+    1.2349999999999999
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Stallion V8 (car)",
+   "what": "handbrake slide angle (deg)",
+   "game": 62.967,
+   "range": [
+    5,
+    90
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Ranger 4x4 (car)",
+   "what": "any NaN / broken number while driving (0 = none)",
+   "game": 0,
+   "range": [
+    0,
+    0
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Ranger 4x4 (car)",
+   "what": "wheels turn the right way when going FORWARD (share of samples)",
+   "game": 1,
+   "range": [
+    1,
+    1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Ranger 4x4 (car)",
+   "what": "wheels turn the right way when going in REVERSE (share of samples)",
+   "game": 1,
+   "range": [
+    1,
+    1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Ranger 4x4 (car)",
+   "what": "wheel spin vs ground speed (1.0 = rolls without slipping)",
+   "game": 1,
+   "range": [
+    0.9,
+    1.1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Ranger 4x4 (car)",
+   "what": "left input turns the vehicle left, right input turns it right (1 = yes)",
+   "game": 1,
+   "range": [
+    1,
+    1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Ranger 4x4 (car)",
+   "what": "front wheel(s) point the way the vehicle turns (1 = yes)",
+   "game": 1,
+   "range": [
+    1,
+    1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Ranger 4x4 (car)",
+   "what": "front wheel steer angle at full lock, parking speed (deg)",
+   "game": 25.565,
+   "range": [
+    25,
+    45
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Ranger 4x4 (car)",
+   "what": "front wheel steer angle at 14 m/s (deg): less lock at speed",
+   "game": 24.926,
+   "range": [
+    1,
+    35
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Ranger 4x4 (car)",
+   "what": "Ackermann: inner wheel turns more than the outer by (deg)",
+   "game": 5.296,
+   "range": [
+    0,
+    15
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Ranger 4x4 (car)",
+   "what": "body roll OUTWARD in a turn (deg, + = outward like a real car, - = leans into the turn like a bike)",
+   "game": 2.414,
+   "range": [
+    0,
+    7
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Ranger 4x4 (car)",
+   "what": "roll left-turn vs right-turn size difference (deg)",
+   "game": 0,
+   "range": [
+    0,
+    1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Ranger 4x4 (car)",
+   "what": "nose UP when accelerating (deg)",
+   "game": 1.146,
+   "range": [
+    0,
+    4
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Ranger 4x4 (car)",
+   "what": "nose DOWN when braking (deg)",
+   "game": 1.898,
+   "range": [
+    0,
+    6
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Ranger 4x4 (car)",
+   "what": "lowest wheel hub minus wheel radius = wheel sunk into the ground (m)",
+   "game": 0,
+   "range": [
+    -0.05,
+    0.05
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Ranger 4x4 (car)",
+   "what": "highest wheel hub minus wheel radius = wheel floating (m)",
+   "game": 0,
+   "range": [
+    -0.05,
+    0.05
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Ranger 4x4 (car)",
+   "what": "straight line drift with no steering after 6 s (m)",
+   "game": 0,
+   "range": [
+    0,
+    0.05
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Ranger 4x4 (car)",
+   "what": "speed RISES while braking and still rolling forward (m/s)",
+   "game": 0,
+   "range": [
+    0,
+    0.01
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Ranger 4x4 (car)",
+   "what": "strongest braking (g)",
+   "game": 1.217,
+   "range": [
+    0,
+    1.6
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Ranger 4x4 (car)",
+   "what": "biggest speed jump in one 1/60 s frame (m/s)",
+   "game": 0.339,
+   "range": [
+    0,
+    0.5
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Ranger 4x4 (car)",
+   "what": "sideways acceleration in turns (g)",
+   "game": 0.796,
+   "range": [
+    0,
+    1.04
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Ranger 4x4 (car)",
+   "what": "handbrake slide angle (deg)",
+   "game": 57.238,
+   "range": [
+    5,
+    90
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Vortex R (car)",
+   "what": "any NaN / broken number while driving (0 = none)",
+   "game": 0,
+   "range": [
+    0,
+    0
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Vortex R (car)",
+   "what": "wheels turn the right way when going FORWARD (share of samples)",
+   "game": 1,
+   "range": [
+    1,
+    1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Vortex R (car)",
+   "what": "wheels turn the right way when going in REVERSE (share of samples)",
+   "game": 1,
+   "range": [
+    1,
+    1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Vortex R (car)",
+   "what": "wheel spin vs ground speed (1.0 = rolls without slipping)",
+   "game": 1,
+   "range": [
+    0.9,
+    1.1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Vortex R (car)",
+   "what": "left input turns the vehicle left, right input turns it right (1 = yes)",
+   "game": 1,
+   "range": [
+    1,
+    1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Vortex R (car)",
+   "what": "front wheel(s) point the way the vehicle turns (1 = yes)",
+   "game": 1,
+   "range": [
+    1,
+    1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Vortex R (car)",
+   "what": "front wheel steer angle at full lock, parking speed (deg)",
+   "game": 23.916,
+   "range": [
+    25,
+    45
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "OUT_OF_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Vortex R (car)",
+   "what": "front wheel steer angle at 14 m/s (deg): less lock at speed",
+   "game": 23.683,
+   "range": [
+    1,
+    35
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Vortex R (car)",
+   "what": "Ackermann: inner wheel turns more than the outer by (deg)",
+   "game": 4.659,
+   "range": [
+    0,
+    15
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Vortex R (car)",
+   "what": "body roll OUTWARD in a turn (deg, + = outward like a real car, - = leans into the turn like a bike)",
+   "game": 1.208,
+   "range": [
+    0,
+    7
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Vortex R (car)",
+   "what": "roll left-turn vs right-turn size difference (deg)",
+   "game": 0,
+   "range": [
+    0,
+    1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Vortex R (car)",
+   "what": "nose UP when accelerating (deg)",
+   "game": 1.896,
+   "range": [
+    0,
+    4
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Vortex R (car)",
+   "what": "nose DOWN when braking (deg)",
+   "game": 2.513,
+   "range": [
+    0,
+    6
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Vortex R (car)",
+   "what": "lowest wheel hub minus wheel radius = wheel sunk into the ground (m)",
+   "game": 0,
+   "range": [
+    -0.05,
+    0.05
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Vortex R (car)",
+   "what": "highest wheel hub minus wheel radius = wheel floating (m)",
+   "game": 0,
+   "range": [
+    -0.05,
+    0.05
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Vortex R (car)",
+   "what": "straight line drift with no steering after 6 s (m)",
+   "game": 0,
+   "range": [
+    0,
+    0.05
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Vortex R (car)",
+   "what": "speed RISES while braking and still rolling forward (m/s)",
+   "game": 0,
+   "range": [
+    0,
+    0.01
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Vortex R (car)",
+   "what": "strongest braking (g)",
+   "game": 1.787,
+   "range": [
+    0,
+    1.6
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "OUT_OF_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Vortex R (car)",
+   "what": "biggest speed jump in one 1/60 s frame (m/s)",
+   "game": 0.408,
+   "range": [
+    0,
+    0.5
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Vortex R (car)",
+   "what": "sideways acceleration in turns (g)",
+   "game": 1.252,
+   "range": [
+    0,
+    1.625
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Vortex R (car)",
+   "what": "handbrake slide angle (deg)",
+   "game": 71.353,
+   "range": [
+    5,
+    90
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Sprint-R (bike)",
+   "what": "any NaN / broken number while driving (0 = none)",
+   "game": 0,
+   "range": [
+    0,
+    0
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Sprint-R (bike)",
+   "what": "wheels turn the right way when going FORWARD (share of samples)",
+   "game": 1,
+   "range": [
+    1,
+    1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Sprint-R (bike)",
+   "what": "wheels turn the right way when going in REVERSE (share of samples)",
+   "game": 1,
+   "range": [
+    1,
+    1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Sprint-R (bike)",
+   "what": "wheel spin vs ground speed (1.0 = rolls without slipping)",
+   "game": 0.999,
+   "range": [
+    0.9,
+    1.1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Sprint-R (bike)",
+   "what": "left input turns the vehicle left, right input turns it right (1 = yes)",
+   "game": 1,
+   "range": [
+    1,
+    1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Sprint-R (bike)",
+   "what": "front wheel(s) point the way the vehicle turns (1 = yes)",
+   "game": 1,
+   "range": [
+    1,
+    1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Sprint-R (bike)",
+   "what": "front wheel steer angle at full lock, parking speed (deg)",
+   "game": 7.917,
+   "range": [
+    8,
+    45
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "OUT_OF_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Sprint-R (bike)",
+   "what": "front wheel steer angle at 14 m/s (deg): less lock at speed",
+   "game": 1.565,
+   "range": [
+    1,
+    35
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Sprint-R (bike)",
+   "what": "lean INTO the turn (deg, + = into the turn)",
+   "game": 35.966,
+   "range": [
+    3,
+    50
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Sprint-R (bike)",
+   "what": "roll left-turn vs right-turn size difference (deg)",
+   "game": 0,
+   "range": [
+    0,
+    1
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Sprint-R (bike)",
+   "what": "nose UP when accelerating (deg)",
+   "game": 0.823,
+   "range": [
+    -4,
+    6
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Sprint-R (bike)",
+   "what": "nose DOWN when braking (deg)",
+   "game": 1.135,
+   "range": [
+    -2,
+    8
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Sprint-R (bike)",
+   "what": "lowest wheel hub minus wheel radius = wheel sunk into the ground (m)",
+   "game": -0.016,
+   "range": [
+    -0.05,
+    0.05
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Sprint-R (bike)",
+   "what": "highest wheel hub minus wheel radius = wheel floating (m)",
+   "game": 0.021,
+   "range": [
+    -0.05,
+    0.05
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Sprint-R (bike)",
+   "what": "straight line drift with no steering after 6 s (m)",
+   "game": 0,
+   "range": [
+    0,
+    0.05
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Sprint-R (bike)",
+   "what": "speed RISES while braking and still rolling forward (m/s)",
+   "game": 0,
+   "range": [
+    0,
+    0.01
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Sprint-R (bike)",
+   "what": "strongest braking (g)",
+   "game": 1.512,
+   "range": [
+    0,
+    1.6
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Sprint-R (bike)",
+   "what": "biggest speed jump in one 1/60 s frame (m/s)",
+   "game": 0.247,
+   "range": [
+    0,
+    0.5
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Major",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Sprint-R (bike)",
+   "what": "sideways acceleration in turns (g)",
+   "game": 1.077,
+   "range": [
+    0,
+    1.4300000000000002
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  },
+  {
+   "domain": "vehicle-motion",
+   "subject": "Sprint-R (bike)",
+   "what": "handbrake slide angle (deg)",
+   "game": 40.42,
+   "range": [
+    0,
+    90
+   ],
+   "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+   "severity": "Minor",
+   "verdict": "IN_RANGE"
+  }
+ ],
+ "raw": {
+  "vehicles": [
+   {
+    "type": "apex-gt",
+    "name": "Apex GT",
+    "kind": "car",
+    "wheelCount": 4,
+    "frontSteered": 2,
+    "wheelRadius": 0.335,
+    "vmax": 56,
+    "mu": 1.05,
+    "t100": 4.067,
+    "topSpeedReached": 33.547,
+    "straightDrift": 0,
+    "noseUpAccel": 1.445,
+    "noseDownBrake": 2.288,
+    "brakeSpeedRise": 0,
+    "maxDecelG": 1.506,
+    "reverseSpeed": -6.288,
+    "spinSignFwd": 1,
+    "spinSignRev": 1,
+    "rollingRatio": 1,
+    "leftTurnYawSign": 1,
+    "rightTurnYawSign": -1,
+    "frontWheelSignMatchesTurn": true,
+    "steerLockDeg": 25.892,
+    "steerAtSpeedDeg": 25.245,
+    "ackermannDeg": 5.104,
+    "rollOutwardDeg": 1.445,
+    "rollSymmetry": 0,
+    "maxLateralG": 1.045,
+    "hubHeightErrorMin": 0,
+    "hubHeightErrorMax": 0,
+    "maxSpeedStepPerFrame": 0.396,
+    "handbrakeSlipDeg": 65.845,
+    "handbrakeYawRateMax": 0.87,
+    "nan": false
+   },
+   {
+    "type": "stallion",
+    "name": "Stallion V8",
+    "kind": "car",
+    "wheelCount": 4,
+    "frontSteered": 2,
+    "wheelRadius": 0.355,
+    "vmax": 52,
+    "mu": 0.95,
+    "t100": 4.733,
+    "topSpeedReached": 30.931,
+    "straightDrift": 0,
+    "noseUpAccel": 1.333,
+    "noseDownBrake": 2.081,
+    "brakeSpeedRise": 0,
+    "maxDecelG": 1.372,
+    "reverseSpeed": -6.058,
+    "spinSignFwd": 1,
+    "spinSignRev": 1,
+    "rollingRatio": 1,
+    "leftTurnYawSign": 1,
+    "rightTurnYawSign": -1,
+    "frontWheelSignMatchesTurn": true,
+    "steerLockDeg": 25.936,
+    "steerAtSpeedDeg": 25.084,
+    "ackermannDeg": 5.173,
+    "rollOutwardDeg": 1.826,
+    "rollSymmetry": 0,
+    "maxLateralG": 0.944,
+    "hubHeightErrorMin": 0,
+    "hubHeightErrorMax": 0,
+    "maxSpeedStepPerFrame": 0.388,
+    "handbrakeSlipDeg": 62.967,
+    "handbrakeYawRateMax": 0.805,
+    "nan": false
+   },
+   {
+    "type": "ranger",
+    "name": "Ranger 4x4",
+    "kind": "car",
+    "wheelCount": 4,
+    "frontSteered": 2,
+    "wheelRadius": 0.4,
+    "vmax": 38,
+    "mu": 0.8,
+    "t100": null,
+    "topSpeedReached": 26.557,
+    "straightDrift": 0,
+    "noseUpAccel": 1.146,
+    "noseDownBrake": 1.898,
+    "brakeSpeedRise": 0,
+    "maxDecelG": 1.217,
+    "reverseSpeed": -5.987,
+    "spinSignFwd": 1,
+    "spinSignRev": 1,
+    "rollingRatio": 1,
+    "leftTurnYawSign": 1,
+    "rightTurnYawSign": -1,
+    "frontWheelSignMatchesTurn": true,
+    "steerLockDeg": 25.565,
+    "steerAtSpeedDeg": 24.926,
+    "ackermannDeg": 5.296,
+    "rollOutwardDeg": 2.414,
+    "rollSymmetry": 0,
+    "maxLateralG": 0.796,
+    "hubHeightErrorMin": 0,
+    "hubHeightErrorMax": 0,
+    "maxSpeedStepPerFrame": 0.339,
+    "handbrakeSlipDeg": 57.238,
+    "handbrakeYawRateMax": 0.778,
+    "nan": false
+   },
+   {
+    "type": "vortex",
+    "name": "Vortex R",
+    "kind": "car",
+    "wheelCount": 4,
+    "frontSteered": 2,
+    "wheelRadius": 0.345,
+    "vmax": 72,
+    "mu": 1.25,
+    "t100": 2.683,
+    "topSpeedReached": 44.018,
+    "straightDrift": 0,
+    "noseUpAccel": 1.896,
+    "noseDownBrake": 2.513,
+    "brakeSpeedRise": 0,
+    "maxDecelG": 1.787,
+    "reverseSpeed": -6.975,
+    "spinSignFwd": 1,
+    "spinSignRev": 1,
+    "rollingRatio": 1,
+    "leftTurnYawSign": 1,
+    "rightTurnYawSign": -1,
+    "frontWheelSignMatchesTurn": true,
+    "steerLockDeg": 23.916,
+    "steerAtSpeedDeg": 23.683,
+    "ackermannDeg": 4.659,
+    "rollOutwardDeg": 1.208,
+    "rollSymmetry": 0,
+    "maxLateralG": 1.252,
+    "hubHeightErrorMin": 0,
+    "hubHeightErrorMax": 0,
+    "maxSpeedStepPerFrame": 0.408,
+    "handbrakeSlipDeg": 71.353,
+    "handbrakeYawRateMax": 0.958,
+    "nan": false
+   },
+   {
+    "type": "sprint-r",
+    "name": "Sprint-R",
+    "kind": "bike",
+    "wheelCount": 2,
+    "frontSteered": 1,
+    "wheelRadius": 0.31,
+    "vmax": 64,
+    "mu": 1.1,
+    "t100": 3.317,
+    "topSpeedReached": 38.187,
+    "straightDrift": 0,
+    "noseUpAccel": 0.823,
+    "noseDownBrake": 1.135,
+    "brakeSpeedRise": 0,
+    "maxDecelG": 1.512,
+    "reverseSpeed": -2.245,
+    "spinSignFwd": 1,
+    "spinSignRev": 1,
+    "rollingRatio": 0.999,
+    "leftTurnYawSign": 1,
+    "rightTurnYawSign": -1,
+    "frontWheelSignMatchesTurn": true,
+    "steerLockDeg": 7.917,
+    "steerAtSpeedDeg": 1.565,
+    "ackermannDeg": null,
+    "rollOutwardDeg": -35.966,
+    "rollSymmetry": 0,
+    "maxLateralG": 1.077,
+    "hubHeightErrorMin": -0.016,
+    "hubHeightErrorMax": 0.021,
+    "maxSpeedStepPerFrame": 0.247,
+    "handbrakeSlipDeg": 40.42,
+    "handbrakeYawRateMax": 1.345,
+    "nan": false
+   }
+  ]
+ },
+ "pageErrors": []
+}

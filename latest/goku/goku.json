@@ -1,0 +1,72 @@
+{
+ "time": "2026-11-24T07:33:14.740Z",
+ "toolStatus": "PASS",
+ "play": {
+  "fight": {
+   "hits": 12,
+   "kills": 4,
+   "simSeconds": 30
+  },
+  "explore": {
+   "simSeconds": 200,
+   "metersWalked": 838,
+   "insideSolidSamples": 0,
+   "badPositionFrames": 0
+  },
+  "stats": {
+   "metersWalked": 857.596635947682,
+   "zombieHits": 12,
+   "stuckEvents": 0,
+   "teleports": 0,
+   "framesSeen": 6929,
+   "plans": 12,
+   "planMs": 126.80000000001746,
+   "giveUps": 1
+  },
+  "nav": {
+   "plans": 12,
+   "nodes": 32784,
+   "ms": 126.40000000002328,
+   "fails": 0,
+   "partial": 9
+  }
+ },
+ "selfTest": [
+  {
+   "name": "planted floating tree (+1.5 m) is detected by the audit",
+   "ok": true,
+   "evidence": "gap 1.54 m at -798.62,48.3"
+  },
+  {
+   "name": "planted hole in the ground is noted by GOKU as no_ground",
+   "ok": true,
+   "evidence": "{\"x\":40.4,\"z\":40.4,\"confidence\":\"EXACT\"}"
+  },
+  {
+   "name": "planted empty world (all objects hidden) is flagged by the visual check",
+   "ok": true,
+   "evidence": "flags [too_dark,flat_or_empty,low_detail,low_contrast] entropy 0.27, edges 0.03, contrast 1 (healthy spawn view had 0 flags, edges 0.166)"
+  },
+  {
+   "name": "planted 2.6 m tall hero is flagged by the reference check",
+   "ok": true,
+   "evidence": "height 2.761 m"
+  },
+  {
+   "name": "planted 0.9 m wheel radius is flagged by the reference check",
+   "ok": true,
+   "evidence": "wheelRadius 0.9 m"
+  },
+  {
+   "name": "planted knee bent both ways: exactly one direction is called wrong-way",
+   "ok": true,
+   "evidence": "+1.0 rad: flex 62 deg, off 0.19 m, wrong=false; -1.0 rad: flex 53 deg, off -0.16 m, wrong=true"
+  }
+ ],
+ "visualChecked": [
+  "cell_-40_-170",
+  "cell_0_20",
+  "cell_-440_0",
+  "spawn"
+ ]
+}

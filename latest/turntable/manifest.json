@@ -1,0 +1,380 @@
+{
+ "time": "2026-11-24T07:45:14.409Z",
+ "views": 5,
+ "pageErrors": [],
+ "notDoneBecauseOfTimeBudget": [
+  "vehicle-sprint-r",
+  "landmark-meridien",
+  "landmark-vu"
+ ],
+ "manifest": [
+  {
+   "subject": "hero",
+   "sheet": "01_hero.jpg",
+   "views": [
+    {
+     "view": "0 deg",
+     "flags": [],
+     "entropy": 5.58,
+     "edges": 0.156,
+     "contrast": 128,
+     "brightness": 150
+    },
+    {
+     "view": "90 deg",
+     "flags": [],
+     "entropy": 5.46,
+     "edges": 0.134,
+     "contrast": 135,
+     "brightness": 143.6
+    },
+    {
+     "view": "180 deg",
+     "flags": [],
+     "entropy": 5.68,
+     "edges": 0.134,
+     "contrast": 164,
+     "brightness": 131.8
+    },
+    {
+     "view": "270 deg",
+     "flags": [],
+     "entropy": 5.53,
+     "edges": 0.178,
+     "contrast": 159,
+     "brightness": 121.7
+    },
+    {
+     "view": "top",
+     "flags": [],
+     "entropy": 4.28,
+     "edges": 0.064,
+     "contrast": 130,
+     "brightness": 128.6
+    }
+   ]
+  },
+  {
+   "subject": "zombie-0",
+   "sheet": "02_zombie-0.jpg",
+   "views": [
+    {
+     "view": "0 deg",
+     "flags": [],
+     "entropy": 6.05,
+     "edges": 0.186,
+     "contrast": 151,
+     "brightness": 136.4
+    },
+    {
+     "view": "90 deg",
+     "flags": [],
+     "entropy": 6.46,
+     "edges": 0.158,
+     "contrast": 155,
+     "brightness": 121.6
+    },
+    {
+     "view": "180 deg",
+     "flags": [],
+     "entropy": 6.51,
+     "edges": 0.122,
+     "contrast": 158,
+     "brightness": 120.2
+    },
+    {
+     "view": "270 deg",
+     "flags": [],
+     "entropy": 5.38,
+     "edges": 0.17,
+     "contrast": 166,
+     "brightness": 122
+    },
+    {
+     "view": "top",
+     "flags": [],
+     "entropy": 3.81,
+     "edges": 0.072,
+     "contrast": 131,
+     "brightness": 110.8
+    }
+   ]
+  },
+  {
+   "subject": "zombie-1",
+   "sheet": "03_zombie-1.jpg",
+   "views": [
+    {
+     "view": "0 deg",
+     "flags": [],
+     "entropy": 5.27,
+     "edges": 0.175,
+     "contrast": 134,
+     "brightness": 123.2
+    },
+    {
+     "view": "90 deg",
+     "flags": [],
+     "entropy": 5.58,
+     "edges": 0.146,
+     "contrast": 126,
+     "brightness": 142.1
+    },
+    {
+     "view": "180 deg",
+     "flags": [],
+     "entropy": 5.69,
+     "edges": 0.158,
+     "contrast": 167,
+     "brightness": 144.7
+    },
+    {
+     "view": "270 deg",
+     "flags": [],
+     "entropy": 5.14,
+     "edges": 0.163,
+     "contrast": 172,
+     "brightness": 138.4
+    },
+    {
+     "view": "top",
+     "flags": [],
+     "entropy": 3.78,
+     "edges": 0.076,
+     "contrast": 61,
+     "brightness": 156.4
+    }
+   ]
+  },
+  {
+   "subject": "goku",
+   "sheet": "04_goku.jpg",
+   "views": [
+    {
+     "view": "0 deg",
+     "flags": [],
+     "entropy": 5.08,
+     "edges": 0.134,
+     "contrast": 125,
+     "brightness": 127.4
+    },
+    {
+     "view": "90 deg",
+     "flags": [],
+     "entropy": 5.08,
+     "edges": 0.164,
+     "contrast": 118,
+     "brightness": 144.2
+    },
+    {
+     "view": "180 deg",
+     "flags": [],
+     "entropy": 6.14,
+     "edges": 0.195,
+     "contrast": 141,
+     "brightness": 124.2
+    },
+    {
+     "view": "270 deg",
+     "flags": [],
+     "entropy": 6.19,
+     "edges": 0.195,
+     "contrast": 143,
+     "brightness": 102.2
+    },
+    {
+     "view": "top",
+     "flags": [],
+     "entropy": 4.59,
+     "edges": 0.065,
+     "contrast": 102,
+     "brightness": 129.5
+    }
+   ]
+  },
+  {
+   "subject": "vehicle-apex-gt",
+   "sheet": "05_vehicle-apex-gt.jpg",
+   "views": [
+    {
+     "view": "0 deg",
+     "flags": [],
+     "entropy": 5.19,
+     "edges": 0.16,
+     "contrast": 150,
+     "brightness": 152.9
+    },
+    {
+     "view": "90 deg",
+     "flags": [],
+     "entropy": 5.25,
+     "edges": 0.138,
+     "contrast": 136,
+     "brightness": 143.4
+    },
+    {
+     "view": "180 deg",
+     "flags": [],
+     "entropy": 5.65,
+     "edges": 0.186,
+     "contrast": 156,
+     "brightness": 141
+    },
+    {
+     "view": "270 deg",
+     "flags": [],
+     "entropy": 5.64,
+     "edges": 0.175,
+     "contrast": 124,
+     "brightness": 149.4
+    },
+    {
+     "view": "top",
+     "flags": [],
+     "entropy": 4.06,
+     "edges": 0.066,
+     "contrast": 111,
+     "brightness": 148.3
+    }
+   ]
+  },
+  {
+   "subject": "vehicle-stallion",
+   "sheet": "06_vehicle-stallion.jpg",
+   "views": [
+    {
+     "view": "0 deg",
+     "flags": [],
+     "entropy": 6.48,
+     "edges": 0.182,
+     "contrast": 189,
+     "brightness": 123.2
+    },
+    {
+     "view": "90 deg",
+     "flags": [],
+     "entropy": 5.74,
+     "edges": 0.169,
+     "contrast": 154,
+     "brightness": 142.1
+    },
+    {
+     "view": "180 deg",
+     "flags": [],
+     "entropy": 4.65,
+     "edges": 0.166,
+     "contrast": 153,
+     "brightness": 142.6
+    },
+    {
+     "view": "270 deg",
+     "flags": [],
+     "entropy": 5.77,
+     "edges": 0.192,
+     "contrast": 145,
+     "brightness": 148.5
+    },
+    {
+     "view": "top",
+     "flags": [],
+     "entropy": 4.38,
+     "edges": 0.084,
+     "contrast": 99,
+     "brightness": 153.4
+    }
+   ]
+  },
+  {
+   "subject": "vehicle-ranger",
+   "sheet": "07_vehicle-ranger.jpg",
+   "views": [
+    {
+     "view": "0 deg",
+     "flags": [],
+     "entropy": 5.6,
+     "edges": 0.186,
+     "contrast": 165,
+     "brightness": 145.9
+    },
+    {
+     "view": "90 deg",
+     "flags": [],
+     "entropy": 6.38,
+     "edges": 0.183,
+     "contrast": 167,
+     "brightness": 144.7
+    },
+    {
+     "view": "180 deg",
+     "flags": [],
+     "entropy": 5.89,
+     "edges": 0.171,
+     "contrast": 162,
+     "brightness": 140.4
+    },
+    {
+     "view": "270 deg",
+     "flags": [],
+     "entropy": 6.42,
+     "edges": 0.215,
+     "contrast": 177,
+     "brightness": 140.4
+    },
+    {
+     "view": "top",
+     "flags": [],
+     "entropy": 4.87,
+     "edges": 0.098,
+     "contrast": 126,
+     "brightness": 141.5
+    }
+   ]
+  },
+  {
+   "subject": "vehicle-vortex",
+   "sheet": "08_vehicle-vortex.jpg",
+   "views": [
+    {
+     "view": "0 deg",
+     "flags": [],
+     "entropy": 5.86,
+     "edges": 0.179,
+     "contrast": 135,
+     "brightness": 145.8
+    },
+    {
+     "view": "90 deg",
+     "flags": [],
+     "entropy": 5.71,
+     "edges": 0.157,
+     "contrast": 134,
+     "brightness": 136.2
+    },
+    {
+     "view": "180 deg",
+     "flags": [],
+     "entropy": 6.3,
+     "edges": 0.156,
+     "contrast": 173,
+     "brightness": 140.1
+    },
+    {
+     "view": "270 deg",
+     "flags": [],
+     "entropy": 6.02,
+     "edges": 0.197,
+     "contrast": 143,
+     "brightness": 133.2
+    },
+    {
+     "view": "top",
+     "flags": [],
+     "entropy": 4.66,
+     "edges": 0.096,
+     "contrast": 130,
+     "brightness": 134.1
+    }
+   ]
+  }
+ ]
+}

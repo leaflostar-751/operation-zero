@@ -1,0 +1,39 @@
+{
+ "lists": {
+  "trees": 1030,
+  "colliders": 2550,
+  "vehicles": 5,
+  "zombies": 3,
+  "player": {
+   "x": 0,
+   "y": 0,
+   "z": 4,
+   "yaw": 0,
+   "health": 100,
+   "stamina": 100
+  },
+  "perf": {
+   "fpsEma": 5.36,
+   "frameMsEma": 186.52,
+   "worstFrameMs": 3228.7,
+   "drawCalls": 681,
+   "triangles": 1025206,
+   "geometries": 395,
+   "textures": 55,
+   "heapMB": 132.56
+  }
+ },
+ "audit": {
+  "floatingTrees": {
+   "checked": 1030,
+   "count": 0,
+   "worst": []
+  },
+  "treesInsideColliders": {
+   "count": 0,
+   "worst": []
+  },
+  "badPositions": 0,
+  "errors": []
+ }
+}

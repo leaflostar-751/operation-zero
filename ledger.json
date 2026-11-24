@@ -1,0 +1,204 @@
+[
+ {
+  "key": "partner_gave_up@-13,,1",
+  "first_seen": "2026-11-23T19:08:59.116Z",
+  "runs_seen": 1,
+  "status": "open",
+  "last_seen": "2026-11-23T19:08:59.116Z",
+  "severity": "Minor",
+  "source": "goku-partner",
+  "type": "partner_gave_up",
+  "position": [
+   -78.4,
+   0,
+   6
+  ],
+  "evidence": "no walkable path to the target, picked a new one | diagnosis: standable spot free, 0 solids within 3 m",
+  "suggested_fix": "no walkable path from here to the partner target: it may sit in a closed compound, behind the highway barrier, or beyond the planner budget; check whether a player could reach it"
+ },
+ {
+  "key": "over mobile budget@-7,,-28",
+  "first_seen": "2026-11-23T19:08:59.116Z",
+  "runs_seen": 2,
+  "status": "open",
+  "last_seen": "2026-11-24T07:33:14.740Z",
+  "severity": "Major",
+  "source": "perf",
+  "type": "over mobile budget",
+  "position": [
+   -40,
+   45,
+   -170
+  ],
+  "evidence": "893 draw calls (budget 150), 1107306 triangles (budget 300000)",
+  "suggested_fix": "merge/instance statics, LOD for buildings and characters, limit the shadow pass"
+ },
+ {
+  "key": "over mobile budget@0,,3",
+  "first_seen": "2026-11-23T19:08:59.116Z",
+  "runs_seen": 2,
+  "status": "open",
+  "last_seen": "2026-11-24T07:33:14.740Z",
+  "severity": "Major",
+  "source": "perf",
+  "type": "over mobile budget",
+  "position": [
+   0,
+   45,
+   20
+  ],
+  "evidence": "321 draw calls (budget 150), 556530 triangles (budget 300000)",
+  "suggested_fix": "merge/instance statics, LOD for buildings and characters, limit the shadow pass"
+ },
+ {
+  "key": "over mobile budget@-73,,0",
+  "first_seen": "2026-11-23T19:08:59.116Z",
+  "runs_seen": 2,
+  "status": "open",
+  "last_seen": "2026-11-24T07:33:14.740Z",
+  "severity": "Major",
+  "source": "perf",
+  "type": "over mobile budget",
+  "position": [
+   -440,
+   45,
+   0
+  ],
+  "evidence": "430 draw calls (budget 150), 618742 triangles (budget 300000)",
+  "suggested_fix": "merge/instance statics, LOD for buildings and characters, limit the shadow pass"
+ },
+ {
+  "key": "reference:vehicle:Ranger 4x4 (offroad_suv) height (m)@none",
+  "first_seen": "2026-11-23T19:08:59.116Z",
+  "runs_seen": 2,
+  "status": "open",
+  "last_seen": "2026-11-24T07:33:14.740Z",
+  "severity": "Minor",
+  "source": "reference",
+  "type": "reference:vehicle:Ranger 4x4 (offroad_suv) height (m)",
+  "position": null,
+  "evidence": "game 2.07 vs typical 1.65..2 (typical automotive spec ranges per body class (general manufacturer data))",
+  "suggested_fix": "compare with the real thing; change the model/animation only if the difference is not intentional (these ranges are typical values, not a specific model)"
+ },
+ {
+  "key": "reference:vehicle:Ranger 4x4 (offroad_suv) height/length@none",
+  "first_seen": "2026-11-23T19:08:59.116Z",
+  "runs_seen": 2,
+  "status": "open",
+  "last_seen": "2026-11-24T07:33:14.740Z",
+  "severity": "Minor",
+  "source": "reference",
+  "type": "reference:vehicle:Ranger 4x4 (offroad_suv) height/length",
+  "position": null,
+  "evidence": "game 0.487 vs typical 0.24..0.46 (typical automotive spec ranges per body class (general manufacturer data))",
+  "suggested_fix": "compare with the real thing; change the model/animation only if the difference is not intentional (these ranges are typical values, not a specific model)"
+ },
+ {
+  "key": "reference:ground-contact:hero lowest foot above ground (m)@none",
+  "first_seen": "2026-11-23T19:08:59.116Z",
+  "runs_seen": 1,
+  "status": "not_seen_latest",
+  "last_seen": "2026-11-23T19:08:59.116Z",
+  "severity": "Major",
+  "source": "reference",
+  "type": "reference:ground-contact:hero lowest foot above ground (m)",
+  "position": null,
+  "evidence": "game 0.228 vs typical -0.1..0.2 (a standing or walking person always has one foot on the ground)",
+  "suggested_fix": "compare with the real thing; change the model/animation only if the difference is not intentional (these ranges are typical values, not a specific model)"
+ },
+ {
+  "key": "reference:building:meridien (hotel, 12 floors) storey height APPROX (m)@none",
+  "first_seen": "2026-11-23T19:08:59.116Z",
+  "runs_seen": 2,
+  "status": "open",
+  "last_seen": "2026-11-24T07:33:14.740Z",
+  "severity": "Minor",
+  "source": "reference",
+  "type": "reference:building:meridien (hotel, 12 floors) storey height APPROX (m)",
+  "position": null,
+  "evidence": "game 5.1 vs typical 2.6..5 (typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m))",
+  "suggested_fix": "compare with the real thing; change the model/animation only if the difference is not intentional (these ranges are typical values, not a specific model)"
+ },
+ {
+  "key": "reference:building:vu (university, 3 floors) storey height APPROX (m)@none",
+  "first_seen": "2026-11-23T19:08:59.116Z",
+  "runs_seen": 2,
+  "status": "open",
+  "last_seen": "2026-11-24T07:33:14.740Z",
+  "severity": "Minor",
+  "source": "reference",
+  "type": "reference:building:vu (university, 3 floors) storey height APPROX (m)",
+  "position": null,
+  "evidence": "game 8.029 vs typical 2.6..5 (typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m))",
+  "suggested_fix": "compare with the real thing; change the model/animation only if the difference is not intentional (these ranges are typical values, not a specific model)"
+ },
+ {
+  "key": "reference:building:ashraf-palace (wedding, 3 floors) storey height APPROX (m)@none",
+  "first_seen": "2026-11-23T19:08:59.116Z",
+  "runs_seen": 2,
+  "status": "open",
+  "last_seen": "2026-11-24T07:33:14.740Z",
+  "severity": "Minor",
+  "source": "reference",
+  "type": "reference:building:ashraf-palace (wedding, 3 floors) storey height APPROX (m)",
+  "position": null,
+  "evidence": "game 8.867 vs typical 2.6..5 (typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m))",
+  "suggested_fix": "compare with the real thing; change the model/animation only if the difference is not intentional (these ranges are typical values, not a specific model)"
+ },
+ {
+  "key": "reference:building:nazari-palace (wedding, 3 floors) storey height APPROX (m)@none",
+  "first_seen": "2026-11-23T19:08:59.116Z",
+  "runs_seen": 2,
+  "status": "open",
+  "last_seen": "2026-11-24T07:33:14.740Z",
+  "severity": "Minor",
+  "source": "reference",
+  "type": "reference:building:nazari-palace (wedding, 3 floors) storey height APPROX (m)",
+  "position": null,
+  "evidence": "game 5.833 vs typical 2.6..5 (typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m))",
+  "suggested_fix": "compare with the real thing; change the model/animation only if the difference is not intentional (these ranges are typical values, not a specific model)"
+ },
+ {
+  "key": "reference:building:school-1 (school, 2 floors) storey height APPROX (m)@none",
+  "first_seen": "2026-11-23T19:08:59.116Z",
+  "runs_seen": 2,
+  "status": "open",
+  "last_seen": "2026-11-24T07:33:14.740Z",
+  "severity": "Minor",
+  "source": "reference",
+  "type": "reference:building:school-1 (school, 2 floors) storey height APPROX (m)",
+  "position": null,
+  "evidence": "game 5.063 vs typical 2.6..5 (typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m))",
+  "suggested_fix": "compare with the real thing; change the model/animation only if the difference is not intentional (these ranges are typical values, not a specific model)"
+ },
+ {
+  "key": "reference:building:school-2 (school, 2 floors) storey height APPROX (m)@none",
+  "first_seen": "2026-11-23T19:08:59.116Z",
+  "runs_seen": 2,
+  "status": "open",
+  "last_seen": "2026-11-24T07:33:14.740Z",
+  "severity": "Minor",
+  "source": "reference",
+  "type": "reference:building:school-2 (school, 2 floors) storey height APPROX (m)",
+  "position": null,
+  "evidence": "game 5.063 vs typical 2.6..5 (typical floor-to-floor heights (residential ~2.7-3.2 m, commercial up to ~3.6-4.2 m))",
+  "suggested_fix": "compare with the real thing; change the model/animation only if the difference is not intentional (these ranges are typical values, not a specific model)"
+ },
+ {
+  "key": "partner_gave_up@-31,,23",
+  "first_seen": "2026-11-24T07:33:14.740Z",
+  "runs_seen": 1,
+  "status": "open",
+  "last_seen": "2026-11-24T07:33:14.740Z",
+  "severity": "Minor",
+  "source": "goku-partner",
+  "type": "partner_gave_up",
+  "position": [
+   -185,
+   0,
+   138.3
+  ],
+  "evidence": "no walkable path to the target, picked a new one | diagnosis: standable spot free, 3 solids within 3 m",
+  "suggested_fix": "no walkable path from here to the partner target: it may sit in a closed compound, behind the highway barrier, or beyond the planner budget; check whether a player could reach it"
+ }
+]

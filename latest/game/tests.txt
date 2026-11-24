@@ -1,0 +1,17 @@
+== smoke
+{"status":"PASS","note":"","errors":0,"screenshot":"reports/latest/game/smoke.png"}
+== a0
+PASS door absent without ?oz_debug 
+PASS door present with flag 
+PASS lists objects {"trees":1030,"colliders":2550,"vehicles":5,"zombies":3}
+PASS read-only: state unchanged after all queries + audit (positions within 1 cm, counts exact) hero drift 0.00050 m, camera drift 0.00055 m
+PASS door object is frozen 
+report -> reports/a0_audit.json
+{"status":"PASS","failed":0}
+== goku
+PASS partner fights zombies {"hits":12,"kills":4}
+PASS explore: walks, never inside a solid, never out of world {"walked":852,"inside":0,"bad":0,"stuck":0}
+PASS no page errors []
+== zombie pressure (real Rapier)
+{"seconds":60,"zombiesReachedHero":true,"maxHeroY":0.2,"maxRenderedY":0.2,"minHp":67,"physics":"real Rapier"}
+PASS hero stays on the ground while zombies hit him (max y 0.20 m <= 0.5 m)
