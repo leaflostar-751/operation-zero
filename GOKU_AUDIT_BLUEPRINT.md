@@ -149,3 +149,13 @@ Asli fps sirf asli GPU/phone par naapi ja sakti hai (UNVERIFIED).
 ## Round 4 — insaan + harkat + gaadi ke naap (2026-11-24)
 Naye tools (kuch game file nahi badli): `motion.mjs` (146 naap, hero + GOKU), `vehiclemotion.mjs` (104 naap, 5 gaadiyan). Details: `goku_knowledge/HUMAN_AND_MOTION_BRIEF.md`. Pehle asli glitch: OZ-014 (cars andar jhukti hain). Hero ki tangon ka geometry theek (curved/stretch/wrong-way 0), par slow-speed skating, locked knee, crouch-walk flight Minor (OZ-015..017).
 
+## Round 5 — server ne fixes verify kiye (2026-11-24, run #2 = REAL GitHub, branch `goku/OZ-014-car-roll`, 17 min 21 s, success)
+| Issue | Run #1 (pehle) | Run #2 / gate (baad, REAL Rapier) | Status |
+|---|---|---|---|
+| OZ-011 hero zombie ke sar par (y 1.8) | sandbox stub par dikha | `zombie_pressure`: zombies hero tak pahunche, max hero y **0.20 m** (hadd 0.5), hp 100 → 67 | **sandbox stub ka artifact; asli Rapier par PASS** |
+| OZ-012 A0 read-only | FAIL (0.5 mm drift) | **PASS** (hero drift 0.0005 m, camera 0.00055 m) | PASS |
+| OZ-013 hero foot 0.228 Major | Major | ground-contact 2 in range, 0 outside (Major 4 → 3) | PASS (ek sample tha; ab khada-hero check + state evidence) |
+| turntable zombie sheets | skipped | `02_zombie-0`, `03_zombie-1`, `04_goku` bani | PASS (landmarks/sprint-r 600 s budget mein nahi aaye: deep mode mein aayenge) |
+| OZ-014 cars andar jhukti | (gaadi naap nahi tha) | vehicles 104 naap: **0 Major**, 101 in range | PASS |
+Baqi Major (sirf performance): 893 / 321 / 430 draw calls (budget 150), 1.11M / 557k / 619k triangles (budget 300k) — Step 4 ka kaam.
+

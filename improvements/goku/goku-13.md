@@ -1,6 +1,14 @@
-# Goku 12 — improvements 1 to 12 (cumulative)
+# Goku 13 — improvements 1 to 13 (cumulative)
 
-This file replaces "Goku 11". Everything done so far is listed here, newest first. Older entries are copied unchanged.
+This file replaces "Goku 12". Everything done so far is listed here, newest first. Older entries are copied unchanged.
+
+## Improvement 13 — Server verification (run #2, REAL): A0 PASS, zombie pressure PASS on real Rapier, hero-foot Major gone, zombie sheets, vehicle Major 0
+- Date: 2026-11-24
+- Status: PASS
+- Changed: GOKU_AUDIT_BLUEPRINT.md
+- Evidence: GitHub run #2 (REAL, 17 min 21 s, success; gate on PR #4 5.1 min): A0 read-only PASS (hero drift 0.0005 m), partner 12 hits/4 kills, explore 852 m 0 stuck, zombie pressure max hero y 0.20 m (limit 0.5) with real Rapier, motion 146 measurements 0 Major, vehicles 104 measurements 0 Major (3 Minor), REPORT Major 4 -> 3 (only the 3 performance cells), turntable 8 sheets incl. 2 zombies + GOKU
+- Commit/tag: -
+- Not verified: Remaining Major = performance (893/321/430 draw calls vs 150; 1.11M/557k/619k triangles vs 300k); landmarks and Sprint-R sheets not done in the 600 s budget; real GPU/phone fps; deep mode, schedule and scoreboard not run yet (need merge to main)
 
 ## Improvement 12 — Online work, not idle hours: deep night audit (mode=deep, 03:07 PKT), PR gate (comments numbers on every pull request), online minutes scoreboard
 - Date: 2026-11-24
