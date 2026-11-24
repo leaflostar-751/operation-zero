@@ -1,6 +1,14 @@
-# Goku 10 — improvements 1 to 10 (cumulative)
+# Goku 11 — improvements 1 to 11 (cumulative)
 
-This file replaces "Goku 9". Everything done so far is listed here, newest first. Older entries are copied unchanged.
+This file replaces "Goku 10". Everything done so far is listed here, newest first. Older entries are copied unchanged.
+
+## Improvement 11 — Motion checks: motion.mjs (hero/GOKU gait + blends) and vehiclemotion.mjs (all-direction driving) + HUMAN_AND_MOTION_BRIEF
+- Date: 2026-11-24
+- Status: PARTIAL
+- Changed: tools/oz-explorer/motion.mjs,tools/oz-explorer/vehiclemotion.mjs,tools/oz-explorer/motion.test.mjs,tools/oz-explorer/vehiclemotion.test.mjs,goku_knowledge/references.json,goku_knowledge/HUMAN_AND_MOTION_BRIEF.md,goku_knowledge/README.md,.github/workflows/goku-qa.yml
+- Evidence: Unit tests: motion 10/10, vehiclemotion 11/11, reference 18/18, daily_guard 10/10, improvement 11/11. LIVE in sandbox (SIMULATED GL, game's own clips and drive code): motion 146 measurements (planted 30% thigh stretch detected as 0.30), 16 Minor outside typical range (locked knee 0.999, slow-walk foot skating, crouch-walk both feet in air 10.5%); vehicles 104 measurements, 4 Major: all 4 cars lean INTO turns (-1.2..-2.4 deg, OZ-014). No game file changed
+- Commit/tag: -
+- Not verified: Clip only: foot IK, weapon-hold arm IK, muscle taper, joint gaps, clothing clipping not measured; vehicles measured in flat free space only (no crash, ramp, slope, driver pose, camera); ranges are ESTIMATE textbook values; server run of both tools not done yet
 
 ## Improvement 10 — Run #1 follow-ups: A0 tolerance, standing-hero foot check, turntable zombies+partner order, zombie-pressure test
 - Date: 2026-11-24

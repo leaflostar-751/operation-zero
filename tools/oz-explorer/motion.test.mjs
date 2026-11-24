@@ -1,0 +1,28 @@
+// unit tests for GOKU's motion check (node side only: no browser needed)
+import fs from 'node:fs';
+import { compareMotion, summarizeMotion } from './motion.mjs';
+const refs = JSON.parse(fs.readFileSync(new URL('../../goku_knowledge/references.json', import.meta.url), 'utf8'));
+let passed = 0, total = 0; const t = (name, ok, extra) => { total++; if (ok) passed++; console.log(ok ? 'PASS' : 'FAIL', name, '-', extra ?? ''); };
+const good = { state: 'run', duration: 0.72, refSpeed: 3, cadence: 167, kneeFlexMax: 114, kneeFlexMin: 5, kneeWrongWay: 0, legStretch: 0, reachMax: 0.97, bow: 0.02, bob: 0.07, lean: 8, duty: 0.38, flight: 0.2, doubleSupport: 0, phase: 0.48, stanceFootSpeed: 3, slideRef: 0.01, slideLow: 0.05, slideHigh: 0.05, domain: [2, 5.2] };
+const run = (st, pops = []) => compareMotion({ rigs: [{ who: 'hero', states: [st], pops }] }, refs);
+let rows = run(good);
+t('a healthy run clip is entirely IN_RANGE', rows.length > 10 && rows.every((r) => r.verdict === 'IN_RANGE'), rows.length + ' rows');
+rows = run({ ...good, legStretch: 0.3 });
+t('a leg bone that changes length by 30% is a Major finding', rows.some((r) => /bone length/.test(r.what) && r.verdict === 'OUT_OF_RANGE' && r.severity === 'Major'), 'ok');
+rows = run({ ...good, kneeWrongWay: 40 });
+t('a knee bent 40 deg the wrong way is a Major finding', rows.some((r) => /WRONG way/.test(r.what) && r.verdict === 'OUT_OF_RANGE' && r.severity === 'Major'), 'ok');
+rows = run({ ...good, slideRef: 0.5 });
+t('50% foot skating at the clip speed is a Major finding', rows.some((r) => /foot skating at the clip/.test(r.what) && r.severity === 'Major' && r.verdict === 'OUT_OF_RANGE'), 'ok');
+rows = run({ ...good, slideLow: 3.0 });
+t('3x foot skating at the slowest used speed is flagged but only Minor (it is a blend edge)', rows.some((r) => /slowest speed/.test(r.what) && r.verdict === 'OUT_OF_RANGE' && r.severity === 'Minor'), 'ok');
+rows = run({ ...good, bow: 0.15, reachMax: 1.0 });
+t('knee 15 cm off the hip-ankle line (curved leg) and a fully locked knee are both flagged', rows.some((r) => /curved/.test(r.what) && r.verdict === 'OUT_OF_RANGE') && rows.some((r) => /locked/.test(r.what) && r.verdict === 'OUT_OF_RANGE'), 'ok');
+rows = run(good, [{ from: 'run', to: 'sprint', maxStepDeg: 55, bone: 'LeftLeg' }, { from: 'idle', to: 'walk', maxStepDeg: 12, bone: 'RightLeg' }]);
+t('a 55 deg one-frame joint jump while blending is a Major pop, 12 deg is fine', rows.filter((r) => /blend/.test(r.subject)).map((r) => r.verdict).join() === 'OUT_OF_RANGE,IN_RANGE' && rows.find((r) => /blend/.test(r.subject)).severity === 'Major', 'ok');
+rows = compareMotion({ rigs: [{ who: 'hero', states: [{ ...good, state: 'crouch-walk', kneeFlexMin: 66, kneeFlexMax: 86, cadence: 126, bob: 0.02, lean: 16, duty: 0.6, flight: 0, reachMax: 0.84 }], pops: [] }] }, refs);
+t('crouch-walk is allowed bent knees (66 deg minimum is normal when crouching)', rows.filter((r) => /knee bend min/.test(r.what)).every((r) => r.verdict === 'IN_RANGE'), 'ok');
+rows = run({ ...good, slideRef: NaN });
+t('no stance samples -> NO_DATA, not a fake pass', rows.every((r) => !/at the clip/.test(r.what)), 'row skipped');
+const s = summarizeMotion(run({ ...good, legStretch: 0.3, bow: 0.2 }));
+t('summary counts Major and Minor separately', s.major === 1 && s.minor === 1, JSON.stringify(s));
+console.log(JSON.stringify({ passed, total })); process.exit(passed === total ? 0 : 1);

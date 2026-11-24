@@ -107,6 +107,11 @@ Asli fps sirf asli GPU/phone par naapi ja sakti hai (UNVERIFIED).
 | OZ-011 | Major (UNVERIFIED) | zombies hero tak pahunchein to hero ka `position.y` 1.8 m par chala jaata hai aur wahin rehta hai (zombie ke sar par khada) | sandbox probe 70 s, LIVE par **stub physics = SIMULATED**: y 0 → 1.8, hp 100 → 46 | stub ka `ground()` zombie ke collider ko zameen maanta hai (STATIC padha); asli Rapier mein autostep sirf 0.38 m hai | pehle asli Rapier par naapo | `tests/zombie_pressure.mjs` (naya) | GitHub run mein har baar chalta hai | UNVERIFIED |
 | OZ-012 | Minor | server par A0 "read-only" test FAIL: hero y −0.0018 → −0.0023, camera y 0.3 mm farq | GitHub run #1 | test bilkul barabar maangta tha, game beech mein chalta rehta hai (asli physics hero ko mm mein settle karti hai) | position 1 cm tolerance, ginti/health exact | `tests/a0_debug.mjs` | sandbox A0 5/5; server par agla run | PARTIAL (server UNVERIFIED) |
 | OZ-013 | Major (UNVERIFIED) | hero ground-contact: lowest foot 0.228 m (range −0.10..0.20) server par | GitHub run #1 (1 sample, state record nahi tha) | daudte waqt dono paon hawa mein ho sakte hain; ya asli koi masla — **pata nahi** | ab sirf khade hero ko judge karo; state + speed evidence mein likho | `reference.mjs` | `reference.test` 18/18; sandbox khada hero 0.062 m | UNVERIFIED |
+| OZ-014 | Major | 4 mein se 4 car turn mein **andar** ki taraf jhukti hain (bike jaisa); asli car bahar jhukti hai | `vehiclemotion.mjs` LIVE: Apex GT −1.4°, Stallion −1.8°, Ranger −2.4°, Vortex −1.2° (typical 0..+7° outward) | `VehicleSystem.updateFrame`: `targetRoll = clamp(-latG * bodyRoll * 0.05, ...)` (car ka +X = left, left turn par latG>0) | roll ka sign ulta (sirf car, bike nahi) | `src/vehicles/VehicleSystem.js` | `vehiclemotion.mjs` before/after | OPEN → fix agle step mein |
+| OZ-015 | Minor | slow chalte waqt paon zameen par phisalte hain (walk clip 0.2 m/s par ~4× tez) | `motion.mjs` LIVE: slideLow 3.013 (hero aur GOKU), crouch-walk 1.745 | speed-match clamp 0.55 se neeche | idle se blend ya clamp neeche | `AnimationController.js` | `motion.mjs` slideLow ≤ 0.6 | OPEN |
+| OZ-016 | Minor | daudte/chalte waqt tang bilkul seedhi (ghutna lock) | `motion.mjs` reachMax 0.999 (walk/run/sprint) | synth clip ghutna 0° tak seedha | stance mein ≥ 4–6° flex | synth clips | reachMax < 0.995 aur skating PASS | OPEN |
+| OZ-017 | Minor | crouch-walk mein 10.5 % waqt dono paon hawa mein | `motion.mjs` flight 0.105 | crouch-walk duty chhota | clip theek | synth clips | flight ≤ 0.02 | OPEN |
+| OZ-018 | Minor (UNVERIFIED) | jodon (ghutna/kuhni/kandha) par rigid-skin ka sakht kona / gap | tasveer se lagta hai, number nahi | har vertex 100 % ek bone | 2-bone blend weights | `CharacterBuilder.js` | close-up + draw calls na badhen | UNVERIFIED |
 
 ## Phase 8 — Roadmap + zaroori tools
 | Phase | Kaam | Status abhi |
@@ -140,3 +145,7 @@ Asli fps sirf asli GPU/phone par naapi ja sakti hai (UNVERIFIED).
 | turntable: zombie-0/1 sheet "subject gone" | characters pehle; GOKU partner sirf apni baari par on (wo zombies maar deta tha) | sandbox: hero, zombie-0, zombie-1, goku **4/4 sheets**, 0 skipped |
 **Naya khoj (turntable tasveer se):** zombie-0 sheet mein hero ki camo tangein frame ke upar hawa mein thin → probe ne OZ-011 pakda. Sandbox physics stub hai, isliye `tests/zombie_pressure.mjs` GitHub par asli Rapier ke saath chalega.
 **Abhi bhi baqi:** draw calls 681 vs 150, triangles ~1.02M vs 300k (Step 4 levers neeche), asli phone par fps.
+
+## Round 4 — insaan + harkat + gaadi ke naap (2026-11-24)
+Naye tools (kuch game file nahi badli): `motion.mjs` (146 naap, hero + GOKU), `vehiclemotion.mjs` (104 naap, 5 gaadiyan). Details: `goku_knowledge/HUMAN_AND_MOTION_BRIEF.md`. Pehle asli glitch: OZ-014 (cars andar jhukti hain). Hero ki tangon ka geometry theek (curved/stretch/wrong-way 0), par slow-speed skating, locked knee, crouch-walk flight Minor (OZ-015..017).
+

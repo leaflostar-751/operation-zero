@@ -19,3 +19,7 @@
 - Ranges *typical* hain (class ki), kisi ek insaan/gaadi ki nahi. Range ke bahar = "yahan dekho", "bug hai" nahi.
 - Pixel/number se "khoobsurti" ya "asli jaisa look" nahi pakda ja sakta; uske liye reference photos + dekhne wala chahiye.
 - Report: `latest/game/REFERENCE.md` (poori table), `REPORT.md` (sirf range se bahar wali), GOKU ke trend mein "Outside real-world range" column.
+
+## Insaan + harkat + gaadi (2026-11-24)
+- `HUMAN_AND_MOTION_BRIEF.md` - insaan ke 5 layers (haddi, muscles, skin, nerves/control, kapde), daudte waqt ke glitch (curved legs, foot skating, pop), gaadi ke har taraf ke maneuvers, "ultra realistic" ka sach, GOKU ka kaam-chakra.
+- `references.json` `motion` + `vehicleMotion` - typical (ESTIMATE) ranges; `tools/oz-explorer/motion.mjs` aur `vehiclemotion.mjs` inhe LIVE naapte hain (GitHub par har run mein).

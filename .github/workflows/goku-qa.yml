@@ -76,6 +76,12 @@ jobs:
         continue-on-error: true
         timeout-minutes: 15
         run: node tools/oz-explorer/turntable.mjs http://localhost:4173/ --out reports/latest/turntable --angles 4 --only vehicles,characters,landmarks --landmarks meridien,vu --maxSeconds 600
+      - name: GOKU motion check - how the hero and GOKU run, and how every vehicle drives (extra, never blocks the upload)
+        continue-on-error: true
+        timeout-minutes: 10
+        run: |
+          node tools/oz-explorer/motion.mjs http://localhost:4173/ --out reports/latest/motion
+          node tools/oz-explorer/vehiclemotion.mjs http://localhost:4173/ --out reports/latest/vehicles
       - name: Game tests (results are saved in the report, they do not stop the upload)
         run: |
           set +e
@@ -87,7 +93,7 @@ jobs:
       - name: Show the reports on the run page
         if: always()
         run: |
-          for f in reports/latest/game/REPORT.md reports/latest/goku/GOKU_REPORT.md; do [ -f "$f" ] && { cat "$f"; echo; } >> "$GITHUB_STEP_SUMMARY"; done; exit 0
+          for f in reports/latest/game/REPORT.md reports/latest/goku/GOKU_REPORT.md reports/latest/motion/MOTION.md reports/latest/vehicles/VEHICLES.md; do [ -f "$f" ] && { cat "$f"; echo; } >> "$GITHUB_STEP_SUMMARY"; done; exit 0
       - name: Publish reports (branch "reports" only; history replaced by ONE commit after a data-loss check)
         env:
           REPORTS_HISTORY: replace   # set to keep if you want old commits to stay in git history
