@@ -1,6 +1,14 @@
-# Goku 9 — improvements 1 to 9 (cumulative)
+# Goku 10 — improvements 1 to 10 (cumulative)
 
-This file replaces "Goku 8". Everything done so far is listed here, newest first. Older entries are copied unchanged.
+This file replaces "Goku 9". Everything done so far is listed here, newest first. Older entries are copied unchanged.
+
+## Improvement 10 — Run #1 follow-ups: A0 tolerance, standing-hero foot check, turntable zombies+partner order, zombie-pressure test
+- Date: 2026-11-24
+- Status: PARTIAL
+- Changed: tests/a0_debug.mjs,tools/oz-explorer/reference.mjs,tools/oz-explorer/reference.test.mjs,tools/oz-explorer/turntable.mjs,tests/zombie_pressure.mjs,.github/workflows/goku-qa.yml,GOKU_AUDIT_BLUEPRINT.md
+- Evidence: Sandbox (SIMULATED): regression smoke PASS, A0 5/5 (drift 0.00000 m), GOKU partner PASS, explorer 0 findings; reference test 18/18; standing hero foot 0.062 m; turntable 4/4 character sheets (zombies no longer skipped); zombie_pressure runs and prints UNVERIFIED under stub physics (hero y 1.8 m). GitHub run #1 (REAL, 15 min 33 s): vite build PASS, A0 1 FAIL, hero foot 0.228 Major
+- Commit/tag: -
+- Not verified: Server run after these fixes not done yet: A0 on real Rapier, hero foot on server, zombie_pressure on real Rapier (OZ-011), turntable zombie sheets on server
 
 ## Improvement 9 — Per-pass draw-call accounting, reference check works with skinned characters, permission policy
 - Date: 2026-11-23

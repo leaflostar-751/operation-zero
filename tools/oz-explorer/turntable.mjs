@@ -17,16 +17,17 @@ const ap = await b.newPage(); // blank helper page: pixel maths + contact sheets
 // ---- subjects (what to walk round). dynamic ones (characters move) are located again for every single view
 const subjects = await p.evaluate(({ only, lms }) => {
   const a = window.__opzero, S = [];
+  // characters FIRST, and GOKU (the partner kills nearby zombies, run #1/sandbox: both zombie sheets were skipped "subject gone") is switched on only when his own turn comes
+  if (only.includes('characters')) { S.push({ name: 'hero', ref: ['hero'], R: 3.0, ty: 0.9 }); (a.zombies.zombies || []).slice(0, 2).forEach((z, i) => S.push({ name: 'zombie-' + i, ref: ['zombie', i], R: 3.0, ty: 0.9 })); S.push({ name: 'goku', ref: ['goku'], R: 3.0, ty: 0.9 }); }
   if (only.includes('vehicles')) a.vehicles.vehicles.forEach((v, i) => { const d = v.model.dims; S.push({ name: 'vehicle-' + v.type, ref: ['vehicle', i], R: v.bike ? 3.4 : Math.max(4.6, d.length * 1.3), ty: d.height * 0.45 }); });
-  if (only.includes('characters')) { S.push({ name: 'hero', ref: ['hero'], R: 3.0, ty: 0.9 }, { name: 'goku', ref: ['goku'], R: 3.0, ty: 0.9 }); (a.zombies.zombies || []).slice(0, 2).forEach((z, i) => S.push({ name: 'zombie-' + i, ref: ['zombie', i], R: 3.0, ty: 0.9 })); }
   if (only.includes('landmarks')) (a.world.city.landmarks || []).forEach((l, i) => { if (lms.includes(l.def.id)) { const H = l.def.floors * 3; S.push({ name: 'landmark-' + l.def.id, ref: ['landmark', i], R: Math.max(l.def.w || 20, l.def.d || 20) * 0.8 + H * 0.9 + 14, ty: H * 0.45 }); } });
   return S;
 }, { only: ONLY, lms: LMS });
-if (ONLY.includes('characters')) await p.evaluate(() => { const a = window.__opzero; a.hero.teleportTo(-14, 0.2, 17, 0); a.goku && a.goku.placeNearHero(); });
+if (ONLY.includes('characters')) await p.evaluate(() => { const a = window.__opzero; a.hero.teleportTo(-14, 0.2, 17, 0); if (a.goku && a.goku.setEnabled) a.goku.setEnabled(false); });
 const where = (ref) => p.evaluate((r) => { const a = window.__opzero; const wp = (o) => { o.updateWorldMatrix(true, false); const m = o.matrixWorld.elements; return [m[12], m[13], m[14]]; };
   if (r[0] === 'vehicle') { const v = a.vehicles.vehicles[r[1]]; return [v.pos.x, v.pos.y, v.pos.z]; }
   if (r[0] === 'hero') { const q = a.hero.position; return [q.x, q.y, q.z]; }
-  if (r[0] === 'goku') { const q = a.goku.pos; return [q.x, q.y, q.z]; }
+  if (r[0] === 'goku') { if (!a.goku.enabled) a.goku.setEnabled(true); const q = a.goku.pos; return [q.x, q.y, q.z]; } // his turn: switch him on next to the hero
   if (r[0] === 'zombie') { const z = a.zombies.zombies.filter((q) => q.state !== 'dead' && q.bones)[r[1]]; if (!z) return null; return wp(z.bones.Hips).map((v, i) => (i === 1 ? 0 : v)); } // zombies die/vanish while we walk round: null = skip
   const l = a.world.city.landmarks[r[1]]; return [l.x, 0, l.z]; }, ref);
 const deg = (r) => (r * 180) / Math.PI;
