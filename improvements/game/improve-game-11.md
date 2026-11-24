@@ -1,6 +1,14 @@
-# Improve game 10 — improvements 1 to 10 (cumulative)
+# Improve game 11 — improvements 1 to 11 (cumulative)
 
-This file replaces "Improve game 9". Everything done so far is listed here, newest first. Older entries are copied unchanged.
+This file replaces "Improve game 10". Everything done so far is listed here, newest first. Older entries are copied unchanged.
+
+## Improvement 11 — Cars now roll OUTWARD in turns (OZ-014): one sign fixed in VehicleSystem.updateFrame
+- Date: 2026-11-24
+- Status: PASS
+- Changed: src/vehicles/VehicleSystem.js
+- Evidence: LIVE (SIMULATED GL; game's own drive/updateFrame code, vehiclemotion.mjs): body roll outward before -> after: Apex GT -1.445 -> +1.445 deg, Stallion -1.826 -> +1.826, Ranger -2.414 -> +2.414, Vortex -1.208 -> +1.208; bike unchanged (-35.966); lateral g and L/R symmetry identical before/after; vehicle motion Major findings 4 -> 0 (104 measurements, 101 in range). Regression PASS: smoke, A0, GOKU partner (12 hits / 4 kills), explore 852 m 0 stuck, explorer 0 findings; unit tests motion 10/10, vehiclemotion 11/11, reference 18/18. Same camera before/after picture: tilt is only 1.4 deg so the two pictures look identical at this size (number is the proof)
+- Commit/tag: -
+- Not verified: Looks of a car leaning 1-4 deg not judged by a person; real phone/GPU; collisions, ramps, crash, other vehicles' roll under real Rapier not measured; server run of vehiclemotion not done yet
 
 ## Improvement 10 — Step 4 r4: characters rigid-skinned (1 mesh per material) + size-adaptive body-part detail — draw calls 964→681 at spawn
 - Date: 2026-11-23
