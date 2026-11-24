@@ -67,3 +67,15 @@ Naam "improve game 1 -> 2" ki tarah: file ka naam wahi rehta hai, andar ka naya 
 - `GOKU_AUDIT_BLUEPRINT.md` — phases 1-8 asli numbers ke saath (AUDIT ONLY), issue register OZ-001..010.
 - `goku_knowledge/AUDIT_MASTER_PROMPT.md` — aapka pasted prompt, project ke rules ke mutabiq theek kiya hua (audit mode vs implement mode alag).
 - `tools/oz-explorer/drawcalls.mjs` — draw calls/triangles/materials ka scene-tree breakdown (LIVE), performance fix ke before/after ke liye.
+
+## GOKU ko "online" kaise rakhein — asli kaam, khali ghante nahi (2026-11-24)
+Sach: khali baithe 24 ghante "online" hona jhoota number hai. Jo ginta hai: **server par GOKU ne kitna asli kaam kiya** aur **kitne fix verify hue**. Isliye 3 tarah ki runs hain (sab free, public repo; GOKU sirf `reports` branch mein likhta hai, `main` ko nahi):
+| Kind | Kab | Kya karta hai | Kitna (ESTIMATE) |
+|---|---|---|---|
+| **daily** | shaam 19:17 PKT (21:47 retry); guard: din mein pehle se run ho chuki to SKIP | build, khelna, performance, reference, 360° tasveerein, game tests, motion + gaadi naap | ~20 min |
+| **deep** (naya) | roz raat **03:07 PKT** (aur manual `mode=deep`) | har car/insaan/landmark 8 angles se, 5 performance cells, 600 s khelna, motion + gaadi, zombie pressure | ~60–120 min |
+| **gate** (naya) | **har Pull Request** par (khud, bina poochay) | build + saare unit/game tests + motion + gaadi; numbers PR par comment | ~10 min |
+Deep run us PKT din ki "complete run" bhi ginti hai, isliye shaam ka daily guard us din SKIP karega (double kaam nahi).
+**Scoreboard:** `reports` branch par `ONLINE.md` / `online.json` — total server minutes, runs (daily/deep/gate), din-ba-din. "Fixes GOKU ne khud likhe" = **0** (NOT_IMPLEMENTED); fix Claude likhta hai, GOKU same test se verify karta hai.
+**Kya abhi NAHI hota:** khud fix likhna (iske liye LLM chahiye: paid API key ya free-tier model — **owner ki ijazat + UNVERIFIED**), main mein merge (owner), asli GPU/phone fps.
+**Schedule sirf `main` se chalta hai**, isliye deep/daily ka naya schedule tab shuru hoga jab ye PR `main` mein merge ho.

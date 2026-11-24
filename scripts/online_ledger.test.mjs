@@ -1,0 +1,13 @@
+import { addRun, markdown } from './online_ledger.mjs';
+let passed = 0, total = 0; const t = (n, ok, x) => { total++; if (ok) passed++; console.log(ok ? 'PASS' : 'FAIL', n, '-', x ?? ''); };
+let d = addRun(null, { minutes: 15.5, mode: 'daily', run: 1, day: '2026-11-24' });
+t('first run is counted', d.totalMinutes === 15.5 && d.runs === 1 && d.byMode.daily.runs === 1, JSON.stringify(d.byMode));
+d = addRun(d, { minutes: 15.5, mode: 'daily', run: 1, day: '2026-11-24' });
+t('the same run id is never counted twice', d.runs === 1 && d.totalMinutes === 15.5, d.totalMinutes);
+d = addRun(d, { minutes: 80, mode: 'deep', run: 2, day: '2026-11-25' }); d = addRun(d, { minutes: 9.25, mode: 'gate', run: 3, day: '2026-11-25' });
+t('minutes add up per kind and per day', d.totalMinutes === 104.8 && d.byMode.deep.minutes === 80 && d.days['2026-11-25'].minutes === 89.3 && d.days['2026-11-25'].runs === 2, JSON.stringify(d.days));
+d = addRun(d, { minutes: -5, mode: 'nonsense', run: 4, day: '2026-11-26' });
+t('bad input cannot subtract time or invent a kind', d.totalMinutes === 104.8 && d.byMode.manual.runs === 1, JSON.stringify(d.byMode.manual));
+const md = markdown(d);
+t('scoreboard says GOKU wrote 0 fixes himself and counts server work only', /Fixes written by GOKU himself: \*\*0\*\*/.test(md) && /104\.8 min/.test(md), 'ok');
+console.log(JSON.stringify({ passed, total })); process.exit(passed === total ? 0 : 1);

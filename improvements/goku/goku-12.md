@@ -1,6 +1,14 @@
-# Goku 11 — improvements 1 to 11 (cumulative)
+# Goku 12 — improvements 1 to 12 (cumulative)
 
-This file replaces "Goku 10". Everything done so far is listed here, newest first. Older entries are copied unchanged.
+This file replaces "Goku 11". Everything done so far is listed here, newest first. Older entries are copied unchanged.
+
+## Improvement 12 — Online work, not idle hours: deep night audit (mode=deep, 03:07 PKT), PR gate (comments numbers on every pull request), online minutes scoreboard
+- Date: 2026-11-24
+- Status: PARTIAL
+- Changed: .github/workflows/goku-qa.yml,scripts/online_ledger.mjs,scripts/online_ledger.test.mjs,scripts/gate_summary.mjs,tools/oz-explorer/turntable.mjs,DAILY_SERVER_PLAN.md
+- Evidence: Unit tests: online_ledger 5/5; gate_summary tested on fake + real motion/vehicle files (counts, FAIL on failing unit/game test); workflow YAML parses (3 jobs: guard, qa, gate; triggers: dispatch, schedule x3, pull_request). Run #1 (REAL, main): 15 min 33 s
+- Commit/tag: -
+- Not verified: The new workflow parts (deep mode, PR gate comment, scoreboard step, expressions) have NOT run on GitHub yet; schedule only works from main (needs merge); deep duration is an ESTIMATE; PR comment permission unverified
 
 ## Improvement 11 — Motion checks: motion.mjs (hero/GOKU gait + blends) and vehiclemotion.mjs (all-direction driving) + HUMAN_AND_MOTION_BRIEF
 - Date: 2026-11-24
