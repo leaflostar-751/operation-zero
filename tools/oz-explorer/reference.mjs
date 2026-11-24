@@ -55,8 +55,9 @@ export const measure = async (opt = {}) => {
   }
   if (!gokuDone && g && g.human && g.bones) out.humans.push(human('goku', g.human.group, g.bones));
   // feet vs ground: the lowest foot/toe bone must sit within a few cm of the ground the character stands on (floating / sunk check). Moving, jumping, falling and dead characters are skipped
-  const feetOf = (who, B, groundY) => { let lo = Infinity; for (const [n, bn] of Object.entries(B || {})) if (/Foot|Toe/i.test(n) && bn && bn.updateWorldMatrix) lo = Math.min(lo, wp(bn).y); if (Number.isFinite(lo)) out.feet.push({ who, lowestFootClearance: r3(lo - groundY) }); };
-  if (a.hero && a.hero.bones && a.hero.isGrounded !== false && a.hero.position) feetOf('hero', a.hero.bones, a.hero.position.y);
+  const feetOf = (who, B, groundY, info) => { let lo = Infinity; for (const [n, bn] of Object.entries(B || {})) if (/Foot|Toe/i.test(n) && bn && bn.updateWorldMatrix) lo = Math.min(lo, wp(bn).y); if (Number.isFinite(lo)) out.feet.push({ who, lowestFootClearance: r3(lo - groundY), ...(info || {}) }); };
+  // hero: a running/sprinting person has both feet in the air for a moment, so only a STANDING hero (same "moving" threshold the combat code uses, 0.6 m/s) is judged; state + speed are written into the evidence
+  if (a.hero && a.hero.bones && a.hero.isGrounded !== false && a.hero.position) { const sp = +(a.hero.smoothedSpeed || 0); feetOf('hero', a.hero.bones, a.hero.position.y, { state: (a.hero.animController && a.hero.animController.currentState) || 'unknown', speed: r3(sp), moving: sp > 0.6 }); }
   if (g && g.bones && g.pos) feetOf('goku', g.bones, g.pos.y);
   ((a.zombies && a.zombies.zombies) || []).slice(0, 6).forEach((z, i) => { if (z.bones && z.root && ['idle', 'wander', 'chase', 'attack'].includes(z.state)) feetOf('zombie' + i, z.bones, z.root.position.y); });
   const bl = (a.world.city.buildingList || []).filter((b) => b.floors > 0);
@@ -87,7 +88,7 @@ export function compare(m, refs) {
     add('joints', 'GOKU clip ' + j.state, 'knee bent the WRONG way (deg)', j.kneeWrongWay, [0, refs.joints.wrongWayDegreesTolerance], refs.basis.joints, 'Major');
     add('joints', 'GOKU clip ' + j.state, 'elbow bent the WRONG way (deg)', j.elbowWrongWay, [0, refs.joints.wrongWayDegreesTolerance], refs.basis.joints, 'Major');
   }
-  for (const f of m.feet || []) add('ground-contact', f.who, 'lowest foot above ground (m)', f.lowestFootClearance, refs.groundContact.lowestFootClearance, refs.basis.ground, 'Major');
+  for (const f of m.feet || []) add('ground-contact', f.who, 'lowest foot above ground (m)', f.moving ? NaN : f.lowestFootClearance, refs.groundContact.lowestFootClearance, refs.basis.ground + (f.state ? ` [${f.who} anim ${f.state}, speed ${f.speed} m/s${f.moving ? ', moving: not judged, both feet may be in the air' : ''}; measured ${f.lowestFootClearance} m]` : ''), 'Major');
   if (m.buildings) { add('building', `${m.buildings.count} houses/blocks`, 'storey height min (m)', m.buildings.storeyMin, refs.building.storeyHeight, refs.basis.building); add('building', `${m.buildings.count} houses/blocks`, 'storey height max (m)', m.buildings.storeyMax, refs.building.storeyHeight, refs.basis.building); }
   for (const l of m.landmarks || []) { add('building', `${l.id} (${l.kind}, ${l.floors} floors)`, 'storey height APPROX (m)', l.storey, refs.building.landmarkStoreyApprox, refs.basis.building); rows[rows.length - 1].approx = true; }
   return rows;

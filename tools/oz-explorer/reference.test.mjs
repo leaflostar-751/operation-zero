@@ -25,6 +25,10 @@ rows = compare({ vehicles: [car] }, { ...refs, models: [{ type: 'apex-gt', realN
 t('an exact real-model spec (+-3%) is used when you provide one: 4.55 m vs 4.40 m is flagged', rows.filter((r) => r.domain === 'vehicle-vs-real-model' && r.verdict === 'OUT_OF_RANGE').map((r) => r.what).join() === 'length (m)' && rows.filter((r) => r.domain === 'vehicle-vs-real-model').length === 5, rows.filter((r) => r.domain === 'vehicle-vs-real-model' && r.verdict === 'OUT_OF_RANGE').map((r) => r.what).join());
 rows = compare({ feet: [{ who: 'hero', lowestFootClearance: 0.05 }, { who: 'zombie0', lowestFootClearance: 0.09 }, { who: 'goku', lowestFootClearance: 0.14 }] }, refs);
 t('feet 0.05-0.14 m above the ground (ankle height) are fine', rows.length === 3 && rows.every((r) => r.verdict === 'IN_RANGE'), 'ok');
+rows = compare({ feet: [{ who: 'hero', lowestFootClearance: 0.228, state: 'sprint', speed: 4.8, moving: true }] }, refs);
+t('a MOVING hero (both feet may leave the ground while running) is not judged: NO_DATA, evidence keeps the measured value', rows.length === 1 && rows[0].verdict === 'NO_DATA' && /moving: not judged/.test(rows[0].basis) && /0\.228/.test(rows[0].basis), 'ok');
+rows = compare({ feet: [{ who: 'hero', lowestFootClearance: 0.228, state: 'idle', speed: 0, moving: false }] }, refs);
+t('a STANDING hero with a foot 0.228 m in the air is still flagged OUT_OF_RANGE (Major) and the evidence names the anim state', rows.length === 1 && rows[0].verdict === 'OUT_OF_RANGE' && rows[0].severity === 'Major' && /anim idle/.test(rows[0].basis), 'ok');
 rows = compare({ feet: [{ who: 'zombie1', lowestFootClearance: 0.8 }, { who: 'hero', lowestFootClearance: -0.4 }] }, refs);
 t('a zombie floating 0.8 m up and a hero sunk 0.4 m into the ground are both flagged Major', rows.length === 2 && rows.every((r) => r.verdict === 'OUT_OF_RANGE' && r.severity === 'Major'), rows.map((r) => r.subject + ':' + r.verdict).join());
 console.log(JSON.stringify({ passed: res.filter(Boolean).length, total: res.length })); process.exit(res.every(Boolean) ? 0 : 1);

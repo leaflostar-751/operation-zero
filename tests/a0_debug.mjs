@@ -16,13 +16,16 @@ await p.close();
 // 2) with the flag
 p = await load(base + (base.includes('?') ? '&' : '?') + 'oz_debug=1');
 check('door present with flag', await p.evaluate(() => typeof window.__OZ_DEBUG === 'object'));
-const snap = () => p.evaluate(() => { const a = window.__opzero; let n = 0; a.scene.traverse(() => n++); return JSON.stringify({ hero: a.hero.position.toArray(), cam: a.camera.position.toArray(), nodes: n, health: a.hero.health, col: window.__OZ_DEBUG ? window.__OZ_DEBUG.listObjects('collider').length : 0 }); });
+// the game keeps running between the two snapshots (real physics settles the hero by a fraction of a millimetre, the camera follows), so positions are compared with a 1 cm tolerance; everything discrete (object count, health, collider count) must match exactly
+const snap = () => p.evaluate(() => { const a = window.__opzero; let n = 0; a.scene.traverse(() => n++); return { hero: a.hero.position.toArray(), cam: a.camera.position.toArray(), nodes: n, health: a.hero.health, col: window.__OZ_DEBUG ? window.__OZ_DEBUG.listObjects('collider').length : 0 }; });
+const TOL = 0.01, drift = (x, y) => Math.max(...x.map((v, i) => Math.abs(v - y[i])));
 const before = await snap();
 const lists = await p.evaluate(() => { const d = window.__OZ_DEBUG; return { trees: d.listObjects('tree').length, colliders: d.listObjects('collider').length, vehicles: d.listObjects('vehicle').length, zombies: d.listObjects('zombie').length, player: d.playerState(), perf: d.perf() }; });
 check('lists objects', lists.trees > 0 && lists.colliders > 0 && lists.vehicles > 0, JSON.stringify({ trees: lists.trees, colliders: lists.colliders, vehicles: lists.vehicles, zombies: lists.zombies }));
 const audit = await p.evaluate(() => window.__OZ_DEBUG.audit.all());
 const after = await snap();
-check('read-only: state unchanged after all queries + audit', before === after, before === after ? '' : before + ' != ' + after);
+const same = before.nodes === after.nodes && before.health === after.health && before.col === after.col && drift(before.hero, after.hero) <= TOL && drift(before.cam, after.cam) <= TOL;
+check('read-only: state unchanged after all queries + audit (positions within 1 cm, counts exact)', same, same ? `hero drift ${drift(before.hero, after.hero).toFixed(5)} m, camera drift ${drift(before.cam, after.cam).toFixed(5)} m` : JSON.stringify(before) + ' != ' + JSON.stringify(after));
 check('door object is frozen', await p.evaluate(() => { try { window.__OZ_DEBUG.listObjects = null; } catch (e) { /* strict */ } return typeof window.__OZ_DEBUG.listObjects === 'function'; }));
 fs.mkdirSync('reports', { recursive: true });
 fs.writeFileSync(out, JSON.stringify({ lists, audit: { floatingTrees: { checked: audit.floatingTrees.checked, count: audit.floatingTrees.findings.length, worst: audit.floatingTrees.findings.slice(0, 30) }, treesInsideColliders: { count: audit.treesInsideColliders.findings.length, worst: audit.treesInsideColliders.findings.slice(0, 30) }, badPositions: audit.badPositions.findings.length, errors: audit.errors } }, null, 1));

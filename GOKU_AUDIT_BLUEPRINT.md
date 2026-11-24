@@ -103,7 +103,10 @@ Asli fps sirf asli GPU/phone par naapi ja sakti hai (UNVERIFIED).
 | OZ-007 | Major(look) | zameen flat | sheets | ground material/detail nahi | Step 3 | `World.js`, `CityTextures.js` | sheet | NOT_IMPLEMENTED |
 | OZ-008 | Major(look) | chehra/baal nahi, zombies ek jaisi pose | sheets | procedural body | Step 1 | `CharacterBuilder.js` | sheet | NOT_IMPLEMENTED |
 | OZ-009 | Info | modes/audio khali | STATIC | placeholders | Step 0 | `src/modes`, `src/audio` | — | NOT_IMPLEMENTED |
-| OZ-010 | Info | asli GPU fps/Rapier/vite build kabhi naapa nahi | sandbox limit | npm registry/GPU nahi | owner ke phone/GitHub run | — | real run | UNVERIFIED |
+| OZ-010 | Info | asli GPU fps/Rapier/vite build kabhi naapa nahi | sandbox limit | npm registry/GPU nahi | owner ke phone/GitHub run | — | real run | PARTIAL (2026-11-24: vite build + real Rapier run GitHub par ho gaya; asli GPU fps/phone abhi UNVERIFIED) |
+| OZ-011 | Major (UNVERIFIED) | zombies hero tak pahunchein to hero ka `position.y` 1.8 m par chala jaata hai aur wahin rehta hai (zombie ke sar par khada) | sandbox probe 70 s, LIVE par **stub physics = SIMULATED**: y 0 → 1.8, hp 100 → 46 | stub ka `ground()` zombie ke collider ko zameen maanta hai (STATIC padha); asli Rapier mein autostep sirf 0.38 m hai | pehle asli Rapier par naapo | `tests/zombie_pressure.mjs` (naya) | GitHub run mein har baar chalta hai | UNVERIFIED |
+| OZ-012 | Minor | server par A0 "read-only" test FAIL: hero y −0.0018 → −0.0023, camera y 0.3 mm farq | GitHub run #1 | test bilkul barabar maangta tha, game beech mein chalta rehta hai (asli physics hero ko mm mein settle karti hai) | position 1 cm tolerance, ginti/health exact | `tests/a0_debug.mjs` | sandbox A0 5/5; server par agla run | PARTIAL (server UNVERIFIED) |
+| OZ-013 | Major (UNVERIFIED) | hero ground-contact: lowest foot 0.228 m (range −0.10..0.20) server par | GitHub run #1 (1 sample, state record nahi tha) | daudte waqt dono paon hawa mein ho sakte hain; ya asli koi masla — **pata nahi** | ab sirf khade hero ko judge karo; state + speed evidence mein likho | `reference.mjs` | `reference.test` 18/18; sandbox khada hero 0.062 m | UNVERIFIED |
 
 ## Phase 8 — Roadmap + zaroori tools
 | Phase | Kaam | Status abhi |
@@ -126,3 +129,14 @@ Asli fps sirf asli GPU/phone par naapi ja sakti hai (UNVERIFIED).
 **Kuch toota nahi:** smoke PASS, A0 5/5, GOKU partner PASS (12 hits/4 kills), explorer 6 cells/0 findings, reference test 16/16. Hero A/B tasveer (purana vs naya code, same camera): helmet/goggles/vest/rifle/camo ek jaise, koi tooti/kheenchi body nahi (aankh se; farq animation-phase ka).
 **QA tool ko bhi theek karna pada:** pair ke "joota kis taraf" wali jaanch foot-bone ke mesh dekhti thi; ab mesh skinned hain to wo 11 jhoote "knee wrong way" Major deti thi. Ab skinned vertices se foot box banta hai → wapas saaf (QA 22 → 10 findings, baqi sab purane/APPROX).
 **Abhi bhi baqi (Step 4):** draw calls 681 vs 150, triangles ~1.02M vs 300k (city 784k tris), shader programs 37 → 48 (skinned variants; asli phone par compile-time UNVERIFIED), run-to-run triangle farq ±15% (chalte zombies). Agle levers: building/city triangles LOD, vehicles ke 216 mesh merge, shadow casters ki had.
+
+## Round 3 — GitHub run #1 ke baad (2026-11-24)
+**Online hua kya (LIVE, GitHub runner):** run #1 `goku-qa`, 19:08:01 → 19:23:34 UTC = **15 min 33 s**, success. Asli `vite build` PASS. smoke PASS, GOKU partner PASS (12 hits / 4 kills, 851 m, stuck 0), A0 4 PASS + 1 FAIL (OZ-012). `deploy-pages` fail hua kyunki Pages on nahi (kuch publish nahi hua).
+**Run #1 ke 3 server-only masle aur chhote fix (kuch tooti nahi: sandbox regression PASS):**
+| Masla | Fix | Naap |
+|---|---|---|
+| A0 read-only FAIL | position 1 cm tolerance (OZ-012) | sandbox A0 5/5, drift 0.00000 m |
+| hero foot 0.228 | sirf khade hero ko judge karo, state+speed evidence (OZ-013) | unit 18/18; sandbox khada hero 0.062 m IN_RANGE |
+| turntable: zombie-0/1 sheet "subject gone" | characters pehle; GOKU partner sirf apni baari par on (wo zombies maar deta tha) | sandbox: hero, zombie-0, zombie-1, goku **4/4 sheets**, 0 skipped |
+**Naya khoj (turntable tasveer se):** zombie-0 sheet mein hero ki camo tangein frame ke upar hawa mein thin → probe ne OZ-011 pakda. Sandbox physics stub hai, isliye `tests/zombie_pressure.mjs` GitHub par asli Rapier ke saath chalega.
+**Abhi bhi baqi:** draw calls 681 vs 150, triangles ~1.02M vs 300k (Step 4 levers neeche), asli phone par fps.

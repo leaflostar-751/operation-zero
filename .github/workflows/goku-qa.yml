@@ -81,7 +81,8 @@ jobs:
           set +e
           { echo "== smoke";  node tests/smoke.mjs http://localhost:4173/ reports/latest/game/smoke.png
             echo "== a0";     node tests/a0_debug.mjs http://localhost:4173/
-            echo "== goku";   node tests/goku_partner.mjs http://localhost:4173/; } 2>&1 | tee reports/latest/game/tests.txt
+            echo "== goku";   node tests/goku_partner.mjs http://localhost:4173/
+            echo "== zombie pressure (real Rapier)"; node tests/zombie_pressure.mjs http://localhost:4173/ 60; } 2>&1 | tee reports/latest/game/tests.txt
           exit 0
       - name: Show the reports on the run page
         if: always()
