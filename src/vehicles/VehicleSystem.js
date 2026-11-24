@@ -808,7 +808,8 @@ export class VehicleSystem {
       // suspension & lean
       const tune = v.tune;
       const latG = v.yawRate * v.speed; // centripetal acceleration (m/s^2)
-      const targetRoll = v.bike ? clamp(v.lean || 0, -0.85, 0.85) : clamp(-latG * tune.bodyRoll * 0.05, -0.12, 0.12);
+      // a car's body rolls OUTWARD in a turn (+x is the car's left, so a left turn has latG > 0 and the left side must go UP); a bike leans INTO it (v.lean)
+      const targetRoll = v.bike ? clamp(v.lean || 0, -0.85, 0.85) : clamp(latG * tune.bodyRoll * 0.05, -0.12, 0.12);
       const targetPitch = clamp(-v.accelSm * 0.0045, -0.06, 0.06) * (v.bike ? 0.5 : 1);
       v.roll += (targetRoll - v.roll) * Math.min(1, dt * 8);
       v.pitch += (targetPitch - v.pitch) * Math.min(1, dt * 8);
