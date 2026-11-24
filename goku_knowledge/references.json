@@ -199,7 +199,12 @@
     "face shape / eye spacing / nose-mouth proportions: face parts are not tagged in the character builder (needs Step 1: characters)",
     "stairs, doors, windows, railings: the game has no interiors or stair/door data yet (a stair 'tower' is a plain box)",
     "does a car LOOK like its real counterpart (grille, lights, body lines): needs real photos/blueprints + a person or vision AI to look",
-    "clothing clipping, skin/texture realism, brand-specific model dimensions (give me the model and I add its real specs to `models`)"
+    "clothing clipping, skin/texture realism, brand-specific model dimensions (give me the model and I add its real specs to `models`)",
+    "muscle volume profile along limbs (thigh/calf taper) - needs a width-slice measure (next)",
+    "joint gaps / creases at knee, elbow, shoulder when bent (rigid skinning) - needs a close-up picture check",
+    "arm swing and weapon-hold pose (a weapon IK overrides the clips)",
+    "foot IK in motion (needs real input, moving hero)",
+    "vehicle behaviour while driving forward / reverse / turning (separate vehicle motion tool, next)"
   ],
   "groundContact": {
     "lowestFootClearance": [
@@ -207,5 +212,194 @@
       0.2
     ],
     "note": "height of the LOWEST foot/toe bone above the ground the character stands on (m). While standing/walking/chasing at least one foot is on the ground, so the lowest foot should sit within a few cm of it (ankle bone ~0.04-0.14 m). Above 0.2 m = floating, below -0.1 m = sunk into the ground. Jumping/falling/dead characters are skipped."
+  },
+  "motion": {
+    "basis": "typical adult gait biomechanics, textbook ranges (ESTIMATE: not measured by us, not one specific person)",
+    "perState": {
+      "walk": {
+        "cadence": [
+          90,
+          135
+        ],
+        "kneeFlexMax": [
+          40,
+          80
+        ],
+        "bob": [
+          0.02,
+          0.08
+        ],
+        "lean": [
+          -3,
+          10
+        ],
+        "duty": [
+          0.5,
+          0.7
+        ],
+        "flight": [
+          0,
+          0.02
+        ]
+      },
+      "run": {
+        "cadence": [
+          140,
+          195
+        ],
+        "kneeFlexMax": [
+          75,
+          135
+        ],
+        "bob": [
+          0.04,
+          0.13
+        ],
+        "lean": [
+          2,
+          20
+        ],
+        "duty": [
+          0.25,
+          0.5
+        ],
+        "flight": [
+          0,
+          0.4
+        ]
+      },
+      "sprint": {
+        "cadence": [
+          165,
+          235
+        ],
+        "kneeFlexMax": [
+          90,
+          150
+        ],
+        "bob": [
+          0.04,
+          0.15
+        ],
+        "lean": [
+          6,
+          32
+        ],
+        "duty": [
+          0.15,
+          0.4
+        ],
+        "flight": [
+          0,
+          0.6
+        ]
+      },
+      "crouch-walk": {
+        "cadence": [
+          70,
+          130
+        ],
+        "kneeFlexMax": [
+          40,
+          130
+        ],
+        "bob": [
+          0,
+          0.1
+        ],
+        "lean": [
+          0,
+          40
+        ],
+        "duty": [
+          0.45,
+          0.8
+        ],
+        "flight": [
+          0,
+          0.02
+        ],
+        "kneeFlexMin": [
+          20,
+          95
+        ]
+      }
+    },
+    "kneeFlexMin": [
+      -5,
+      35
+    ],
+    "wrongWayDegreesTolerance": 3,
+    "legStretchMax": 0.03,
+    "reachMax": 0.995,
+    "bowMax": 0.07,
+    "phase": [
+      0.42,
+      0.58
+    ],
+    "slideRefMax": 0.2,
+    "slideEdgeMax": 0.6,
+    "popMaxDegPerStep": 30
+  },
+  "vehicleMotion": {
+    "basis": "typical road-vehicle dynamics, textbook ranges (ESTIMATE: not one specific model)",
+    "rollingRatio": [
+      0.9,
+      1.1
+    ],
+    "ackermannDeg": [
+      0,
+      15
+    ],
+    "rollSymmetryMax": 1.0,
+    "hubTol": 0.05,
+    "driftMax": 0.05,
+    "brakeG": 1.6,
+    "speedStepMax": 0.5,
+    "latGFactor": 1.3,
+    "car": {
+      "steerLockDeg": [
+        25,
+        45
+      ],
+      "rollDeg": [
+        0,
+        7
+      ],
+      "noseUpAccel": [
+        0,
+        4
+      ],
+      "noseDownBrake": [
+        0,
+        6
+      ],
+      "slipDeg": [
+        5,
+        90
+      ]
+    },
+    "bike": {
+      "steerLockDeg": [
+        8,
+        45
+      ],
+      "rollDeg": [
+        3,
+        50
+      ],
+      "noseUpAccel": [
+        -4,
+        6
+      ],
+      "noseDownBrake": [
+        -2,
+        8
+      ],
+      "slipDeg": [
+        0,
+        90
+      ]
+    }
   }
 }
