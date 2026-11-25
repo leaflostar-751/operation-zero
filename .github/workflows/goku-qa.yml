@@ -143,7 +143,9 @@ jobs:
             !reports/prev-shots
   # ---------------------------------------------------------------------------------------------------------------
   # GOKU gate: every pull request is built and checked on the server and the numbers are commented on the PR.
-  # Nothing is published, the `reports` branch and `main` are never touched. Needs no secrets (the built-in token is enough).
+  # The `reports` branch and `main` are never touched. Needs no secrets (the built-in token is enough).
+  # One extra thing: the built game (dist/) is pushed as ONE replaced commit to the branch `goku/preview-build`, so the owner can
+  # open the real build (real Rapier physics) in the browser. It is only the built game, no tests, no tokens.
   gate:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
@@ -161,6 +163,23 @@ jobs:
       - run: npm install --no-save --no-audit --no-fund playwright
       - run: npx playwright install --with-deps chromium
       - run: npm run build
+      - name: Playable build -> branch goku/preview-build (ONE replaced commit; same-repo pull requests only)
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          TOKEN: ${{ github.token }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          set +e
+          rm -rf "$RUNNER_TEMP/pb"; mkdir -p "$RUNNER_TEMP/pb"; cp -R dist/. "$RUNNER_TEMP/pb/"
+          cd "$RUNNER_TEMP/pb"
+          printf 'Built from commit %s (pull request #%s) at %s\nReal Rapier physics (built on the GitHub server).\n' "$SHA" "$PR" "$(date -u +%FT%TZ)" > BUILD_INFO.txt
+          git init -q -b goku/preview-build
+          git config user.name "goku-bot"; git config user.email "goku-bot@users.noreply.github.com"
+          git add -A && git commit -q -m "Playable build of $SHA (PR #$PR)"
+          git push -q -f "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" goku/preview-build 2>&1 | sed "s/${TOKEN}/***/g" | tail -2
+          du -sh "$RUNNER_TEMP/pb" | tee -a "$GITHUB_STEP_SUMMARY"
+          exit 0
       - name: Serve the build
         run: |
           nohup npx vite preview --port 4173 --strictPort > preview.log 2>&1 &
