@@ -2,8 +2,8 @@
   "tzOffsetHours": 5,
   "note": "Hours are FREE-TIER budgets and they change. Edit this file whenever a service changes its limit. 'verified' says where the number comes from.",
   "services": [
-    { "id": "modal", "name": "Modal Starter ($30/month free)", "period": "month", "hours": 50, "dailyCap": 1.6, "canStream": "unknown",
-      "verified": "T4 = $0.000164/s (~$0.59/h) on modal.com/pricing, so $30 ~ 50 GPU hours; CPU/RAM are billed extra so the real number is lower; card requirement unknown" },
+    { "id": "modal", "name": "Modal Starter (only $1 free WITHOUT a card; the other $29 needs a payment method)", "period": "month", "hours": 1.7, "dailyCap": 0.5, "canStream": "unknown",
+      "verified": "Owner's Modal onboarding screen (2026-11-26): '$1 free to use now. Add a payment method any time in settings to unlock the remaining $29.' So without a card only ~$1 = ~1.7 T4 hours at $0.000164/s ($0.59/h, modal.com/pricing); CPU/RAM are extra. Enough for a short GPU test, not for hosting the game. Owner rule: never add a payment method." },
     { "id": "kaggle", "name": "Kaggle Notebook GPU", "period": "week", "hours": 30, "dailyCap": 4.3, "canStream": "unknown",
       "verified": "~30 h/week is what users report, Kaggle does not publish it; inbound connections / WebGL on its GPU not verified" },
     { "id": "lightning", "name": "Lightning AI free credits", "period": "month", "hours": null, "dailyCap": 1, "canStream": "unknown",
