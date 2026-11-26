@@ -1,6 +1,22 @@
-# Goku 11 — improvements 1 to 11 (cumulative)
+# Goku 13 — improvements 1 to 13 (cumulative)
 
-This file replaces "Goku 10". Everything done so far is listed here, newest first. Older entries are copied unchanged.
+This file replaces "Goku 12". Everything done so far is listed here, newest first. Older entries are copied unchanged.
+
+## Improvement 13 — Server verification (run #2, REAL): A0 PASS, zombie pressure PASS on real Rapier, hero-foot Major gone, zombie sheets, vehicle Major 0
+- Date: 2026-11-24
+- Status: PASS
+- Changed: GOKU_AUDIT_BLUEPRINT.md
+- Evidence: GitHub run #2 (REAL, 17 min 21 s, success; gate on PR #4 5.1 min): A0 read-only PASS (hero drift 0.0005 m), partner 12 hits/4 kills, explore 852 m 0 stuck, zombie pressure max hero y 0.20 m (limit 0.5) with real Rapier, motion 146 measurements 0 Major, vehicles 104 measurements 0 Major (3 Minor), REPORT Major 4 -> 3 (only the 3 performance cells), turntable 8 sheets incl. 2 zombies + GOKU
+- Commit/tag: -
+- Not verified: Remaining Major = performance (893/321/430 draw calls vs 150; 1.11M/557k/619k triangles vs 300k); landmarks and Sprint-R sheets not done in the 600 s budget; real GPU/phone fps; deep mode, schedule and scoreboard not run yet (need merge to main)
+
+## Improvement 12 — Online work, not idle hours: deep night audit (mode=deep, 03:07 PKT), PR gate (comments numbers on every pull request), online minutes scoreboard
+- Date: 2026-11-24
+- Status: PARTIAL
+- Changed: .github/workflows/goku-qa.yml,scripts/online_ledger.mjs,scripts/online_ledger.test.mjs,scripts/gate_summary.mjs,tools/oz-explorer/turntable.mjs,DAILY_SERVER_PLAN.md
+- Evidence: Unit tests: online_ledger 5/5; gate_summary tested on fake + real motion/vehicle files (counts, FAIL on failing unit/game test); workflow YAML parses (3 jobs: guard, qa, gate; triggers: dispatch, schedule x3, pull_request). Run #1 (REAL, main): 15 min 33 s
+- Commit/tag: -
+- Not verified: The new workflow parts (deep mode, PR gate comment, scoreboard step, expressions) have NOT run on GitHub yet; schedule only works from main (needs merge); deep duration is an ESTIMATE; PR comment permission unverified
 
 ## Improvement 11 — Motion checks: motion.mjs (hero/GOKU gait + blends) and vehiclemotion.mjs (all-direction driving) + HUMAN_AND_MOTION_BRIEF
 - Date: 2026-11-24

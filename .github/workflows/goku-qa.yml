@@ -6,6 +6,8 @@
 #             so a day on which you did not run it yourself still gets its run in the last hours. Two slots so one dropped/late slot is caught by the other.
 #   GitHub may delay or drop scheduled runs under heavy load, and (reported by users, UNVERIFIED) pauses schedules after a long time without repo activity;
 #   the schedule only works from the default branch.
+#   - deep  : nightly 03:07 PKT (and manual mode=deep): long audit - every car/person/landmark from 8 angles, 5 performance cells, 600 s of play, motion + vehicle checks.
+#   - gate  : every pull request: build + tests + motion + vehicles, numbers are commented on the PR (nothing is published, `main` is never touched).
 # No secrets needed: it uses the built-in GITHUB_TOKEN. contents:write is required only to push the `reports` branch;
 # scripts/publish_reports.sh refuses main/master. For a hard guarantee also protect `main` in Settings -> Branches.
 name: goku-qa
@@ -15,20 +17,31 @@ on:
       sim:
         description: 'Seconds of simulated time GOKU explores'
         default: '200'
+      mode:
+        description: 'daily = normal run (~20 min) | deep = long audit (all cars/people/landmarks from 8 angles, 5 perf cells, 600 s of play)'
+        type: choice
+        default: daily
+        options: [daily, deep]
   schedule:
     - cron: '17 14 * * *'   # 19:17 PKT (not on the hour: GitHub is busiest at :00)
     - cron: '47 16 * * *'   # 21:47 PKT (retry slot)
+    - cron: '7 22 * * *'    # 03:07 PKT: DEEP night audit (always runs; it also counts as that Pakistan day's complete run)
+  pull_request:
+    types: [opened, synchronize, reopened]
 permissions:
   contents: write
+  pull-requests: write
 concurrency:
-  group: goku-qa
+  group: goku-qa-${{ github.event_name == 'pull_request' && github.event.pull_request.number || 'main' }}
   cancel-in-progress: false
 jobs:
   guard:
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     outputs:
       run: ${{ steps.g.outputs.run }}
+      mode: ${{ steps.g.outputs.mode }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -41,13 +54,25 @@ jobs:
             git fetch --quiet --depth=1 origin reports:refs/remotes/origin/reports
             git show origin/reports:meta.json > reports/meta.json 2>/dev/null || true
           fi
-          node scripts/daily_guard.mjs --meta reports/meta.json --event "$GITHUB_EVENT_NAME" | tee -a "$GITHUB_STEP_SUMMARY"
+          MODE=daily
+          if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then MODE="${{ inputs.mode || 'daily' }}"; fi
+          if [ "$GITHUB_EVENT_NAME" = schedule ] && [ "${{ github.event.schedule }}" = "7 22 * * *" ]; then MODE=deep; fi
+          echo "mode=$MODE" >> "$GITHUB_OUTPUT"
+          if [ "$MODE" = deep ]; then
+            echo "RUN - deep audit (mode=deep)" | tee -a "$GITHUB_STEP_SUMMARY"; echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            node scripts/daily_guard.mjs --meta reports/meta.json --event "$GITHUB_EVENT_NAME" | tee -a "$GITHUB_STEP_SUMMARY"
+          fi
   qa:
     needs: guard
     if: needs.guard.outputs.run == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 300
+    env:
+      MODE: ${{ needs.guard.outputs.mode }}
     steps:
+      - name: Start the stopwatch (online scoreboard)
+        run: echo "T0=$(date +%s)" >> "$GITHUB_ENV"
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -71,11 +96,16 @@ jobs:
             git archive origin/reports | tar -x -C reports || echo "could not restore (first run?)"
           fi
       - name: GOKU QA (play + audits + screenshots + self-test + performance budget)
-        run: node tools/oz-explorer/goku_qa.mjs http://localhost:4173/ --sim "${{ inputs.sim || '200' }}" --cells 3 --selftest --out reports --trigger "$GITHUB_EVENT_NAME" --render "SIMULATED (software GL on a GitHub runner)"
+        timeout-minutes: 120
+        run: |
+          if [ "$MODE" = deep ]; then SIM=600; CELLS=5; else SIM="${{ inputs.sim || '200' }}"; CELLS=3; fi
+          node tools/oz-explorer/goku_qa.mjs http://localhost:4173/ --sim "$SIM" --cells "$CELLS" --selftest --out reports --trigger "$GITHUB_EVENT_NAME" --render "SIMULATED (software GL on a GitHub runner)"
       - name: GOKU walks ROUND every car, person and landmark (360-degree contact sheets; extra, never blocks the upload)
         continue-on-error: true
-        timeout-minutes: 15
-        run: node tools/oz-explorer/turntable.mjs http://localhost:4173/ --out reports/latest/turntable --angles 4 --only vehicles,characters,landmarks --landmarks meridien,vu --maxSeconds 600
+        timeout-minutes: 150
+        run: |
+          if [ "$MODE" = deep ]; then ARGS="--angles 8 --landmarks all --maxSeconds 7200"; else ARGS="--angles 4 --landmarks meridien,vu --maxSeconds 600"; fi
+          node tools/oz-explorer/turntable.mjs http://localhost:4173/ --out reports/latest/turntable --only vehicles,characters,landmarks $ARGS
       - name: GOKU motion check - how the hero and GOKU run, and how every vehicle drives (extra, never blocks the upload)
         continue-on-error: true
         timeout-minutes: 10
@@ -90,10 +120,14 @@ jobs:
             echo "== goku";   node tests/goku_partner.mjs http://localhost:4173/
             echo "== zombie pressure (real Rapier)"; node tests/zombie_pressure.mjs http://localhost:4173/ 60; } 2>&1 | tee reports/latest/game/tests.txt
           exit 0
+      - name: Online scoreboard (minutes GOKU really worked on the server)
+        run: |
+          MIN=$(awk -v n="$(date +%s)" -v t="$T0" 'BEGIN{printf "%.1f", (n-t)/60}')
+          node scripts/online_ledger.mjs add --dir reports --minutes "$MIN" --mode "${MODE:-manual}" --run "$GITHUB_RUN_ID"
       - name: Show the reports on the run page
         if: always()
         run: |
-          for f in reports/latest/game/REPORT.md reports/latest/goku/GOKU_REPORT.md reports/latest/motion/MOTION.md reports/latest/vehicles/VEHICLES.md; do [ -f "$f" ] && { cat "$f"; echo; } >> "$GITHUB_STEP_SUMMARY"; done; exit 0
+          for f in reports/latest/game/REPORT.md reports/latest/goku/GOKU_REPORT.md reports/latest/motion/MOTION.md reports/latest/vehicles/VEHICLES.md reports/ONLINE.md; do [ -f "$f" ] && { cat "$f"; echo; } >> "$GITHUB_STEP_SUMMARY"; done; exit 0
       - name: Publish reports (branch "reports" only; history replaced by ONE commit after a data-loss check)
         env:
           REPORTS_HISTORY: replace   # set to keep if you want old commits to stay in git history
@@ -107,3 +141,77 @@ jobs:
           path: |
             reports
             !reports/prev-shots
+  # ---------------------------------------------------------------------------------------------------------------
+  # GOKU gate: every pull request is built and checked on the server and the numbers are commented on the PR.
+  # The `reports` branch and `main` are never touched. Needs no secrets (the built-in token is enough).
+  # One extra thing: the built game (dist/) is pushed as ONE replaced commit to the branch `goku/preview-build`, so the owner can
+  # open the real build (real Rapier physics) in the browser. It is only the built game, no tests, no tokens.
+  gate:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Start the stopwatch
+        run: echo "T0=$(date +%s)" >> "$GITHUB_ENV"
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-audit --no-fund
+      - run: npm install --no-save --no-audit --no-fund playwright
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - name: Playable build -> branch goku/preview-build (ONE replaced commit; same-repo pull requests only)
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          TOKEN: ${{ github.token }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          set +e
+          rm -rf "$RUNNER_TEMP/pb"; mkdir -p "$RUNNER_TEMP/pb"; cp -R dist/. "$RUNNER_TEMP/pb/"
+          cd "$RUNNER_TEMP/pb"
+          printf 'Built from commit %s (pull request #%s) at %s\nReal Rapier physics (built on the GitHub server).\n' "$SHA" "$PR" "$(date -u +%FT%TZ)" > BUILD_INFO.txt
+          git init -q -b goku/preview-build
+          git config user.name "goku-bot"; git config user.email "goku-bot@users.noreply.github.com"
+          git add -A && git commit -q -m "Playable build of $SHA (PR #$PR)"
+          git push -q -f "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" goku/preview-build 2>&1 | sed "s/${TOKEN}/***/g" | tail -2
+          du -sh "$RUNNER_TEMP/pb" | tee -a "$GITHUB_STEP_SUMMARY"
+          exit 0
+      - name: Serve the build
+        run: |
+          nohup npx vite preview --port 4173 --strictPort > preview.log 2>&1 &
+          for i in $(seq 1 40); do curl -sf http://localhost:4173/ >/dev/null && break; sleep 1; done
+          curl -sf http://localhost:4173/ >/dev/null
+      - name: Unit tests
+        run: |
+          set +e; mkdir -p gate
+          for t in tools/oz-explorer/*.test.mjs scripts/*.test.mjs; do [ -f "$t" ] && echo "$t: $(node "$t" 2>&1 | tail -1)"; done | tee gate/unit.txt
+          exit 0
+      - name: Game tests + motion + vehicles (results are saved, they do not stop the comment)
+        run: |
+          set +e; mkdir -p gate/motion gate/vehicles
+          { echo "== smoke";  node tests/smoke.mjs http://localhost:4173/ gate/smoke.png
+            echo "== a0";     node tests/a0_debug.mjs http://localhost:4173/
+            echo "== goku";   node tests/goku_partner.mjs http://localhost:4173/
+            echo "== zombie pressure (real Rapier)"; node tests/zombie_pressure.mjs http://localhost:4173/ 60; } 2>&1 | tee gate/tests.txt
+          node tools/oz-explorer/motion.mjs http://localhost:4173/ --out gate/motion
+          node tools/oz-explorer/vehiclemotion.mjs http://localhost:4173/ --out gate/vehicles
+          exit 0
+      - name: Comment the numbers on the pull request
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          MIN=$(awk -v n="$(date +%s)" -v t="$T0" 'BEGIN{printf "%.1f", (n-t)/60}')
+          node scripts/gate_summary.mjs gate > gate.md || echo "GOKU gate: could not build the summary (see the run log)." > gate.md
+          echo "" >> gate.md; echo "_Server time of this gate: ${MIN} min. Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}_" >> gate.md
+          cat gate.md >> "$GITHUB_STEP_SUMMARY"
+          gh pr comment "${{ github.event.pull_request.number }}" --repo "$GITHUB_REPOSITORY" --body-file gate.md || echo "::warning::could not comment on the pull request"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: goku-gate
+          path: gate

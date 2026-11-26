@@ -20,7 +20,7 @@ const subjects = await p.evaluate(({ only, lms }) => {
   // characters FIRST, and GOKU (the partner kills nearby zombies, run #1/sandbox: both zombie sheets were skipped "subject gone") is switched on only when his own turn comes
   if (only.includes('characters')) { S.push({ name: 'hero', ref: ['hero'], R: 3.0, ty: 0.9 }); (a.zombies.zombies || []).slice(0, 2).forEach((z, i) => S.push({ name: 'zombie-' + i, ref: ['zombie', i], R: 3.0, ty: 0.9 })); S.push({ name: 'goku', ref: ['goku'], R: 3.0, ty: 0.9 }); }
   if (only.includes('vehicles')) a.vehicles.vehicles.forEach((v, i) => { const d = v.model.dims; S.push({ name: 'vehicle-' + v.type, ref: ['vehicle', i], R: v.bike ? 3.4 : Math.max(4.6, d.length * 1.3), ty: d.height * 0.45 }); });
-  if (only.includes('landmarks')) (a.world.city.landmarks || []).forEach((l, i) => { if (lms.includes(l.def.id)) { const H = l.def.floors * 3; S.push({ name: 'landmark-' + l.def.id, ref: ['landmark', i], R: Math.max(l.def.w || 20, l.def.d || 20) * 0.8 + H * 0.9 + 14, ty: H * 0.45 }); } });
+  if (only.includes('landmarks')) (a.world.city.landmarks || []).forEach((l, i) => { if (lms.includes('all') || lms.includes(l.def.id)) { const H = l.def.floors * 3; S.push({ name: 'landmark-' + l.def.id, ref: ['landmark', i], R: Math.max(l.def.w || 20, l.def.d || 20) * 0.8 + H * 0.9 + 14, ty: H * 0.45 }); } });
   return S;
 }, { only: ONLY, lms: LMS });
 if (ONLY.includes('characters')) await p.evaluate(() => { const a = window.__opzero; a.hero.teleportTo(-14, 0.2, 17, 0); if (a.goku && a.goku.setEnabled) a.goku.setEnabled(false); });
