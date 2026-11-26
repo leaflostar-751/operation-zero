@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>OPERATION ZERO</title>
+  <script type="module" crossorigin src="./bundle/index-D2djI93D.js"></script>
+  <link rel="modulepreload" crossorigin href="./bundle/three-DUfYyYjD.js">
+  <link rel="modulepreload" crossorigin href="./bundle/rapier-D3Mqfikn.js">
+  <link rel="stylesheet" crossorigin href="./bundle/index-CQqgrJkv.css">
+</head>
+<body>
+  <div id="app"></div>
+
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <div class="loading-box">
+      <h1>OPERATION ZERO</h1>
+      <p id="loading-status">Initializing Engine &amp; Rapier WASM...</p>
+      <div class="progress-bar-bg">
+        <div id="loading-bar" class="progress-bar-fill"></div>
+      </div>
+      <span id="loading-percent">0%</span>
+    </div>
+  </div>
+
+  <!-- Top Bar Controls -->
+  <div id="hud-top">
+    <span class="hud-title">OPERATION ZERO // STAGE 1+: HERO, MOVEMENT &amp; COMBAT</span>
+    <div class="hud-buttons">
+      <button id="btn-toggle-cam" title="Shortcut: V">V: 3rd/1st Person</button>
+      <button id="btn-toggle-checklist" title="Shortcut: F2">F2: Checklist</button>
+      <button id="btn-toggle-debug" title="Shortcut: F3">F3: Debug</button>
+      <button id="btn-toggle-settings" title="Shortcut: ESC">Settings</button>
+    </div>
+  </div>
+
+  <!-- Player Status HUD -->
+  <div id="player-hud">
+    <div class="stat-row">
+      <span class="stat-label">HP</span>
+      <div class="stat-bar-bg"><div id="hud-hp-bar" class="stat-bar-fill hp"></div></div>
+      <span id="hud-hp-val" class="stat-num">100</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">STM</span>
+      <div class="stat-bar-bg"><div id="hud-stm-bar" class="stat-bar-fill stm"></div></div>
+      <span id="hud-stm-val" class="stat-num">100</span>
+    </div>
+    <div class="hud-meta">
+      <span>STATE: <strong id="hud-anim-state">IDLE</strong></span>
+      <span>CAM: <strong id="hud-cam-mode">3RD</strong></span>
+    </div>
+    <div class="controls-hint">
+      Click game: capture mouse (Esc releases) | WASD move | Shift sprint | C crouch | Space jump | E use | G push | V camera<br>COMBAT: LMB/Enter fire | RMB/Z aim | R reload | F punch | Q kick | H holster | Range south | U zombies | I infection demo | N outfit | Y vehicle | B stow item
+    </div>
+  </div>
+
+  <!-- Crosshair & Interaction Prompt -->
+  <div id="reticle"><i></i><i></i><i></i><i></i></div>
+  <div id="hitmarker"></div>
+  <div id="damage-flash"></div>
+  <div id="speedo" class="hidden"><strong id="hud-speed">0</strong><span>km/h</span></div>
+  <div id="kill-counter">KILLS <strong id="hud-kills">0</strong></div>
+  <div id="ammo-hud">
+    <div id="hud-weapon-name">AR-7 CARBINE</div>
+    <div class="ammo-line"><span id="hud-ammo">30</span><span class="ammo-sep">/</span><span id="hud-ammo-reserve">120</span></div>
+    <div id="hud-reload" class="hidden">RELOADING</div>
+  </div>
+  <div id="interaction-prompt" class="hidden">
+    <span class="key-badge">E</span>
+    <span id="interaction-text">Interact</span>
+  </div>
+
+  <!-- Touch Controls -->
+  <div id="touch-controls" class="hidden">
+    <div id="touch-joystick-zone">
+      <div id="touch-joystick-base">
+        <div id="touch-joystick-stick"></div>
+      </div>
+    </div>
+    <div id="touch-look-zone"></div>
+    <div id="touch-action-buttons">
+      <button id="touch-btn-jump">JUMP</button>
+      <button id="touch-btn-crouch">CROUCH</button>
+      <button id="touch-btn-sprint">SPRINT</button>
+      <button id="touch-btn-interact">USE</button>
+      <button id="touch-btn-fire">FIRE</button>
+      <button id="touch-btn-reload">RELOAD</button>
+      <button id="touch-btn-punch">PUNCH</button>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,2 @@
+Built from commit a5bada81663815d151c1a4aa426d85321df6e592 (pull request #4) at 2026-11-26T12:38:25Z
+Real Rapier physics (built on the GitHub server).

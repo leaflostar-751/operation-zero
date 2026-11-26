@@ -1,0 +1,8 @@
+{
+  "_help": "Put .glb files from Sketchfab next to this file and list them below. type = apex-gt | stallion | ranger | vortex | sprint-r. Example entry (remove the underscore from _vehicles to enable): { \"type\": \"apex-gt\", \"file\": \"sports-car.glb\", \"length\": 4.5, \"rotateY\": 0, \"color\": \"#b0101a\" }",
+  "vehicles": [],
+  "_vehicles_example": [
+    { "type": "apex-gt", "file": "sports-car.glb", "length": 4.5, "rotateY": 0, "color": "#b0101a" },
+    { "type": "sprint-r", "file": "superbike.glb", "length": 2.1, "rotateY": 0 }
+  ]
+}
